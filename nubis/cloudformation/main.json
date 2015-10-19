@@ -52,7 +52,18 @@
     "EC2Stack": {
       "Type": "AWS::CloudFormation::Stack",
       "Properties": {
-        "TemplateURL": { "Fn::Join": [ "/", [ "https://s3.amazonaws.com/nubisproject-stacks", { "Ref": "StacksVersion" }, "ec2.template" ] ] },
+        "TemplateURL": {
+          "Fn::Join": [
+            "/",
+            [
+              "https://s3.amazonaws.com/nubisproject-stacks",
+              {
+                "Ref": "StacksVersion"
+              },
+              "ec2.template"
+            ]
+          ]
+        },
         "TimeoutInMinutes": "60",
         "Parameters": {
           "StackName": {
@@ -69,6 +80,9 @@
           },
           "AmiId": {
             "Ref": "AmiId"
+          },
+          "IamRole": {
+            "Ref": "IamRole"
           },
           "SSHKeyName": {
             "Ref": "SSHKeyName"
@@ -134,7 +148,21 @@
         "Tags": [
           {
             "Key": "Name",
-            "Value": { "Fn::Join": [ "", [ { "Ref": "ServiceName" }, " (", { "Ref": "Environment" }, ")" ] ]  }
+            "Value": {
+              "Fn::Join": [
+                "",
+                [
+                  {
+                    "Ref": "ServiceName"
+                  },
+                  " (",
+                  {
+                    "Ref": "Environment"
+                  },
+                  ")"
+                ]
+              ]
+            }
           },
           {
             "Key": "StackName",
@@ -162,7 +190,21 @@
         "Tags": [
           {
             "Key": "Name",
-            "Value": { "Fn::Join": [ "", [ { "Ref": "ServiceName" }, " (", { "Ref": "Environment" }, ")" ] ]  }
+            "Value": {
+              "Fn::Join": [
+                "",
+                [
+                  {
+                    "Ref": "ServiceName"
+                  },
+                  " (",
+                  {
+                    "Ref": "Environment"
+                  },
+                  ")"
+                ]
+              ]
+            }
           },
           {
             "Key": "StackName",
@@ -190,7 +232,21 @@
         "Tags": [
           {
             "Key": "Name",
-            "Value": { "Fn::Join": [ "", [ { "Ref": "ServiceName" }, " (", { "Ref": "Environment" }, ")" ] ]  }
+            "Value": {
+              "Fn::Join": [
+                "",
+                [
+                  {
+                    "Ref": "ServiceName"
+                  },
+                  " (",
+                  {
+                    "Ref": "Environment"
+                  },
+                  ")"
+                ]
+              ]
+            }
           },
           {
             "Key": "StackName",
@@ -201,6 +257,71 @@
           {
             "Key": "Description",
             "Value": "eniaz3"
+          }
+        ]
+      }
+    },
+    "IamRole": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Principal": {
+                "Service": [
+                  "ec2.amazonaws.com"
+                ]
+              },
+              "Action": [
+                "sts:AssumeRole"
+              ]
+            }
+          ]
+        },
+        "Path": "/"
+      }
+    },
+    "IamEniAttachPolicy": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyName": {
+          "Fn::Join": [
+            "-",
+            [
+              {
+                "Ref": "AWS::StackName"
+              },
+              "attach",
+              "policy"
+            ]
+          ]
+        },
+        "PolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Action": [
+                "ec2:AssociateAddress",
+                "ec2:AssignPrivateIpAddresses",
+                "ec2:AttachNetworkInterface",
+                "ec2:CreateNetworkInterface",
+                "ec2:DescribeInstances",
+                "ec2:DescribeNetworkInterfaces",
+                "ec2:DescribeSubnets",
+                "ec2:DetachNetworkInterface"
+              ],
+              "Resource": [
+                "*"
+              ]
+            }
+          ]
+        },
+        "Roles": [
+          {
+            "Ref": "IamRole"
           }
         ]
       }
