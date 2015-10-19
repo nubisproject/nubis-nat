@@ -120,8 +120,110 @@
           "Ref": "Environment"
         }
       }
+    },
+    "EniAZ1": {
+      "Type": "AWS::EC2::NetworkInterface",
+      "Properties": {
+        "Description": "ENI for AZ1",
+        "SubnetId": {
+          "Fn::GetAtt": [
+            "VpcInfo",
+            "PrivateSubnetAZ1"
+          ]
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": { "Fn::Join": [ "", [ { "Ref": "ServiceName" }, " (", { "Ref": "Environment" }, ")" ] ]  }
+          },
+          {
+            "Key": "StackName",
+            "Value": {
+              "Ref": "AWS::StackName"
+            }
+          },
+          {
+            "Key": "Description",
+            "Value": "eniaz1"
+          }
+        ]
+      }
+    },
+    "EniAZ2": {
+      "Type": "AWS::EC2::NetworkInterface",
+      "Properties": {
+        "Description": "ENI for AZ2",
+        "SubnetId": {
+          "Fn::GetAtt": [
+            "VpcInfo",
+            "PrivateSubnetAZ2"
+          ]
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": { "Fn::Join": [ "", [ { "Ref": "ServiceName" }, " (", { "Ref": "Environment" }, ")" ] ]  }
+          },
+          {
+            "Key": "StackName",
+            "Value": {
+              "Ref": "AWS::StackName"
+            }
+          },
+          {
+            "Key": "Description",
+            "Value": "eniaz2"
+          }
+        ]
+      }
+    },
+    "EniAZ3": {
+      "Type": "AWS::EC2::NetworkInterface",
+      "Properties": {
+        "Description": "ENI for AZ3",
+        "SubnetId": {
+          "Fn::GetAtt": [
+            "VpcInfo",
+            "PrivateSubnetAZ3"
+          ]
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": { "Fn::Join": [ "", [ { "Ref": "ServiceName" }, " (", { "Ref": "Environment" }, ")" ] ]  }
+          },
+          {
+            "Key": "StackName",
+            "Value": {
+              "Ref": "AWS::StackName"
+            }
+          },
+          {
+            "Key": "Description",
+            "Value": "eniaz3"
+          }
+        ]
+      }
     }
   },
   "Outputs": {
+    "EniAz1": {
+      "Description": "ENI ID AZ1",
+      "Value": {
+        "Ref": "EniAZ1"
+      }
+    },
+    "EniAz2": {
+      "Description": "ENI ID AZ2",
+      "Value": {
+        "Ref": "EniAZ2"
+      }
+    },
+    "EniAz3": {
+      "Description": "ENI ID AZ3",
+      "Value": {
+        "Ref": "EniAZ3"
+      }
+    }
   }
 }
