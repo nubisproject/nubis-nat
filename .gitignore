@@ -1,0 +1,2 @@
+# Do not track secrets
+nubis/cloudformation/parameters.json

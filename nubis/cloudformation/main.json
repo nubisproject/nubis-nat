@@ -1,0 +1,127 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "Skeleton deployment for the nubis project.",
+  "Parameters": {
+    "ServiceName": {
+      "Description": "Name of the service",
+      "Type": "String"
+    },
+    "Environment": {
+      "Description": "Environment we are deploying into",
+      "Default": "sandbox",
+      "Type": "String",
+      "AllowedValues": [
+        "prod",
+        "stage",
+        "sandbox"
+      ],
+      "ConstraintDescription": "Must specify prod, stage, or sandbox."
+    },
+    "SSHKeyName": {
+      "Description": "Existing ssh key to deploy to EC2 instances",
+      "Type": "String"
+    },
+    "TechnicalOwner": {
+      "Description": "A valid LDAP email",
+      "Type": "String"
+    },
+    "AmiId": {
+      "Description": "The id of the ami for this region",
+      "Type": "String"
+    },
+    "StacksVersion": {
+      "Description": "Version of the Nubis Stacks",
+      "Type": "String",
+      "Default": "v1.0.0"
+    }
+  },
+  "Mappings": {
+    "InstanceTypeMap": {
+      "prod": {
+        "InstanceType": "m3.large"
+      },
+      "dev": {
+        "InstanceType": "m3.medium"
+      },
+      "sandbox": {
+        "InstanceType": "m3.medium"
+      }
+    }
+  },
+  "Resources": {
+    "EC2Stack": {
+      "Type": "AWS::CloudFormation::Stack",
+      "Properties": {
+        "TemplateURL": { "Fn::Join": [ "/", [ "https://s3.amazonaws.com/nubisproject-stacks", { "Ref": "StacksVersion" }, "ec2.template" ] ] },
+        "TimeoutInMinutes": "60",
+        "Parameters": {
+          "StackName": {
+            "Ref": "AWS::StackName"
+          },
+          "ServiceName": {
+            "Ref": "ServiceName"
+          },
+          "TechnicalOwner": {
+            "Ref": "TechnicalOwner"
+          },
+          "Environment": {
+            "Ref": "Environment"
+          },
+          "AmiId": {
+            "Ref": "AmiId"
+          },
+          "SSHKeyName": {
+            "Ref": "SSHKeyName"
+          },
+          "InstanceType": {
+            "Fn::FindInMap": [
+              "InstanceTypeMap",
+              {
+                "Ref": "Environment"
+              },
+              "InstanceType"
+            ]
+          }
+        }
+      }
+    },
+    "VpcInfo": {
+      "Type": "Custom::VpcInfo",
+      "Properties": {
+        "ServiceToken": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:aws:lambda:",
+              {
+                "Ref": "AWS::Region"
+              },
+              ":",
+              {
+                "Ref": "AWS::AccountId"
+              },
+              ":function:",
+              "LookupNestedStackOutputs"
+            ]
+          ]
+        },
+        "StackName": {
+          "Fn::Join": [
+            "-",
+            [
+              {
+                "Ref": "AWS::Region"
+              },
+              "vpc"
+            ]
+          ]
+        },
+        "SearchString": {
+          "Ref": "Environment"
+        }
+      }
+    }
+  },
+  "Outputs": {
+  }
+}

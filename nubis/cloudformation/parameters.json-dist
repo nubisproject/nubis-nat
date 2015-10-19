@@ -1,0 +1,26 @@
+[
+  {
+    "ParameterKey": "ServiceName",
+    "ParameterValue": "skel"
+  }, 
+  {
+    "ParameterKey": "Environment",
+    "ParameterValue": "sandbox"
+  }, 
+  {
+    "ParameterKey": "SSHKeyName",
+    "ParameterValue": "key"
+  },
+  {
+    "ParameterKey": "TechnicalOwner",
+    "ParameterValue": "email"
+  },
+  {
+    "ParameterKey": "AmiId",
+    "ParameterValue": "ami-abcdef123"
+  },
+  {
+    "ParameterKey": "StacksVersion",
+    "ParameterValue": "v1.0.0"
+  }
+]
