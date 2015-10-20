@@ -7,7 +7,7 @@
     ],
     "project_description": "Creates a HA nat instance",
     "project_name": "nubis-nat",
-    "project_version": "0.1",
+    "project_version": "0.2",
     "source_ami_project_name": "nubis-base"
   }
 }

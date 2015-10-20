@@ -38,13 +38,13 @@
   "Mappings": {
     "InstanceTypeMap": {
       "prod": {
-        "InstanceType": "m3.large"
+        "InstanceType": "m1.small"
       },
       "dev": {
-        "InstanceType": "m3.medium"
+        "InstanceType": "m1.small"
       },
       "sandbox": {
-        "InstanceType": "m3.medium"
+        "InstanceType": "t2.small"
       }
     }
   },
@@ -87,6 +87,7 @@
           "SSHKeyName": {
             "Ref": "SSHKeyName"
           },
+          "SubnetLocation": "public",
           "InstanceType": {
             "Fn::FindInMap": [
               "InstanceTypeMap",
@@ -259,6 +260,29 @@
             "Value": "eniaz3"
           }
         ]
+      }
+    },
+    "EIPStack": {
+      "Type": "AWS::CloudFormation::Stack",
+      "Properties": {
+        "TemplateURL": {
+          "Fn::Join": [
+            "/",
+            [
+              "https://s3.amazonaws.com/nubis-stacks",
+              {
+                "Ref": "StacksVersion"
+              },
+              "eip.template"
+            ]
+          ]
+        },
+        "TimeoutInMinutes": "60",
+        "Parameters": {
+          "StackName": {
+            "Ref": "AWS::StackName"
+          }
+        }
       }
     },
     "IamRole": {
