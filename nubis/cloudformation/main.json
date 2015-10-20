@@ -40,7 +40,7 @@
       "prod": {
         "InstanceType": "m1.small"
       },
-      "dev": {
+      "stage": {
         "InstanceType": "m1.small"
       },
       "sandbox": {
