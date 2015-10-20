@@ -38,10 +38,10 @@
   "Mappings": {
     "InstanceTypeMap": {
       "prod": {
-        "InstanceType": "m1.small"
+        "InstanceType": "m3.medium"
       },
       "stage": {
-        "InstanceType": "m1.small"
+        "InstanceType": "m3.medium"
       },
       "sandbox": {
         "InstanceType": "t2.small"
