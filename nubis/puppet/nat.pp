@@ -7,6 +7,15 @@ file { '/usr/local/lib/util.sh':
     source => 'puppet:///nubis/files/util.sh'
 }
 
+file { '/usr/local/bin/eni-associate':
+    ensure  => file,
+    owner   => root,
+    group   => root,
+    mode    => '0755',
+    source  => 'puppet:///nubis/files/eni-associate',
+    require => File['/usr/local/lib/util.sh']
+}
+
 file { '/usr/local/bin/nat.sh':
     ensure  => file,
     owner   => root,

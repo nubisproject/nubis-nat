@@ -1,0 +1,29 @@
+#!/bin/bash
+# Attempts to attach an ENI to an instance
+# We assume that the interface will always be eth1
+
+. /usr/local/lib/util.sh
+
+# Setup variables
+LOCAL_IP=$(curl -s -fq http://169.254.169.254/latest/meta-data/local-ipv4)
+
+# Stuff we need to attach ENI
+SUBNET_ID=$(aws ec2 describe-instances --region ${REGION} --instance-ids ${INSTANCE_ID} --query "Reservations[*].Instances[*][SubnetId]" --output text)
+ATTACHING_ENI=$(aws ec2 describe-network-interfaces  --region ${REGION} --filter Name=tag-key,Values=StackName Name=tag-value,Values=${NUBIS_STACK} --query "NetworkInterfaces[?Status == \`available\`][NetworkInterfaceId, SubnetId]" --output text | grep ${SUBNET_ID} | awk '{print $1}')
+ENI_TO_IP=$(aws ec2 describe-network-interfaces --network-interface-ids ${ATTACHING_ENI} --region ${REGION} --query 'NetworkInterfaces[*].PrivateIpAddress' --output text)
+
+if [[ "${ATTACHING_ENI}" ]]; then
+    log "Attaching ENI ${ATTACHING_ENI} to instance ${INSTANCE_ID}"
+    aws ec2 attach-network-interface --region ${REGION} --network-interface-id ${ATTACHING_ENI} --instance-id ${INSTANCE_ID} --device-index 1
+    RV=$?
+    if [[ "${RV}" != 0 ]]; then
+        log "ERROR: Unable to attach ENI ${ATTACHING_ENI} to instance ${INSTANCE_ID}"
+        exit 1
+    else
+        log "SUCCESS: Successfully attached ENI ${ATTACHING_ENI} to instance ${INSTANCE_ID}"
+    fi
+fi
+
+# Yep dumping these info out
+echo ${ATTACHING_ENI} > /var/tmp/eni_id
+echo ${ENI_TO_IP} > /var/tmp/eni_ip
