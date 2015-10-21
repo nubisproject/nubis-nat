@@ -25,3 +25,8 @@ file { '/usr/local/bin/nat.sh':
     require => File['/usr/local/lib/util.sh']
 }
 
+file { '/etc/nubis.d/99-nat':
+    ensure  => link,
+    target  => '/usr/local/bin/nat.sh',
+    require => File['/usr/local/bin/nat.sh'],
+}
