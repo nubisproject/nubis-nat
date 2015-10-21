@@ -1,2 +1,8 @@
 # Do not track secrets
-nubis/cloudformation/parameters.json
+nubis/cloudformation/parameters*
+!nubis/cloudformation/parameters.json-dist
+nubis/librarian-puppet.tar.gz
+nubis/librarian-puppet
+nubis/Puppetfile.lock
+nubis/.tmp
+nubis/.librarian
