@@ -1,0 +1,6 @@
+forge "https://forgeapi.puppetlabs.com"
+
+mod 'nubis/nubis_eip',
+    :git => 'https://github.com/Nubisproject/nubis-puppet-eip.git',
+    :ref => 'v1.0.1'
+
