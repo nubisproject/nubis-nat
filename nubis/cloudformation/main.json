@@ -1,6 +1,6 @@
 {
   "AWSTemplateFormatVersion": "2010-09-09",
-  "Description": "Skeleton deployment for the nubis project.",
+  "Description": "Deploys a NAT instance in an autoscaling group",
   "Parameters": {
     "ServiceName": {
       "Description": "Name of the service",
