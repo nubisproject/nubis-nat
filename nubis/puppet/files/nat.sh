@@ -59,3 +59,12 @@ sysctl net.ipv4.ip_forward net.ipv4.conf.eth0.send_redirects | log
 iptables -n -t nat -L POSTROUTING | log
 
 log "Configuration of NAT/PAT complete."
+
+SOURCEDEST_CHECK=$(aws ec2 describe-instances --instance-id "${INSTANCE_ID}" --query 'Reservations[*].Instances[*].NetworkInterfaces[*][SourceDestCheck]' --region "${REGION}" --output text)
+
+# This needs to happen otherwise the NAT will not work
+if [[ "${SOURCEDEST_CHECK}" != 'False' ]] || [[ "${SOURCEDEST_CHECK}" != 'false' ]]; then
+    log "Setting SourceDestCheck to false"
+    aws ec2 modify-instance-attribute --instance-id "${INSTANCE_ID}" --no-source-dest-check --region "${REGION}" ||
+        die "Unable to set SourceDestCheck to false"
+fi
