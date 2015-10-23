@@ -2,5 +2,5 @@ forge "https://forgeapi.puppetlabs.com"
 
 mod 'nubis/nubis_eip',
     :git => 'https://github.com/nubisproject/nubis-puppet-eip.git',
-    :ref => 'dd35e35752a7f9f78d0f809954723bf5e2276a13'
+    :ref => '14276f96c9bc5ea54991631149789383baa088ec'
 
