@@ -16,7 +16,7 @@ function log() {
         # If logger is not installed just stderr it out
         echo "$LOGMSG"
     else
-        $LOGGER_BIN --stderr --priority local7.info --tag ${BASH_SOURCE} "$LOGMSG"
+        $LOGGER_BIN --stderr --priority local7.info --tag 'nubis-startup' "$LOGMSG"
     fi
 }
 
