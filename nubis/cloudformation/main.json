@@ -489,6 +489,15 @@
           "Outputs.ElasticIP"
         ]
       }
+    },
+    "EIPAllocationID": {
+      "Description": "EIP allocation ID",
+      "Value": {
+        "Fn::GetAtt": [
+          "EIPStack",
+          "Outputs.EIPAllocationID"
+        ]
+      }
     }
   }
 }
