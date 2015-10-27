@@ -208,6 +208,132 @@
         }
       }
     },
+    "EniAZ1": {
+      "Type": "AWS::EC2::NetworkInterface",
+      "Properties": {
+        "Description": "ENI for AZ1",
+        "SubnetId": {
+          "Fn::GetAtt": [
+            "VpcInfo",
+            "PublicSubnetAZ1"
+          ]
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": {
+              "Fn::Join": [
+                "",
+                [
+                  {
+                    "Ref": "ServiceName"
+                  },
+                  " (",
+                  {
+                    "Ref": "Environment"
+                  },
+                  ")"
+                ]
+              ]
+            }
+          },
+          {
+            "Key": "StackName",
+            "Value": {
+              "Ref": "AWS::StackName"
+            }
+          },
+          {
+            "Key": "Description",
+            "Value": "eniaz1"
+          }
+        ]
+      }
+    },
+    "EniAZ2": {
+      "Type": "AWS::EC2::NetworkInterface",
+      "Properties": {
+        "Description": "ENI for AZ2",
+        "SubnetId": {
+          "Fn::GetAtt": [
+            "VpcInfo",
+            "PublicSubnetAZ2"
+          ]
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": {
+              "Fn::Join": [
+                "",
+                [
+                  {
+                    "Ref": "ServiceName"
+                  },
+                  " (",
+                  {
+                    "Ref": "Environment"
+                  },
+                  ")"
+                ]
+              ]
+            }
+          },
+          {
+            "Key": "StackName",
+            "Value": {
+              "Ref": "AWS::StackName"
+            }
+          },
+          {
+            "Key": "Description",
+            "Value": "eniaz2"
+          }
+        ]
+      }
+    },
+    "EniAZ3": {
+      "Type": "AWS::EC2::NetworkInterface",
+      "Properties": {
+        "Description": "ENI for AZ3",
+        "SubnetId": {
+          "Fn::GetAtt": [
+            "VpcInfo",
+            "PublicSubnetAZ3"
+          ]
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": {
+              "Fn::Join": [
+                "",
+                [
+                  {
+                    "Ref": "ServiceName"
+                  },
+                  " (",
+                  {
+                    "Ref": "Environment"
+                  },
+                  ")"
+                ]
+              ]
+            }
+          },
+          {
+            "Key": "StackName",
+            "Value": {
+              "Ref": "AWS::StackName"
+            }
+          },
+          {
+            "Key": "Description",
+            "Value": "eniaz3"
+          }
+        ]
+      }
+    },
     "EIPStack": {
       "Type": "AWS::CloudFormation::Stack",
       "Properties": {
@@ -256,6 +382,49 @@
         "Path": "/"
       }
     },
+    "IamEniAttachPolicy": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyName": {
+          "Fn::Join": [
+            "-",
+            [
+              {
+                "Ref": "AWS::StackName"
+              },
+              "attach",
+              "policy"
+            ]
+          ]
+        },
+        "PolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Action": [
+                "ec2:AssociateAddress",
+                "ec2:AssignPrivateIpAddresses",
+                "ec2:AttachNetworkInterface",
+                "ec2:CreateNetworkInterface",
+                "ec2:DescribeInstances",
+                "ec2:DescribeNetworkInterfaces",
+                "ec2:DescribeSubnets",
+                "ec2:DetachNetworkInterface"
+              ],
+              "Resource": [
+                "*"
+              ]
+            }
+          ]
+        },
+        "Roles": [
+          {
+            "Ref": "IamRole"
+          }
+        ]
+      }
+    },
     "IamModifyInstanceAttribute": {
       "Type": "AWS::IAM::Policy",
       "Properties": {
@@ -294,6 +463,24 @@
     }
   },
   "Outputs": {
+    "EniAz1": {
+      "Description": "ENI ID AZ1",
+      "Value": {
+        "Ref": "EniAZ1"
+      }
+    },
+    "EniAz2": {
+      "Description": "ENI ID AZ2",
+      "Value": {
+        "Ref": "EniAZ2"
+      }
+    },
+    "EniAz3": {
+      "Description": "ENI ID AZ3",
+      "Value": {
+        "Ref": "EniAZ3"
+      }
+    },
     "ElasticIP": {
       "Description": "Allocated elastic IP",
       "Value": {
