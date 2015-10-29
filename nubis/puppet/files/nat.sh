@@ -55,8 +55,10 @@ sysctl -q -w net.ipv4.ip_forward=1 net.ipv4.conf.eth0.send_redirects=0 && (
     iptables -t nat -A POSTROUTING -o eth0 -s ${VPC_CIDR_RANGE} -j MASQUERADE ) ||
         die
 
-sysctl net.ipv4.ip_forward net.ipv4.conf.eth0.send_redirects | log
-iptables -n -t nat -L POSTROUTING | log
+set -x 
+sysctl net.ipv4.ip_forward net.ipv4.conf.eth0.send_redirects
+iptables -n -t nat -L POSTROUTING
+set +x
 
 log "Configuration of NAT/PAT complete."
 
