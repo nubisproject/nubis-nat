@@ -212,6 +212,11 @@
       "Type": "AWS::EC2::NetworkInterface",
       "Properties": {
         "Description": "ENI for AZ1",
+        "GroupSet": [
+          {
+            "Ref": "NatSecurityGroup"
+          }
+        ],
         "SubnetId": {
           "Fn::GetAtt": [
             "VpcInfo",
@@ -254,6 +259,11 @@
       "Type": "AWS::EC2::NetworkInterface",
       "Properties": {
         "Description": "ENI for AZ2",
+        "GroupSet": [
+          {
+            "Ref": "NatSecurityGroup"
+          }
+        ],
         "SubnetId": {
           "Fn::GetAtt": [
             "VpcInfo",
@@ -296,6 +306,11 @@
       "Type": "AWS::EC2::NetworkInterface",
       "Properties": {
         "Description": "ENI for AZ3",
+        "GroupSet": [
+          {
+            "Ref": "NatSecurityGroup"
+          }
+        ],
         "SubnetId": {
           "Fn::GetAtt": [
             "VpcInfo",
