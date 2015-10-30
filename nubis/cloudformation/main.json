@@ -212,6 +212,7 @@
       "Type": "AWS::EC2::NetworkInterface",
       "Properties": {
         "Description": "ENI for AZ1",
+        "SourceDestCheck": "false",
         "GroupSet": [
           {
             "Ref": "NatSecurityGroup"
@@ -259,6 +260,7 @@
       "Type": "AWS::EC2::NetworkInterface",
       "Properties": {
         "Description": "ENI for AZ2",
+        "SourceDestCheck": "false",
         "GroupSet": [
           {
             "Ref": "NatSecurityGroup"
@@ -306,6 +308,7 @@
       "Type": "AWS::EC2::NetworkInterface",
       "Properties": {
         "Description": "ENI for AZ3",
+        "SourceDestCheck": "false",
         "GroupSet": [
           {
             "Ref": "NatSecurityGroup"
