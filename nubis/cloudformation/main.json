@@ -221,7 +221,7 @@
         "SubnetId": {
           "Fn::GetAtt": [
             "VpcInfo",
-            "PublicSubnetAZ1"
+            "PrivateSubnetAZ1"
           ]
         },
         "Tags": [
@@ -269,7 +269,7 @@
         "SubnetId": {
           "Fn::GetAtt": [
             "VpcInfo",
-            "PublicSubnetAZ2"
+            "PrivateSubnetAZ2"
           ]
         },
         "Tags": [
@@ -317,7 +317,7 @@
         "SubnetId": {
           "Fn::GetAtt": [
             "VpcInfo",
-            "PublicSubnetAZ3"
+            "PrivateSubnetAZ3"
           ]
         },
         "Tags": [
