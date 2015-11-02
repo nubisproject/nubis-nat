@@ -90,7 +90,6 @@
           "SecurityGroup": {
             "Ref": "NatSecurityGroup"
           },
-          "SubnetLocation": "public",
           "InstanceType": {
             "Fn::FindInMap": [
               "InstanceTypeMap",
@@ -221,7 +220,7 @@
         "SubnetId": {
           "Fn::GetAtt": [
             "VpcInfo",
-            "PrivateSubnetAZ1"
+            "PublicSubnetAZ1"
           ]
         },
         "Tags": [
@@ -269,7 +268,7 @@
         "SubnetId": {
           "Fn::GetAtt": [
             "VpcInfo",
-            "PrivateSubnetAZ2"
+            "PublicSubnetAZ2"
           ]
         },
         "Tags": [
@@ -317,7 +316,7 @@
         "SubnetId": {
           "Fn::GetAtt": [
             "VpcInfo",
-            "PrivateSubnetAZ3"
+            "PublicSubnetAZ3"
           ]
         },
         "Tags": [
@@ -352,7 +351,7 @@
         ]
       }
     },
-    "EIPStack": {
+    "EIPStackAz1": {
       "Type": "AWS::CloudFormation::Stack",
       "Properties": {
         "TemplateURL": {
@@ -376,6 +375,79 @@
             "Ref": "IamRole"
           }
         }
+      }
+    },
+    "EIPStackAz2": {
+      "Type": "AWS::CloudFormation::Stack",
+      "Properties": {
+        "TemplateURL": {
+          "Fn::Join": [
+            "/",
+            [
+              "https://s3.amazonaws.com/nubis-stacks",
+              {
+                "Ref": "StacksVersion"
+              },
+              "eip.template"
+            ]
+          ]
+        },
+        "TimeoutInMinutes": "60",
+        "Parameters": {
+          "StackName": {
+            "Ref": "AWS::StackName"
+          },
+          "IamRole": {
+            "Ref": "IamRole"
+          }
+        }
+      }
+    },
+    "EIPStackAz3": {
+      "Type": "AWS::CloudFormation::Stack",
+      "Properties": {
+        "TemplateURL": {
+          "Fn::Join": [
+            "/",
+            [
+              "https://s3.amazonaws.com/nubis-stacks",
+              {
+                "Ref": "StacksVersion"
+              },
+              "eip.template"
+            ]
+          ]
+        },
+        "TimeoutInMinutes": "60",
+        "Parameters": {
+          "StackName": {
+            "Ref": "AWS::StackName"
+          },
+          "IamRole": {
+            "Ref": "IamRole"
+          }
+        }
+      }
+    },
+    "EIPAssociationAz1":{
+      "Type" : "AWS::EC2::EIPAssociation",
+      "Properties": {
+        "AllocationId": { "Fn::GetAtt": [ "EIPStackAz1", "Outputs.EIPAllocationID"] },
+        "NetworkInterfaceId": { "Ref": "EniAZ1" }
+      }
+    },
+    "EIPAssociationAz2":{
+      "Type" : "AWS::EC2::EIPAssociation",
+      "Properties": {
+        "AllocationId": { "Fn::GetAtt": [ "EIPStackAz2", "Outputs.EIPAllocationID"] },
+        "NetworkInterfaceId": { "Ref": "EniAZ2" }
+      }
+    },
+    "EIPAssociationAz3":{
+      "Type" : "AWS::EC2::EIPAssociation",
+      "Properties": {
+        "AllocationId": { "Fn::GetAtt": [ "EIPStackAz3", "Outputs.EIPAllocationID"] },
+        "NetworkInterfaceId": { "Ref": "EniAZ3" }
       }
     },
     "IamRole": {
@@ -421,10 +493,7 @@
             {
               "Effect": "Allow",
               "Action": [
-                "ec2:AssociateAddress",
-                "ec2:AssignPrivateIpAddresses",
                 "ec2:AttachNetworkInterface",
-                "ec2:CreateNetworkInterface",
                 "ec2:DescribeInstances",
                 "ec2:DescribeNetworkInterfaces",
                 "ec2:DetachNetworkInterface"
@@ -499,20 +568,11 @@
         "Ref": "EniAZ3"
       }
     },
-    "ElasticIP": {
-      "Description": "Allocated elastic IP",
-      "Value": {
-        "Fn::GetAtt": [
-          "EIPStack",
-          "Outputs.ElasticIP"
-        ]
-      }
-    },
     "EIPAllocationID": {
       "Description": "EIP allocation ID",
       "Value": {
         "Fn::GetAtt": [
-          "EIPStack",
+          "EIPStackAz1",
           "Outputs.EIPAllocationID"
         ]
       }
