@@ -41,6 +41,9 @@ log "Found MAC ${ETH0_MAC} for eth0."
 VPC_CIDR_URI="http://169.254.169.254/latest/meta-data/network/interfaces/macs/${ETH0_MAC}/vpc-ipv4-cidr-block"
 log "Metadata location for vpc ipv4 range: ${VPC_CIDR_URI}"
 
+ENI_ID_URI="http://169.254.169.254/latest/meta-data/network/interfaces/macs/${ETH0_MAC}/interface-id"
+log "Metadata for location of eth0 ENI id: ${ENI_ID_URI}"
+
 VPC_CIDR_RANGE=$(curl --retry 3 --silent --fail ${VPC_CIDR_URI})
 if [ $? -ne 0 ]; then
     log "Unable to retrive VPC CIDR range from meta-data, using 0.0.0.0/0 instead. PAT may be insecure!"
@@ -55,18 +58,20 @@ sysctl -q -w net.ipv4.ip_forward=1 net.ipv4.conf.eth0.send_redirects=0 && (
     iptables -t nat -A POSTROUTING -o eth0 -s ${VPC_CIDR_RANGE} -j MASQUERADE ) ||
         die
 
-set -x 
+set -x
 sysctl net.ipv4.ip_forward net.ipv4.conf.eth0.send_redirects
 iptables -n -t nat -L POSTROUTING
 set +x
 
 log "Configuration of NAT/PAT complete."
 
-SOURCEDEST_CHECK=$(aws ec2 describe-instances --instance-id "${INSTANCE_ID}" --query 'Reservations[*].Instances[*].NetworkInterfaces[*][SourceDestCheck]' --region "${REGION}" --output text)
+log "Disabling SourceDestCheck"
+ENI_ID=$(curl --retry 3 --silent --fail "${ENI_ID_URI}")
+SOURCEDEST_CHECK=$(aws ec2 describe-network-interfaces --network-interface-ids "${ENI_ID}" --query 'NetworkInterfaces[].SourceDestCheck' --region "${REGION}" --output text)
 
 # This needs to happen otherwise the NAT will not work
 if [[ "${SOURCEDEST_CHECK}" != 'False' ]] || [[ "${SOURCEDEST_CHECK}" != 'false' ]]; then
     log "Setting SourceDestCheck to false"
-    aws ec2 modify-instance-attribute --instance-id "${INSTANCE_ID}" --no-source-dest-check --region "${REGION}" ||
+    aws ec2 modify-network-interface-attribute --network-interface-id "${ENI_ID}" --no-source-dest-check --region "${REGION}" ||
         die "Unable to set SourceDestCheck to false"
 fi
