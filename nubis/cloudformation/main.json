@@ -463,7 +463,8 @@
             {
               "Effect": "Allow",
               "Action": [
-                "ec2:ModifyNetworkInterfaceAttribute"
+                "ec2:ModifyNetworkInterfaceAttribute",
+                "ec2:DescribeNetworkInterfaces"
               ],
               "Resource": [
                 "*"
