@@ -98,7 +98,10 @@
               },
               "InstanceType"
             ]
-          }
+          },
+          "AutoScalingGroupMinSize": "3",
+          "AutoScalingGroupDesiredCapacity": "3",
+          "AutoScalingGroupMaxSize": "3"
         }
       }
     },
@@ -247,10 +250,6 @@
             "Value": {
               "Ref": "AWS::StackName"
             }
-          },
-          {
-            "Key": "Description",
-            "Value": "eniaz1"
           }
         ]
       }
@@ -295,10 +294,6 @@
             "Value": {
               "Ref": "AWS::StackName"
             }
-          },
-          {
-            "Key": "Description",
-            "Value": "eniaz2"
           }
         ]
       }
@@ -343,111 +338,21 @@
             "Value": {
               "Ref": "AWS::StackName"
             }
-          },
-          {
-            "Key": "Description",
-            "Value": "eniaz3"
           }
         ]
       }
     },
-    "EIPStackAz1": {
-      "Type": "AWS::CloudFormation::Stack",
+    "EipAz1": {
+      "Type" : "AWS::EC2::EIP",
       "Properties": {
-        "TemplateURL": {
-          "Fn::Join": [
-            "/",
-            [
-              "https://s3.amazonaws.com/nubis-stacks",
-              {
-                "Ref": "StacksVersion"
-              },
-              "eip.template"
-            ]
-          ]
-        },
-        "TimeoutInMinutes": "60",
-        "Parameters": {
-          "StackName": {
-            "Ref": "AWS::StackName"
-          },
-          "IamRole": {
-            "Ref": "IamRole"
-          }
-        }
-      }
-    },
-    "EIPStackAz2": {
-      "Type": "AWS::CloudFormation::Stack",
-      "Properties": {
-        "TemplateURL": {
-          "Fn::Join": [
-            "/",
-            [
-              "https://s3.amazonaws.com/nubis-stacks",
-              {
-                "Ref": "StacksVersion"
-              },
-              "eip.template"
-            ]
-          ]
-        },
-        "TimeoutInMinutes": "60",
-        "Parameters": {
-          "StackName": {
-            "Ref": "AWS::StackName"
-          },
-          "IamRole": {
-            "Ref": "IamRole"
-          }
-        }
-      }
-    },
-    "EIPStackAz3": {
-      "Type": "AWS::CloudFormation::Stack",
-      "Properties": {
-        "TemplateURL": {
-          "Fn::Join": [
-            "/",
-            [
-              "https://s3.amazonaws.com/nubis-stacks",
-              {
-                "Ref": "StacksVersion"
-              },
-              "eip.template"
-            ]
-          ]
-        },
-        "TimeoutInMinutes": "60",
-        "Parameters": {
-          "StackName": {
-            "Ref": "AWS::StackName"
-          },
-          "IamRole": {
-            "Ref": "IamRole"
-          }
-        }
+        "Domain": "vpc"
       }
     },
     "EIPAssociationAz1":{
       "Type" : "AWS::EC2::EIPAssociation",
       "Properties": {
-        "AllocationId": { "Fn::GetAtt": [ "EIPStackAz1", "Outputs.EIPAllocationID"] },
+        "AllocationId": { "Fn::GetAtt": [ "EipAz1", "AllocationId"] },
         "NetworkInterfaceId": { "Ref": "EniAZ1" }
-      }
-    },
-    "EIPAssociationAz2":{
-      "Type" : "AWS::EC2::EIPAssociation",
-      "Properties": {
-        "AllocationId": { "Fn::GetAtt": [ "EIPStackAz2", "Outputs.EIPAllocationID"] },
-        "NetworkInterfaceId": { "Ref": "EniAZ2" }
-      }
-    },
-    "EIPAssociationAz3":{
-      "Type" : "AWS::EC2::EIPAssociation",
-      "Properties": {
-        "AllocationId": { "Fn::GetAtt": [ "EIPStackAz3", "Outputs.EIPAllocationID"] },
-        "NetworkInterfaceId": { "Ref": "EniAZ3" }
       }
     },
     "IamRole": {
@@ -568,13 +473,10 @@
         "Ref": "EniAZ3"
       }
     },
-    "EIPAllocationID": {
+    "EipIdAz1": {
       "Description": "EIP allocation ID",
       "Value": {
-        "Fn::GetAtt": [
-          "EIPStackAz1",
-          "Outputs.EIPAllocationID"
-        ]
+        "Ref": "EipAz1"
       }
     }
   }
