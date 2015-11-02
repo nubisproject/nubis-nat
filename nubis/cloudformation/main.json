@@ -427,7 +427,6 @@
                 "ec2:CreateNetworkInterface",
                 "ec2:DescribeInstances",
                 "ec2:DescribeNetworkInterfaces",
-                "ec2:DescribeSubnets",
                 "ec2:DetachNetworkInterface"
               ],
               "Resource": [
@@ -464,7 +463,7 @@
             {
               "Effect": "Allow",
               "Action": [
-                "ec2:ModifyInstanceAttribute"
+                "ec2:ModifyNetworkInterfaceAttribute"
               ],
               "Resource": [
                 "*"
