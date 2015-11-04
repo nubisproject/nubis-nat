@@ -1,5 +1,4 @@
 forge "https://forgeapi.puppetlabs.com"
 
 mod 'nubis/nubis_eip',
-    :git => 'https://github.com/limed/nubis-puppet-nat,
-
+    :git => 'https://github.com/limed/nubis-puppet-nat
