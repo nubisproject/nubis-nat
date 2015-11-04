@@ -343,16 +343,57 @@
       }
     },
     "EipAz1": {
-      "Type" : "AWS::EC2::EIP",
+      "Type": "AWS::EC2::EIP",
       "Properties": {
         "Domain": "vpc"
       }
     },
-    "EIPAssociationAz1":{
-      "Type" : "AWS::EC2::EIPAssociation",
+    "EipAz2": {
+      "Type": "AWS::EC2::EIP",
       "Properties": {
-        "AllocationId": { "Fn::GetAtt": [ "EipAz1", "AllocationId"] },
-        "NetworkInterfaceId": { "Ref": "EniAZ1" }
+        "Domain": "vpc"
+      }
+    },
+    "EIPAssociationAz1": {
+      "Type": "AWS::EC2::EIPAssociation",
+      "Properties": {
+        "AllocationId": {
+          "Fn::GetAtt": [
+            "EipAz1",
+            "AllocationId"
+          ]
+        },
+        "NetworkInterfaceId": {
+          "Ref": "EniAZ1"
+        }
+      }
+    },
+    "EIPAssociationAz2": {
+      "Type": "AWS::EC2::EIPAssociation",
+      "Properties": {
+        "AllocationId": {
+          "Fn::GetAtt": [
+            "EipAz2",
+            "AllocationId"
+          ]
+        },
+        "NetworkInterfaceId": {
+          "Ref": "EniAZ2"
+        }
+      }
+    },
+    "EIPAssociationAz3": {
+      "Type": "AWS::EC2::EIPAssociation",
+      "Properties": {
+        "AllocationId": {
+          "Fn::GetAtt": [
+            "EipAz3",
+            "AllocationId"
+          ]
+        },
+        "NetworkInterfaceId": {
+          "Ref": "EniAZ3"
+        }
       }
     },
     "IamRole": {
@@ -474,9 +515,21 @@
       }
     },
     "EipIdAz1": {
-      "Description": "EIP allocation ID",
+      "Description": "EIP allocation ID AZ1",
       "Value": {
         "Ref": "EipAz1"
+      }
+    },
+    "EipIdAz2": {
+      "Description": "EIP allocation ID AZ2",
+      "Value": {
+        "Ref": "EipAz2"
+      }
+    },
+    "EipIdAz3": {
+      "Description": "EIP allocation ID AZ3",
+      "Value": {
+        "Ref": "EipAz3"
       }
     }
   }
