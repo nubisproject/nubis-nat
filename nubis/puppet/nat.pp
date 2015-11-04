@@ -1,11 +1,11 @@
-
-file { '/usr/local/lib/util.sh':
-    ensure => file,
-    owner  => root,
-    group  => root,
-    mode   => '0644',
-    source => 'puppet:///nubis/files/util.sh'
-}
+# Assumes this gets added from nubis_nat class
+#file { '/usr/local/lib/util.sh':
+#    ensure => file,
+#    owner  => root,
+#    group  => root,
+#    mode   => '0644',
+#    source => 'puppet:///nubis/files/util.sh'
+#}
 
 file { '/usr/local/bin/eni-associate':
     ensure  => file,
@@ -22,17 +22,7 @@ file { '/etc/nubis.d/98-eni-associate':
     require => File['/usr/local/bin/eni-associate'],
 }
 
-file { '/usr/local/bin/nat.sh':
-    ensure  => file,
-    owner   => root,
-    group   => root,
-    mode    => '0755',
-    source  => 'puppet:///nubis/files/nat.sh',
-    require => File['/usr/local/lib/util.sh']
-}
-
-file { '/etc/nubis.d/99-nat':
-    ensure  => link,
-    target  => '/usr/local/bin/nat.sh',
-    require => File['/usr/local/bin/nat.sh'],
+class { 'nubis_nat':
+    nat_interface           => 'eth1',
+    disable_route_interface => 'eth0',
 }
