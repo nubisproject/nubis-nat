@@ -256,6 +256,7 @@
     },
     "EniAZ2": {
       "Type": "AWS::EC2::NetworkInterface",
+      "DependsOn": "EniAZ1",
       "Properties": {
         "Description": "ENI for AZ2",
         "SourceDestCheck": "false",
@@ -300,6 +301,7 @@
     },
     "EniAZ3": {
       "Type": "AWS::EC2::NetworkInterface",
+      "DependsOn": "EniAZ1",
       "Properties": {
         "Description": "ENI for AZ3",
         "SourceDestCheck": "false",
@@ -350,12 +352,21 @@
     },
     "EipAz2": {
       "Type": "AWS::EC2::EIP",
+      "DependsOn": "EniAZ1",
+      "Properties": {
+        "Domain": "vpc"
+      }
+    },
+    "EipAz3": {
+      "Type": "AWS::EC2::EIP",
+      "DependsOn": "EniAZ3",
       "Properties": {
         "Domain": "vpc"
       }
     },
     "EIPAssociationAz1": {
       "Type": "AWS::EC2::EIPAssociation",
+      "DependsOn": "EipAz1",
       "Properties": {
         "AllocationId": {
           "Fn::GetAtt": [
@@ -370,6 +381,7 @@
     },
     "EIPAssociationAz2": {
       "Type": "AWS::EC2::EIPAssociation",
+      "DependsOn": "EipAz2",
       "Properties": {
         "AllocationId": {
           "Fn::GetAtt": [
@@ -384,6 +396,7 @@
     },
     "EIPAssociationAz3": {
       "Type": "AWS::EC2::EIPAssociation",
+      "DependsOn": "EipAz3",
       "Properties": {
         "AllocationId": {
           "Fn::GetAtt": [
