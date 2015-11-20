@@ -88,7 +88,10 @@
             "Ref": "SSHKeyName"
           },
           "SecurityGroup": {
-            "Ref": "NatSecurityGroup"
+            "Fn::GetAtt": [
+              "VpcInfo",
+              "NatSecurityGroup"
+            ]
           },
           "InstanceType": {
             "Fn::FindInMap": [
@@ -98,80 +101,8 @@
               },
               "InstanceType"
             ]
-          },
-          "AutoScalingGroupMinSize": "3",
-          "AutoScalingGroupDesiredCapacity": "3",
-          "AutoScalingGroupMaxSize": "3"
+          }
         }
-      }
-    },
-    "NatSecurityGroup": {
-      "Type": "AWS::EC2::SecurityGroup",
-      "Properties": {
-        "GroupDescription": "NAT Security Group",
-        "VpcId": {
-          "Fn::GetAtt": [
-            "VpcInfo",
-            "VpcId"
-          ]
-        },
-        "SecurityGroupIngress": [
-          {
-            "IpProtocol": "tcp",
-            "FromPort": "0",
-            "ToPort": "65535",
-            "SourceSecurityGroupId": {
-              "Fn::GetAtt": [
-                "VpcInfo",
-                "InternetAccessSecurityGroupId"
-              ]
-            }
-          },
-          {
-            "IpProtocol": "udp",
-            "FromPort": "0",
-            "ToPort": "65535",
-            "SourceSecurityGroupId": {
-              "Fn::GetAtt": [
-                "VpcInfo",
-                "InternetAccessSecurityGroupId"
-              ]
-            }
-          },
-          {
-            "IpProtocol": "icmp",
-            "FromPort": "8",
-            "ToPort": "-1",
-            "SourceSecurityGroupId": {
-              "Fn::GetAtt": [
-                "VpcInfo",
-                "InternetAccessSecurityGroupId"
-              ]
-            }
-          }
-        ],
-        "Tags": [
-          {
-            "Key": "Name",
-            "Value": "NATSecurityGroup"
-          },
-          {
-            "Key": "ServiceName",
-            "Value": {
-              "Ref": "ServiceName"
-            }
-          },
-          {
-            "Key": "TechnicalOwner",
-            "Value": "Netops"
-          },
-          {
-            "Key": "Environment",
-            "Value": {
-              "Ref": "Environment"
-            }
-          }
-        ]
       }
     },
     "VpcInfo": {
@@ -217,7 +148,10 @@
         "SourceDestCheck": "false",
         "GroupSet": [
           {
-            "Ref": "NatSecurityGroup"
+            "Fn::GetAtt": [
+              "VpcInfo",
+              "NatSecurityGroup"
+            ]
           }
         ],
         "SubnetId": {
@@ -262,7 +196,10 @@
         "SourceDestCheck": "false",
         "GroupSet": [
           {
-            "Ref": "NatSecurityGroup"
+            "Fn::GetAtt": [
+              "VpcInfo",
+              "NatSecurityGroup"
+            ]
           }
         ],
         "SubnetId": {
@@ -307,7 +244,10 @@
         "SourceDestCheck": "false",
         "GroupSet": [
           {
-            "Ref": "NatSecurityGroup"
+            "Fn::GetAtt": [
+              "VpcInfo",
+              "NatSecurityGroup"
+            ]
           }
         ],
         "SubnetId": {
