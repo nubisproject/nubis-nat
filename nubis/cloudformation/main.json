@@ -284,71 +284,6 @@
         ]
       }
     },
-    "EipAz1": {
-      "Type": "AWS::EC2::EIP",
-      "Properties": {
-        "Domain": "vpc"
-      }
-    },
-    "EipAz2": {
-      "Type": "AWS::EC2::EIP",
-      "DependsOn": "EniAZ1",
-      "Properties": {
-        "Domain": "vpc"
-      }
-    },
-    "EipAz3": {
-      "Type": "AWS::EC2::EIP",
-      "DependsOn": "EniAZ3",
-      "Properties": {
-        "Domain": "vpc"
-      }
-    },
-    "EIPAssociationAz1": {
-      "Type": "AWS::EC2::EIPAssociation",
-      "DependsOn": "EipAz1",
-      "Properties": {
-        "AllocationId": {
-          "Fn::GetAtt": [
-            "EipAz1",
-            "AllocationId"
-          ]
-        },
-        "NetworkInterfaceId": {
-          "Ref": "EniAZ1"
-        }
-      }
-    },
-    "EIPAssociationAz2": {
-      "Type": "AWS::EC2::EIPAssociation",
-      "DependsOn": "EipAz2",
-      "Properties": {
-        "AllocationId": {
-          "Fn::GetAtt": [
-            "EipAz2",
-            "AllocationId"
-          ]
-        },
-        "NetworkInterfaceId": {
-          "Ref": "EniAZ2"
-        }
-      }
-    },
-    "EIPAssociationAz3": {
-      "Type": "AWS::EC2::EIPAssociation",
-      "DependsOn": "EipAz3",
-      "Properties": {
-        "AllocationId": {
-          "Fn::GetAtt": [
-            "EipAz3",
-            "AllocationId"
-          ]
-        },
-        "NetworkInterfaceId": {
-          "Ref": "EniAZ3"
-        }
-      }
-    },
     "IamRole": {
       "Type": "AWS::IAM::Role",
       "Properties": {
@@ -465,24 +400,6 @@
       "Description": "ENI ID AZ3",
       "Value": {
         "Ref": "EniAZ3"
-      }
-    },
-    "EipIdAz1": {
-      "Description": "EIP allocation ID AZ1",
-      "Value": {
-        "Ref": "EipAz1"
-      }
-    },
-    "EipIdAz2": {
-      "Description": "EIP allocation ID AZ2",
-      "Value": {
-        "Ref": "EipAz2"
-      }
-    },
-    "EipIdAz3": {
-      "Description": "EIP allocation ID AZ3",
-      "Value": {
-        "Ref": "EipAz3"
       }
     }
   }
