@@ -49,6 +49,42 @@
     }
   },
   "Resources": {
+    "VpcInfo": {
+      "Type": "Custom::VpcInfo",
+      "Properties": {
+        "ServiceToken": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:aws:lambda:",
+              {
+                "Ref": "AWS::Region"
+              },
+              ":",
+              {
+                "Ref": "AWS::AccountId"
+              },
+              ":function:",
+              "LookupNestedStackOutputs"
+            ]
+          ]
+        },
+        "StackName": {
+          "Fn::Join": [
+            "-",
+            [
+              {
+                "Ref": "AWS::Region"
+              },
+              "vpc"
+            ]
+          ]
+        },
+        "SearchString": {
+          "Ref": "Environment"
+        }
+      }
+    },
     "EC2Stack": {
       "Type": "AWS::CloudFormation::Stack",
       "Properties": {
@@ -103,42 +139,6 @@
               "InstanceType"
             ]
           }
-        }
-      }
-    },
-    "VpcInfo": {
-      "Type": "Custom::VpcInfo",
-      "Properties": {
-        "ServiceToken": {
-          "Fn::Join": [
-            "",
-            [
-              "arn:aws:lambda:",
-              {
-                "Ref": "AWS::Region"
-              },
-              ":",
-              {
-                "Ref": "AWS::AccountId"
-              },
-              ":function:",
-              "LookupNestedStackOutputs"
-            ]
-          ]
-        },
-        "StackName": {
-          "Fn::Join": [
-            "-",
-            [
-              {
-                "Ref": "AWS::Region"
-              },
-              "vpc"
-            ]
-          ]
-        },
-        "SearchString": {
-          "Ref": "Environment"
         }
       }
     },
