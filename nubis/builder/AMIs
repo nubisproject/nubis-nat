@@ -1,0 +1,3 @@
+amazon-ebs-amazon-linux:
+us-east-1: ami-ae1657c4
+us-west-2: ami-01001360
