@@ -142,6 +142,24 @@
         }
       }
     },
+    "EipAZ1": {
+      "Type": "AWS::EC2::EIP",
+      "Properties": {
+        "Domain": "vpc"
+      }
+    },
+    "EipAZ2": {
+      "Type": "AWS::EC2::EIP",
+      "Properties": {
+        "Domain": "vpc"
+      }
+    },
+    "EipAZ3": {
+      "Type": "AWS::EC2::EIP",
+      "Properties": {
+        "Domain": "vpc"
+      }
+    },
     "EniAZ1": {
       "Type": "AWS::EC2::NetworkInterface",
       "Properties": {
@@ -369,6 +387,44 @@
               "Action": [
                 "ec2:ModifyNetworkInterfaceAttribute",
                 "ec2:DescribeNetworkInterfaces"
+              ],
+              "Resource": [
+                "*"
+              ]
+            }
+          ]
+        },
+        "Roles": [
+          {
+            "Ref": "IamRole"
+          }
+        ]
+      }
+    },
+    "EIPAttachPolicy": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyName": {
+          "Fn::Join": [
+            "-",
+            [
+              {
+                "Ref": "AWS::StackName"
+              },
+              "modify",
+              "instance"
+            ]
+          ]
+        },
+        "PolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Action": [
+                "cloudformation:DescribeStacks",
+                "ec2:AssociateAddress",
+                "ec2:DisassociateAddress"
               ],
               "Resource": [
                 "*"
