@@ -124,10 +124,7 @@
             "Ref": "SSHKeyName"
           },
           "SecurityGroup": {
-            "Fn::GetAtt": [
-              "VpcInfo",
-              "NatSecurityGroup"
-            ]
+            "Ref": "NatSecurityGroup"
           },
           "SubnetLocation": "public",
           "InstanceType": {
@@ -140,6 +137,63 @@
             ]
           }
         }
+      }
+    },
+    "NatSecurityGroup": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "NAT Security Group",
+        "VpcId": {
+          "Ref": "VpcId"
+        },
+        "SecurityGroupIngress": [
+          {
+            "IpProtocol": "tcp",
+            "FromPort": "0",
+            "ToPort": "65535",
+            "SourceSecurityGroupId": {
+              "Ref": "InternetAccessSecurityGroup"
+            }
+          },
+          {
+            "IpProtocol": "udp",
+            "FromPort": "0",
+            "ToPort": "65535",
+            "SourceSecurityGroupId": {
+              "Ref": "InternetAccessSecurityGroup"
+            }
+          },
+          {
+            "IpProtocol": "icmp",
+            "FromPort": "8",
+            "ToPort": "-1",
+            "SourceSecurityGroupId": {
+              "Ref": "InternetAccessSecurityGroup"
+            }
+          }
+        ],
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "NATSecurityGroup"
+          },
+          {
+            "Key": "ServiceName",
+            "Value": {
+              "Ref": "ServiceName"
+            }
+          },
+          {
+            "Key": "TechnicalOwner",
+            "Value": "Netops"
+          },
+          {
+            "Key": "Environment",
+            "Value": {
+              "Ref": "Environment"
+            }
+          }
+        ]
       }
     },
     "EipAZ1": {
@@ -167,10 +221,7 @@
         "SourceDestCheck": "false",
         "GroupSet": [
           {
-            "Fn::GetAtt": [
-              "VpcInfo",
-              "NatSecurityGroup"
-            ]
+            "Ref": "NatSecurityGroup"
           }
         ],
         "SubnetId": {
@@ -215,10 +266,7 @@
         "SourceDestCheck": "false",
         "GroupSet": [
           {
-            "Fn::GetAtt": [
-              "VpcInfo",
-              "NatSecurityGroup"
-            ]
+            "Ref": "NatSecurityGroup"
           }
         ],
         "SubnetId": {
@@ -263,10 +311,7 @@
         "SourceDestCheck": "false",
         "GroupSet": [
           {
-            "Fn::GetAtt": [
-              "VpcInfo",
-              "NatSecurityGroup"
-            ]
+            "Ref": "NatSecurityGroup"
           }
         ],
         "SubnetId": {
