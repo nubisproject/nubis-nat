@@ -516,6 +516,33 @@
       "Value": {
         "Ref": "EniAZ3"
       }
+    },
+    "EipAz1": {
+      "Description": "EIP ID AZ1",
+      "Value": {
+        "Fn::GetAtt": [
+          "EipAZ1",
+          "AllocationId"
+        ]
+      }
+    },
+    "EipAz2": {
+      "Description": "EIP ID AZ2",
+      "Value": {
+        "Fn::GetAtt": [
+          "EipAZ2",
+          "AllocationId"
+        ]
+      }
+    },
+    "EipAz3": {
+      "Description": "EIP ID AZ3",
+      "Value": {
+        "Fn::GetAtt": [
+          "EipAZ3",
+          "AllocationId"
+        ]
+      }
     }
   }
 }
