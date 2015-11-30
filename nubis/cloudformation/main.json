@@ -481,6 +481,7 @@
               "Effect": "Allow",
               "Action": [
                 "cloudformation:DescribeStacks",
+                "ec2:DescribeAvailabilityZones",
                 "ec2:AssociateAddress",
                 "ec2:DisassociateAddress"
               ],
