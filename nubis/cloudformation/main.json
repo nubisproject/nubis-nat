@@ -52,6 +52,7 @@
     "VpcInfo": {
       "Type": "Custom::VpcInfo",
       "Properties": {
+        "StacksVersion": { "Ref": "StacksVersion" },
         "ServiceToken": {
           "Fn::Join": [
             "",
@@ -144,7 +145,10 @@
       "Properties": {
         "GroupDescription": "NAT Security Group",
         "VpcId": {
-          "Ref": "VpcId"
+          "Fn::GetAtt": [
+            "VpcInfo",
+            "VpcId"
+          ]
         },
         "SecurityGroupIngress": [
           {
@@ -152,7 +156,10 @@
             "FromPort": "0",
             "ToPort": "65535",
             "SourceSecurityGroupId": {
-              "Ref": "InternetAccessSecurityGroup"
+              "Fn::GetAtt": [
+                "VpcInfo",
+                "InternetAccessSecurityGroupId"
+              ]
             }
           },
           {
@@ -160,7 +167,10 @@
             "FromPort": "0",
             "ToPort": "65535",
             "SourceSecurityGroupId": {
-              "Ref": "InternetAccessSecurityGroup"
+              "Fn::GetAtt": [
+                "VpcInfo",
+                "InternetAccessSecurityGroupId"
+              ]
             }
           },
           {
@@ -168,7 +178,10 @@
             "FromPort": "8",
             "ToPort": "-1",
             "SourceSecurityGroupId": {
-              "Ref": "InternetAccessSecurityGroup"
+              "Fn::GetAtt": [
+                "VpcInfo",
+                "InternetAccessSecurityGroupId"
+              ]
             }
           }
         ],
