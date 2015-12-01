@@ -1,0 +1,98 @@
+#!/bin/bash
+
+eval $(curl -s -fq http://169.254.169.254/latest/user-data)
+
+# Simple logging function
+function log() {
+
+    local LOGGER_BIN='/usr/bin/logger'
+    local LOGMSG=$1
+
+    [ -z "$LOGMSG" ] && { echo "Usage: $FUNCNAME [log message]"; exit 1; }
+
+    # Set up the logger command if the binary is installed
+    if [ ! -x $LOGGER_BIN ]; then
+        # If logger is not installed just stderr it out
+        echo "${LOGMSG}"
+    else
+        $LOGGER_BIN --stderr --priority local7.info --tag "${BASH_SOURCE}" "${LOGMSG}"
+    fi
+}
+
+function __get_instance_id() {
+    local instance_id=$(curl --retry 3 -s -fq http://169.254.169.254/latest/meta-data/instance-id)
+    echo "${instance_id}"
+}
+
+function __get_region() {
+    local ec2_region=$(curl --retry 3 -s -fq http://169.254.169.254/latest/dynamic/instance-identity/document | jq '.region' -r)
+    echo "${ec2_region}"
+}
+
+function __get_availaibility_zone() {
+    local availability_zone=$(curl --retry 3 -s -fq http://169.254.169.254/latest/meta-data/placement/availability-zone)
+    echo "${availability_zone}"
+}
+
+function __get_eth0_eni_id() {
+    local eth0_mac=$(cat /sys/class/net/eth0/address)
+    local eni_id=$(curl --retry 3 -s -fq http://169.254.169.254/latest/meta-data/network/interfaces/macs/${eth0_mac}/interface-id)
+    echo "${eni_id}"
+}
+
+function __my_az() {
+    local az=$1
+    if [[ ${availability_zone[0]} == ${az} ]]; then
+        echo "Az1"
+    elif [[ ${availability_zone[1]} == ${az} ]]; then
+        echo "Az2"
+    else
+        echo "Az3"
+    fi
+}
+
+function __get_eip_id() {
+    if [ -z "$1" ]; then echo "Usage: $FUNCNAME [availablity zone]"; return 1; fi
+    local az=$1
+    local my_az=$(__my_az ${az})
+    local region=$(__get_region)
+
+    eip_id=$(aws --region "${region}" cloudformation describe-stacks --stack-name "${NUBIS_STACK}" --query "Stacks[].Outputs[?OutputKey=='Eip${my_az}'].OutputValue" --output text)
+    echo "${eip_id}"
+}
+
+# Meat and potatoes of script
+
+AVAILABILITY_ZONE=$(__get_availaibility_zone)
+ENI_ID=$(__get_eth0_eni_id)
+EC2_REGION=$(__get_region)
+INSTANCE_ID=$(__get_instance_id)
+
+echo -n "Waiting for instance to come up ... "
+aws ec2 wait instance-running --instance-ids ${INSTANCE_ID} --region ${EC2_REGION}
+echo "Done"
+
+# First, check with CloudFormation to see if we can find our IP
+attempts=0
+until [ ! -z "${ELASTICIP_ID}" ] || [ "${attempts}" -eq 10 ]; do
+    log "Waiting on Elastic IP to be ready"
+    ELASTICIP_ID=$(__get_eip_id ${AVAILABILITY_ZONE})
+    sleep 5
+    let attempts++
+done
+
+if [[ -z "${INSTANCE_ID}" ]]; then
+    log "ERROR: Instance ID not found"
+    exit 1
+fi
+
+aws ec2 associate-address --network-interface-id ${ENI_ID} --allocation-id ${ELASTICIP_ID} --region ${EC2_REGION}
+RV=$?
+
+if [[ ${RV} != 0 ]]; then
+    log "ERROR: Unable to associate elastic IP ${ELASTICIP_ID} to instance ${INSTANCE_ID} (${ENI_ID})"
+    exit ${RV}
+else
+    # We assume that if return value is not 0 then we have successfully associated an EIP
+    log "SUCCESS: Associated ${ELASTICIP_ID} to instance ${INSTANCE_ID} (${ENI_ID})"
+fi
