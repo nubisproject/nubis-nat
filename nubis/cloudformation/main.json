@@ -383,7 +383,7 @@
         "Path": "/"
       }
     },
-    "IamEniAttachPolicy": {
+    "IamPolicy": {
       "Type": "AWS::IAM::Policy",
       "Properties": {
         "PolicyName": {
@@ -393,7 +393,7 @@
               {
                 "Ref": "AWS::StackName"
               },
-              "attach",
+              "iam",
               "policy"
             ]
           ]
@@ -402,6 +402,7 @@
           "Version": "2012-10-17",
           "Statement": [
             {
+              "Sid": "EniAttach",
               "Effect": "Allow",
               "Action": [
                 "ec2:AttachNetworkInterface",
@@ -412,35 +413,9 @@
               "Resource": [
                 "*"
               ]
-            }
-          ]
-        },
-        "Roles": [
-          {
-            "Ref": "IamRole"
-          }
-        ]
-      }
-    },
-    "IamModifyInstanceAttribute": {
-      "Type": "AWS::IAM::Policy",
-      "Properties": {
-        "PolicyName": {
-          "Fn::Join": [
-            "-",
-            [
-              {
-                "Ref": "AWS::StackName"
-              },
-              "modify",
-              "instance"
-            ]
-          ]
-        },
-        "PolicyDocument": {
-          "Version": "2012-10-17",
-          "Statement": [
+            },
             {
+              "Sid": "ModifyInterfaceAttribute",
               "Effect": "Allow",
               "Action": [
                 "ec2:ModifyNetworkInterfaceAttribute",
@@ -449,41 +424,27 @@
               "Resource": [
                 "*"
               ]
-            }
-          ]
-        },
-        "Roles": [
-          {
-            "Ref": "IamRole"
-          }
-        ]
-      }
-    },
-    "EIPAttachPolicy": {
-      "Type": "AWS::IAM::Policy",
-      "Properties": {
-        "PolicyName": {
-          "Fn::Join": [
-            "-",
-            [
-              {
-                "Ref": "AWS::StackName"
-              },
-              "modify",
-              "instance"
-            ]
-          ]
-        },
-        "PolicyDocument": {
-          "Version": "2012-10-17",
-          "Statement": [
+            },
             {
+              "Sid": "EipAttach",
               "Effect": "Allow",
               "Action": [
                 "cloudformation:DescribeStacks",
                 "ec2:DescribeAvailabilityZones",
                 "ec2:AssociateAddress",
                 "ec2:DisassociateAddress"
+              ],
+              "Resource": [
+                "*"
+              ]
+            },
+            {
+              "Sid": "NATConfigure",
+              "Effect": "Allow",
+              "Action": [
+                "ec2:DescribeRouteTables",
+                "ec2:ReplaceRoute",
+                "ec2:DescribeSubnets"
               ],
               "Resource": [
                 "*"
