@@ -1,7 +1,7 @@
 file { '/usr/local/bin/eip-attach':
     ensure => file,
     owner  => root,
-    mode   => root,
+    group  => root,
     mode   => '0755',
     source => 'puppet:///nubis/files/eip-attach',
 }
