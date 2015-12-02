@@ -136,7 +136,10 @@
               },
               "InstanceType"
             ]
-          }
+          },
+          "AutoScalingGroupMinSize": "3",
+          "AutoScalingGroupDesiredCapacity": "3",
+          "AutoScalingGroupMaxSize": "3"
         }
       }
     },
