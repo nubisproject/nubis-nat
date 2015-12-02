@@ -23,6 +23,6 @@ file { '/etc/nubis.d/98-eni-associate':
 }
 
 class { 'nubis_nat':
-    nat_interface           => 'eth1',
-    disable_route_interface => 'eth0',
+    nat_interface           => 'eth0',
+    disable_route_interface => 'eth1',
 }
