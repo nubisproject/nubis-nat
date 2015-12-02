@@ -42,6 +42,8 @@ function __get_eth0_eni_id() {
 
 function __my_az() {
     local az=$1
+    local region=$(__get_region)
+    local availability_zone=($(aws --region "${region}" ec2 describe-availability-zones --query "AvailabilityZones[0:3].ZoneName" --output text))
     if [[ ${availability_zone[0]} == ${az} ]]; then
         echo "Az1"
     elif [[ ${availability_zone[1]} == ${az} ]]; then
