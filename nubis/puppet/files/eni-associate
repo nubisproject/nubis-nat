@@ -45,12 +45,18 @@ function _get_eni_id {
         --output text
 }
 
-
 echo -n "Waiting for instance to come up ... "
 aws ec2 wait instance-running --instance-ids ${INSTANCE_ID} --region ${REGION}
 echo "Done"
 
-ENI_ID=$(_get_eni_id ${REGION} ${NUBIS_STACK})
+# Lets wait for ENI to become ready first
+attempts=0
+until [ ! -z "${ENI_ID}" ] || [ "${attempts}" -eq 10 ]; do
+    log "Waiting for ENI to become available"
+    ENI_ID=$(_get_eni_id ${REGION} ${NUBIS_STACK})
+    sleep 5
+    let attempts++
+done
 
 if [[ ! -z "${ENI_ID}" ]]; then
     log "Attaching ${ENI_ID} to ${INSTANCE_ID}"
