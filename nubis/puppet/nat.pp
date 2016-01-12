@@ -16,13 +16,14 @@ file { '/usr/local/bin/eni-associate':
     require => File['/usr/local/lib/util.sh']
 }
 
-#file { '/etc/nubis.d/98-eni-associate':
-#    ensure  => link,
-#    target  => '/usr/local/bin/eni-associate',
-#    require => File['/usr/local/bin/eni-associate'],
-#}
+# This needs to happen before nat is configured
+file { '/etc/nubis.d/98-eni-associate':
+    ensure  => link,
+    target  => '/usr/local/bin/eni-associate',
+    require => File['/usr/local/bin/eni-associate'],
+}
 
 class { 'nubis_nat':
-    nat_interface           => 'eth0',
-    disable_route_interface => 'eth1',
+    nat_in_interface  => 'eth1',
+    nat_out_interface => 'eth0',
 }
