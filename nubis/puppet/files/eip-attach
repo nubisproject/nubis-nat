@@ -1,48 +1,11 @@
 #!/bin/bash
 
-eval $(curl -s -fq http://169.254.169.254/latest/user-data)
-
-# Simple logging function
-function log() {
-
-    local LOGGER_BIN='/usr/bin/logger'
-    local LOGMSG=$1
-
-    [ -z "$LOGMSG" ] && { echo "Usage: $FUNCNAME [log message]"; exit 1; }
-
-    # Set up the logger command if the binary is installed
-    if [ ! -x $LOGGER_BIN ]; then
-        # If logger is not installed just stderr it out
-        echo "${LOGMSG}"
-    else
-        $LOGGER_BIN --stderr --priority local7.info --tag "${BASH_SOURCE}" "${LOGMSG}"
-    fi
-}
-
-function __get_instance_id() {
-    local instance_id=$(curl --retry 3 -s -fq http://169.254.169.254/latest/meta-data/instance-id)
-    echo "${instance_id}"
-}
-
-function __get_region() {
-    local ec2_region=$(curl --retry 3 -s -fq http://169.254.169.254/latest/dynamic/instance-identity/document | jq '.region' -r)
-    echo "${ec2_region}"
-}
-
-function __get_availaibility_zone() {
-    local availability_zone=$(curl --retry 3 -s -fq http://169.254.169.254/latest/meta-data/placement/availability-zone)
-    echo "${availability_zone}"
-}
-
-function __get_eth0_eni_id() {
-    local eth0_mac=$(cat /sys/class/net/eth0/address)
-    local eni_id=$(curl --retry 3 -s -fq http://169.254.169.254/latest/meta-data/network/interfaces/macs/${eth0_mac}/interface-id)
-    echo "${eni_id}"
-}
+# Nubis library, installed via nubis-base
+[ -e /usr/local/lib/nubis/nubis-lib.sh ] && . /usr/local/lib/nubis/nubis-lib.sh || exit 1
 
 function __my_az() {
     local az=$1
-    local region=$(__get_region)
+    local region=$(get_region)
     local availability_zone=($(aws --region "${region}" ec2 describe-availability-zones --query "AvailabilityZones[0:3].ZoneName" --output text))
     if [[ ${availability_zone[0]} == ${az} ]]; then
         echo "Az1"
@@ -57,7 +20,7 @@ function __get_eip_id() {
     if [ -z "$1" ]; then echo "Usage: $FUNCNAME [availablity zone]"; return 1; fi
     local az=$1
     local my_az=$(__my_az ${az})
-    local region=$(__get_region)
+    local region=$(get_region)
 
     eip_id=$(aws --region "${region}" cloudformation describe-stacks --stack-name "${NUBIS_STACK}" --query "Stacks[].Outputs[?OutputKey=='Eip${my_az}'].OutputValue" --output text)
     echo "${eip_id}"
@@ -65,10 +28,10 @@ function __get_eip_id() {
 
 # Meat and potatoes of script
 
-AVAILABILITY_ZONE=$(__get_availaibility_zone)
-ENI_ID=$(__get_eth0_eni_id)
-EC2_REGION=$(__get_region)
-INSTANCE_ID=$(__get_instance_id)
+AVAILABILITY_ZONE=$(get_availaibility_zone)
+ENI_ID=$(get_eni_id eth0)
+EC2_REGION=$(get_region)
+INSTANCE_ID=$(get_instance_id)
 
 echo -n "Waiting for instance to come up ... "
 aws ec2 wait instance-running --instance-ids ${INSTANCE_ID} --region ${EC2_REGION}

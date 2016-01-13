@@ -25,13 +25,13 @@
 
 # TODO: Make use the one provided in nubis-base
 # Common functions.
-. /usr/local/lib/util.sh
+[ -e /usr/local/lib/nubis/nubis-lib.sh ] && . /usr/local/lib/nubis/nubis-lib.sh || exit 1
 
 function _get_eni_id {
 
     if [ -z "$1" ] && [ -z "$2" ]; then echo "Usage: ${FUNCNAME} [region] [stackname]"; return 1; fi
 
-    local availability_zone=$(curl -s -fq http://169.254.169.254/latest/meta-data/placement/availability-zone)
+    local availability_zone=$(get_availability_zone)
     local region=$1
     local stack_name=$2
 

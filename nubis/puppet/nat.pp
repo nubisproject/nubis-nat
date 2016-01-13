@@ -1,12 +1,3 @@
-# Assumes this gets added from nubis_nat class
-#file { '/usr/local/lib/util.sh':
-#    ensure => file,
-#    owner  => root,
-#    group  => root,
-#    mode   => '0644',
-#    source => 'puppet:///nubis/files/util.sh'
-#}
-
 file { '/usr/local/bin/eni-associate':
     ensure  => file,
     owner   => root,
