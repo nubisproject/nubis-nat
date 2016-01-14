@@ -28,7 +28,7 @@ function __get_eip_id() {
 
 # Meat and potatoes of script
 
-AVAILABILITY_ZONE=$(get_availaibility_zone)
+AVAILABILITY_ZONE=$(get_availability_zone)
 ENI_ID=$(get_eni_id eth0)
 EC2_REGION=$(get_region)
 INSTANCE_ID=$(get_instance_id)
