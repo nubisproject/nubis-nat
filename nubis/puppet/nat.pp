@@ -4,7 +4,6 @@ file { '/usr/local/bin/eni-associate':
     group   => root,
     mode    => '0755',
     source  => 'puppet:///nubis/files/eni-associate',
-    require => File['/usr/local/lib/util.sh']
 }
 
 # This needs to happen before nat is configured
