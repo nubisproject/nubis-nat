@@ -45,6 +45,9 @@ function _get_eni_id {
         --output text
 }
 
+INSTANCE_ID=$(get_instance_id)
+REGION=$(get_region)
+
 echo -n "Waiting for instance to come up ... "
 aws ec2 wait instance-running --instance-ids ${INSTANCE_ID} --region ${REGION}
 echo "Done"
