@@ -3,6 +3,8 @@
 # Nubis library, installed via nubis-base
 [ -e /usr/local/lib/nubis/nubis-lib.sh ] && . /usr/local/lib/nubis/nubis-lib.sh || exit 1
 
+export AWS_REGION=$(get_region)
+
 function __my_az() {
     local az=$1
     local region=$(get_region)
@@ -14,6 +16,28 @@ function __my_az() {
     else
         echo "Az3"
     fi
+}
+
+function __get_logical_id() {
+
+    if [ -z "$1" ] || [ -z "$2" ]; then echo "Usage: $FUNCNAME [stackname] [resource name]"; exit 1; fi
+
+    local stackname=$1
+    local search_string=$2
+
+    local logical_id=$(aws cloudformation describe-stack-resources --stack-name "${stackname}" --query "StackResources[?LogicalResourceId == \`${search_string}\`].PhysicalResourceId" --output text)
+    echo "${logical_id}"
+}
+
+function __get_stack_output() {
+
+    if [ -z "$1" ] || [ -z "$2" ]; then echo "Usage: $FUNCNAME [stackname] [output key]"; exit 1; fi
+
+    local stackname=$1
+    local output_key=$2
+
+    local output_value=$(aws cloudformation describe-stacks --stack-name "${stackname}" --query "Stacks[].Outputs[?OutputKey == \`${output_key}\`].OutputValue" --output text)
+    echo "${output_value}"
 }
 
 function __get_eip_id() {
