@@ -3,6 +3,8 @@
 # Nubis library, installed via nubis-base
 [ -e /usr/local/lib/nubis/nubis-lib.sh ] && . /usr/local/lib/nubis/nubis-lib.sh || exit 1
 
+export AWS_DEFAULT_REGION=$(get_region)
+
 function __my_az() {
     local az=$1
     local region=$(get_region)
@@ -16,13 +18,39 @@ function __my_az() {
     fi
 }
 
-function __get_eip_id() {
-    if [ -z "$1" ]; then echo "Usage: $FUNCNAME [availablity zone]"; return 1; fi
-    local az=$1
-    local my_az=$(__my_az ${az})
-    local region=$(get_region)
+function __get_logical_id() {
 
-    eip_id=$(aws --region "${region}" cloudformation describe-stacks --stack-name "${NUBIS_STACK}" --query "Stacks[].Outputs[?OutputKey=='Eip${my_az}'].OutputValue" --output text)
+    if [ -z "$1" ] || [ -z "$2" ]; then echo "Usage: $FUNCNAME [stackname] [resource name]"; exit 1; fi
+
+    local stackname=$1
+    local search_string=$2
+
+    local logical_id=$(aws cloudformation describe-stack-resources --stack-name "${stackname}" --query "StackResources[?LogicalResourceId == \`${search_string}\`].PhysicalResourceId" --output text)
+    echo "${logical_id}"
+}
+
+function __get_stack_output() {
+
+    if [ -z "$1" ] || [ -z "$2" ]; then echo "Usage: $FUNCNAME [stackname] [output key]"; exit 1; fi
+
+    local stackname=$1
+    local output_key=$2
+
+    local output_value=$(aws cloudformation describe-stacks --stack-name "${stackname}" --query "Stacks[].Outputs[?OutputKey == \`${output_key}\`].OutputValue" --output text)
+    echo "${output_value}"
+}
+
+function get_eip_id() {
+
+    local environment=${NUBIS_ENVIRONMENT^}
+    local stackname=${NUBIS_STACK}
+
+    local az=$(get_availability_zone)
+    local my_az=$(__my_az ${az})
+
+    logical_id=$(__get_logical_id ${stackname} ${environment}VPCStack)
+    eip_id=$(__get_stack_output ${stackname} Eip${my_az})
+
     echo "${eip_id}"
 }
 
@@ -30,18 +58,17 @@ function __get_eip_id() {
 
 AVAILABILITY_ZONE=$(get_availability_zone)
 ENI_ID=$(get_eni_id eth0)
-EC2_REGION=$(get_region)
 INSTANCE_ID=$(get_instance_id)
 
 echo -n "Waiting for instance to come up ... "
-aws ec2 wait instance-running --instance-ids ${INSTANCE_ID} --region ${EC2_REGION}
+aws ec2 wait instance-running --instance-ids ${INSTANCE_ID}
 echo "Done"
 
 # First, check with CloudFormation to see if we can find our IP
 attempts=0
 until [ ! -z "${ELASTICIP_ID}" ] || [ "${attempts}" -eq 10 ]; do
     log "Waiting on Elastic IP to be ready"
-    ELASTICIP_ID=$(__get_eip_id ${AVAILABILITY_ZONE})
+    ELASTICIP_ID=$(get_eip_id)
     sleep 5
     let attempts++
 done
@@ -51,7 +78,7 @@ if [[ -z "${INSTANCE_ID}" ]]; then
     exit 1
 fi
 
-aws ec2 associate-address --network-interface-id ${ENI_ID} --allocation-id ${ELASTICIP_ID} --region ${EC2_REGION}
+aws ec2 associate-address --network-interface-id ${ENI_ID} --allocation-id ${ELASTICIP_ID}
 RV=$?
 
 if [[ ${RV} != 0 ]]; then
