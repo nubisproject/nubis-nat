@@ -38,7 +38,7 @@ function _get_eni_id {
     aws ec2 describe-network-interfaces \
         --region ${region} \
         --filter \
-            Name=tag-value,Values=${stack_name}\
+            Name=tag-value,Values=nubis-nat-eni \
             Name=availability-zone,Values=${availability_zone}\
         --query \
             'NetworkInterfaces[?Status == `available`][NetworkInterfaceId]'\
