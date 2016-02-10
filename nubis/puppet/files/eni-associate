@@ -32,13 +32,14 @@ function _get_eni_id {
     if [ -z "$1" ] && [ -z "$2" ]; then echo "Usage: ${FUNCNAME} [region] [stackname]"; return 1; fi
 
     local availability_zone=$(get_availability_zone)
+    local environment=${NUBIS_ENVIRONMENT}
     local region=$1
     local stack_name=$2
 
     aws ec2 describe-network-interfaces \
         --region ${region} \
         --filter \
-            Name=tag-value,Values=nubis-nat-eni \
+            Name=tag-value,Values=nubis-nat-eni-${environment} \
             Name=availability-zone,Values=${availability_zone}\
         --query \
             'NetworkInterfaces[?Status == `available`][NetworkInterfaceId]'\
