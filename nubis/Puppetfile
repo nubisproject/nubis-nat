@@ -2,3 +2,7 @@ forge "https://forgeapi.puppetlabs.com"
 
 mod 'nubis/nubis_nat',
     :git => 'https://github.com/limed/nubis-puppet-nat.git'
+
+mod 'tinnightcap/puppet-squid3',
+    :git => 'https://github.com/tinnightcap/puppet-squid3.git',
+    :ref => '9e778ffca2f07d034717da29715e01def7712430'
