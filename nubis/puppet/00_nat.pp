@@ -3,7 +3,7 @@ file { '/usr/local/bin/eni-associate':
     owner   => root,
     group   => root,
     mode    => '0755',
-    source  => 'puppet:///nubis/files/eni-associate',
+    source  => 'puppet:///nubis/files/nat/eni-associate',
 }
 
 # This needs to happen before nat is configured

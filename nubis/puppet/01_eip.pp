@@ -3,7 +3,7 @@ file { '/usr/local/bin/eip-attach':
     owner  => root,
     group  => root,
     mode   => '0755',
-    source => 'puppet:///nubis/files/eip-attach',
+    source => 'puppet:///nubis/files/nat/eip-attach',
 }
 
 file { '/etc/nubis.d/99-eip-attach':
