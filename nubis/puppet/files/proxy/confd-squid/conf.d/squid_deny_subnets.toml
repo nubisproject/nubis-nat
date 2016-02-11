@@ -1,0 +1,10 @@
+[template]
+src = "squid_deny_subnets.tmpl"
+dest = "/etc/squid/deny_subnets.txt"
+prefix = "/%%STACK%%/%%ENVIRONMENT%%"
+
+keys = [
+    "/config/DenySubnets",
+]
+
+reload_cmd = "service squid reload"

@@ -1,0 +1,10 @@
+[template]
+src = "squid_allow_domains.tmpl"
+dest = "/etc/squid3/allow_domains.txt"
+prefix = "/%%STACK%%/%%ENVIRONMENT%%"
+
+keys = [
+    "/config/AllowDomains",
+]
+
+reload_cmd = "service squid3 reload"
