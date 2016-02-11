@@ -1,3 +1,3 @@
 amazon-ebs-amazon-linux:
-us-east-1: ami-c791baad
-us-west-2: ami-77769717
+us-east-1: ami-9b3500f1
+us-west-2: ami-55e70735
