@@ -1,0 +1,10 @@
+#!/bin/bash
+
+[ -e /usr/local/lib/nubis/nubis-lib.sh ] && . /usr/local/lib/nubis/nubis-lib.sh || exit 1
+
+mac_eth0=$(__get_mac eth0)
+ip_addr=$(curl -s -fq "http://169.254.169.254/latest/meta-data/network/interfaces/macs/${mac_eth0}/local-ipv4s")
+
+if [[ -f '/etc/consul/interface.json' ]]; then
+    sed -i -e "s/%%INTERFACE_IP%%/$ip_addr/g" /etc/consul/interface.json
+fi
