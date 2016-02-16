@@ -1,7 +1,7 @@
 [template]
 src = "squid_deny_domains.tmpl"
 dest = "/etc/squid/deny_domains.txt"
-prefix = "/%%STACK%%/%%ENVIRONMENT%%"
+prefix = "/%%PROJECT%%/%%ENVIRONMENT%%"
 
 keys = [
     "/config/DenyDomains",
