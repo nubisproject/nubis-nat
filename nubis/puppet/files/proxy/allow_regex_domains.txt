@@ -1,0 +1,1 @@
+# This file uses regular expressions ONLY. See 'dstdom_regex' in Squid docs.

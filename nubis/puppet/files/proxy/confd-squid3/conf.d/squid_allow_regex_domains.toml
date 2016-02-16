@@ -1,0 +1,10 @@
+[template]
+src = "squid_allow_regex_domains.tmpl"
+dest = "/etc/squid3/allow_regex_domains.txt"
+prefix = "/%%PROJECT%%/%%ENVIRONMENT%%"
+
+keys = [
+    "/config/AllowRegexDomains",
+]
+
+reload_cmd = "service squid3 reload"

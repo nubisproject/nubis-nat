@@ -1,0 +1,14 @@
+{
+  "service": {
+    "check": {
+      "interval": "10s",
+      "script": "/usr/sbin/squid -k check"
+    },
+    "port": 3128,
+    "tags": [
+      "squid",
+      "proxy"
+    ],
+    "name": "proxy"
+  }
+}

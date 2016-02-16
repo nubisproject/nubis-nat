@@ -1,0 +1,1 @@
+{{ if exists "/config/AllowSubnets" }}{{range $value := jsonArray (getv "/config/AllowSubnets")}}{{printf "%s\n" $value}}{{end}}{{ else }}all{{end}}

@@ -1,0 +1,10 @@
+[template]
+src = "squid_deny_domains.tmpl"
+dest = "/etc/squid/deny_domains.txt"
+prefix = "/%%PROJECT%%/%%ENVIRONMENT%%"
+
+keys = [
+    "/config/DenyDomains",
+]
+
+reload_cmd = "service squid reload"

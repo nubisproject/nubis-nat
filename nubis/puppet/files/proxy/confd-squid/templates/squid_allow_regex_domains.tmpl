@@ -1,0 +1,2 @@
+# This file uses regular expressions ONLY. See 'dstdom_regex' in Squid docs.
+{{ if exists "/config/AllowRegexDomains" }}{{range $value := jsonArray (getv "/config/AllowRegexDomains")}}{{printf "%s\n" $value}}{{end}}{{end}}

@@ -5,9 +5,9 @@
     "builders": [
       "amazon-ebs-amazon-linux"
     ],
-    "project_description": "Creates a HA nat instance",
+    "project_description": "Creates a HA nat instance as well as a squid proxy",
     "project_name": "nubis-nat",
-    "project_version": "0.38",
+    "project_version": "0.41",
     "source_ami_project_name": "nubis-base"
   }
 }

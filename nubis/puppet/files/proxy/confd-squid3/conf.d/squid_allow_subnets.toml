@@ -1,0 +1,10 @@
+[template]
+src = "squid_allow_subnets.tmpl"
+dest = "/etc/squid3/allow_subnets.txt"
+prefix = "/%%PROJECT%%/%%ENVIRONMENT%%"
+
+keys = [
+    "/config/AllowSubnets",
+]
+
+reload_cmd = "service squid3 reload"
