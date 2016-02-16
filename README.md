@@ -20,30 +20,30 @@ This file is installed by default in [nubis-base](https://github.com/Nubisprojec
 ## Custom configuration
 To add custom rules to the proxy you need to place some information in consul. The following examples demonstrate how to accomplish this. Note that setting any of these values in consul overwrites the default. Therefore if you wish to include the default you must do so explicatly.
 
-To start with, set up the environment from user data. We actually only need ```$NUBIS_STACK``` and ```$NUBIS_ENVIRONMENT``` which you could set manually.
+To start with, set up the environment from user data. We actually only need ```$NUBIS_PROJECT``` and ```$NUBIS_ENVIRONMENT``` which you could set manually.
 ```bash
 eval $(curl -fs http://169.254.169.254/latest/user-data)
 ```
 
 The defalut allowed domains is *all*. To set a custom list set *AllowDomains* with a value of a JSON array of domains to allow connections to:
 ```bash
-curl -X PUT -d '[ ".mozilla.org", ".mozilla.com", ".mozilla.net", ".redhat.com", ".ubuntu.com", ".debian.org", ".github.com", ".java.com", "cdp1.public-trust.com", "ocsp.omniroot.com", "ocsp.msocsp.com", "www.msftncsi.com", "msftncsi.com", "ipv6.msftncsi.com", "ocsp.geotrust.com", "crl.geotrust.com", "gtssl-ocsp.geotrust.com", "gtssl-crl.geotrust.com", "ocsp.digicert.com", "collector.newrelic.com", "platform-api.newrelic.com" ]' http://localhost:8500/v1/kv/$NUBIS_STACK/$NUBIS_ENVIRONMENT/config/AllowDomains
+curl -X PUT -d '[ ".mozilla.org", ".mozilla.com", ".mozilla.net", ".redhat.com", ".ubuntu.com", ".debian.org", ".github.com", ".java.com", "cdp1.public-trust.com", "ocsp.omniroot.com", "ocsp.msocsp.com", "www.msftncsi.com", "msftncsi.com", "ipv6.msftncsi.com", "ocsp.geotrust.com", "crl.geotrust.com", "gtssl-ocsp.geotrust.com", "gtssl-crl.geotrust.com", "ocsp.digicert.com", "collector.newrelic.com", "platform-api.newrelic.com" ]' http://localhost:8500/v1/kv/$NUBIS_PROJECT/$NUBIS_ENVIRONMENT/config/AllowDomains
 ```
 
 By default there are no regex domains. Set *AllowRegexDomains* to a JSON array for regex style whitelisting:
 ```bash
-curl -X PUT -d '[ "^collector-[0-9]+.newrelic.com$" ]' http://localhost:8500/v1/kv/$NUBIS_STACK/$NUBIS_ENVIRONMENT/config/AllowRegexDomains
+curl -X PUT -d '[ "^collector-[0-9]+.newrelic.com$" ]' http://localhost:8500/v1/kv/$NUBIS_PROJECT/$NUBIS_ENVIRONMENT/config/AllowRegexDomains
 ```
 
 The default for allowed subnets is *all*. For a custom list set *AllowSubnets* to a JSON array of subnets:
 ```bash
-curl -X PUT -d '[ "2620:101:8000::/40 # Mozilla public IPv6", "63.245.208.0/20 # Mozilla public IPv4" ]' http://localhost:8500/v1/kv/$NUBIS_STACK/$NUBIS_ENVIRONMENT/config/AllowSubnets
+curl -X PUT -d '[ "2620:101:8000::/40 # Mozilla public IPv6", "63.245.208.0/20 # Mozilla public IPv4" ]' http://localhost:8500/v1/kv/$NUBIS_PROJECT/$NUBIS_ENVIRONMENT/config/AllowSubnets
 ```
 
 The default denied domains is 'localhost' and '.localdomain'. You can set *DenyDomains* to a JSON array to modify this list:
 
 ```bash
-curl -X PUT -d '[ "localhost", ".localdomain", "some.domain.dom" ]' http://localhost:8500/v1/kv/$NUBIS_STACK/$NUBIS_ENVIRONMENT/config/DenyDomains
+curl -X PUT -d '[ "localhost", ".localdomain", "some.domain.dom" ]' http://localhost:8500/v1/kv/$NUBIS_PROJECT/$NUBIS_ENVIRONMENT/config/DenyDomains
 ```
 
 The default deny subnet list is:
@@ -54,17 +54,17 @@ The default deny subnet list is:
  * 172.16.0.0/12
 To modify this list set *DenySubnets* to a JSON array:
 ```bash
-curl -X PUT -d '[ "127.0.0.0/8", "::1/128", "10.0.0.0/8", "192.168.0.0/16", "172.16.0.0/12" ]' http://localhost:8500/v1/kv/$NUBIS_STACK/$NUBIS_ENVIRONMENT/config/DenySubnets
+curl -X PUT -d '[ "127.0.0.0/8", "::1/128", "10.0.0.0/8", "192.168.0.0/16", "172.16.0.0/12" ]' http://localhost:8500/v1/kv/$NUBIS_PROJECT/$NUBIS_ENVIRONMENT/config/DenySubnets
 ```
 
 To see what is currently set for any particular key you can query consul like so:
 ```bash
-curl -X GET http://localhost:8500/v1/kv/$NUBIS_STACK/$NUBIS_ENVIRONMENT/config/AllowRegexDomains?raw=1
+curl -X GET http://localhost:8500/v1/kv/$NUBIS_PROJECT/$NUBIS_ENVIRONMENT/config/AllowRegexDomains?raw=1
 ```
 
 To remove all custom configuration and reset to the defaults:
 ```bash
-curl -X DELETE http://localhost:8500/v1/kv/$NUBIS_STACK?recurse
+curl -X DELETE http://localhost:8500/v1/kv/$NUBIS_PROJECT?recurse
 ```
 
 ## Testing
