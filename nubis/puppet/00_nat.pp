@@ -28,6 +28,5 @@ class { 'nubis_nat':
 }
 
 class { 'nsm':
-    nsm_mailto  => 'michal@mozilla.com',
-    manage_heka => true,
+    nsm_mailto  => 'michal@mozilla.com'
 }
