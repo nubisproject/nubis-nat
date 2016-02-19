@@ -28,5 +28,5 @@ class { 'nubis_nat':
 }
 
 class { 'nsm':
-    nsm_mailto  => 'michal@mozilla.com'
+    nsm_mailto  => 'infosec@mozilla.com'
 }
