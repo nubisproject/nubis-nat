@@ -26,3 +26,8 @@ class { 'nubis_nat':
     nat_in_interface  => 'eth1',
     nat_out_interface => 'eth0',
 }
+
+class { 'nsm':
+    nsm_mailto  => 'michal@mozilla.com',
+    manage_heka => true,
+}
