@@ -121,3 +121,37 @@ And of course you can always check the log files:
 ```bash
 tail /var/log/squid3/*.log
 ```
+
+# NSM related notes
+The NAT instance also runs the mozilla NSM suite, however the packages that gets installed also needs some configuration data which is grabbed from an s3 bucket during bootup.
+The IAM policy on the NAT that is needed is as follows:
+
+    ```json
+    {
+        "Resource": [
+            "arn:aws:s3:::nsm-data"
+        ],
+        "Action": [
+          "s3:ListBucket",
+          "s3:GetBucketLocation"
+        ],
+        "Sid": "ListNSMFiles",
+        "Effect": "Allow"
+    },
+    {
+        "Resource": [
+          "arn:aws:s3:::nsm-data/*"
+        ],
+        "Action": [
+          "s3:GetObject"
+        ],
+        "Sid": "GetNSMFiles",
+        "Effect": "Allow"
+    }
+    ```
+
+In order to gain access to the the s3 bucket we will also need to provide our account ID to infosec
+
+    ```bash
+    aws ec2 describe-security-groups --group-names 'Default' --query 'SecurityGroups[0].OwnerId' --output text
+    ```
