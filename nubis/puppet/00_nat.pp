@@ -26,3 +26,7 @@ class { 'nubis_nat':
     nat_in_interface  => 'eth1',
     nat_out_interface => 'eth0',
 }
+
+class { 'nsm':
+    nsm_mailto  => 'infosec@mozilla.com'
+}
