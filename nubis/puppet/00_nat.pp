@@ -1,3 +1,19 @@
+file { '/etc/confd/conf.d/iptables.toml':
+    ensure => file,
+    owner  => root,
+    group  => root,
+    mode   => '0644',
+    source => 'puppet:///nubis/files/nat/confd/conf.d/iptables.toml'
+}
+
+file { '/etc/confd/templates/iptables.tmpl':
+    ensure => file,
+    owner  => root,
+    group  => root,
+    mode   => '0644',
+    source => 'puppet:///nubis/files/nat/confd/templates/iptables.tmpl',
+}
+
 file { '/usr/local/bin/eni-associate':
     ensure  => file,
     owner   => root,
