@@ -1,0 +1,9 @@
+[template]
+src = "iptables.tmpl"
+dest = "/usr/local/bin/iptables.pp"
+prefix = "/%%PROJECT%%/%%ENVIRONMENT%%"
+
+keys = [
+    "/config/IptablesAllowTCP",
+    "/config/IptablesAllowUDP"
+]

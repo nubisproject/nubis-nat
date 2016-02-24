@@ -1,0 +1,34 @@
+{{define "nat-chain" }}
+firewall { '000 snat for network %%VPC_CIDR%%':
+  chain    => 'POSTROUTING',
+  jump     => 'MASQUERADE',
+  proto    => 'all',
+  outiface => 'eth0',
+  source   => '%%VPC_CIDR%%',
+  table    => 'nat',
+}
+{{ end }}
+class { 'firewall': }
+{{ template "nat-chain" }}
+{{ if exists "/config/IptablesAllowTCP" }}{{ range jsonArray (getv "/config/IptablesAllowTCP") }}
+firewall { '001 allow tcp port {{.}}':
+    proto   => 'tcp',
+    dport   => {{.}},
+    action  => 'accept',
+    iniface => 'eth1',
+}
+{{end}}
+{{end}}
+{{ if exists "/config/IptablesAllowUDP" }}{{ range jsonArray (getv "/config/IptablesAllowUDP") }}
+firewall { '001 allow udp port {{.}}':
+    proto   => 'udp',
+    dport   => {{.}},
+    action  => 'accept',
+    iniface => 'eth1',
+}
+{{end}}
+{{end}}
+firewall { '999 deny all':
+    action  => 'reject',
+    proto   => 'all'
+}
