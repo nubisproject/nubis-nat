@@ -17,8 +17,7 @@ firewall { '001 allow tcp port {{.}}':
     action  => 'accept',
     iniface => 'eth1',
 }
-{{end}}
-{{end}}
+{{ end }}{{ end }}
 {{ if exists "/config/IptablesAllowUDP" }}{{ range jsonArray (getv "/config/IptablesAllowUDP") }}
 firewall { '001 allow udp port {{.}}':
     proto   => 'udp',
@@ -26,9 +25,10 @@ firewall { '001 allow udp port {{.}}':
     action  => 'accept',
     iniface => 'eth1',
 }
-{{end}}
-{{end}}
+{{ end }}{{ end }}
+{{ if (or (exists "/config/IptablesAllowTCP") (exists "/config/IptablesAllowUDP")) }}
 firewall { '999 deny all':
     action  => 'reject',
     proto   => 'all'
 }
+{{ end }}
