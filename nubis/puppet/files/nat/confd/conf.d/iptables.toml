@@ -2,6 +2,9 @@
 src = "iptables.tmpl"
 dest = "/usr/local/bin/iptables.pp"
 prefix = "/%%PROJECT%%/%%ENVIRONMENT%%"
+uid = 0
+gid = 0
+mode = "0644"
 
 keys = [
     "/config/IptablesAllowTCP",
