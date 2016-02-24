@@ -9,6 +9,11 @@ firewall { '000 snat for network %%VPC_CIDR%%':
 }
 {{ end }}
 class { 'firewall': }
+
+resources { 'firewall':
+    purge   => true,
+}
+
 {{ template "nat-chain" }}
 {{ if exists "/config/IptablesAllowTCP" }}{{ range jsonArray (getv "/config/IptablesAllowTCP") }}
 firewall { '001 allow tcp port {{.}}':

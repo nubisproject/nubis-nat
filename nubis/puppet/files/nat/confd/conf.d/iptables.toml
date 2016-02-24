@@ -10,3 +10,5 @@ keys = [
     "/config/IptablesAllowTCP",
     "/config/IptablesAllowUDP"
 ]
+
+reload_cmd = "/usr/bin/puppet apply --modulepath /etc/puppet/modules /usr/local/bin/iptables.pp"
