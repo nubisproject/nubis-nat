@@ -1,0 +1,129 @@
+#!/bin/bash
+
+# These 2 settings should be configurable, but care needs to be taken with the KeyIDs
+BLOCKLIST_URL=https://people.mozilla.org/~pchiasson/blocklist/blocklist.txt.asc
+
+# This key will only be retrieved and trusted from nubis-secret
+BLOCKLIST_KEYID=F9BFE0C2480E76801AE53631CB32A10788C3A5A5
+
+export PATH=/usr/local/bin:$PATH
+
+ENVIRONMENT=$(nubis-metadata NUBIS_ENVIRONMENT)
+PROJECT=$(nubis-metadata NUBIS_PROJECT)
+INSTANCE_ID=$(curl -fqs http://169.254.169.254/latest/meta-data/instance-id)
+
+# We only run this on the elected leader of the NAT instances, if its not us, bail out
+consul-do "$PROJECT/$ENVIRONMENT/blocklist" "$INSTANCE_ID" || exit
+
+for MAC in $(curl -fqs http://169.254.169.254/latest/meta-data/network/interfaces/macs/); do
+  VPC_ID=$(curl -fqs "http://169.254.169.254/latest/meta-data/network/interfaces/macs/$MAC/vpc-id")
+done
+
+REGION=$(curl -s http://169.254.169.254/latest/dynamic/instance-identity/document | jq '.region' -r)
+NACL_ID=$(aws --region "$REGION" ec2 describe-network-acls --filters "Name=vpc-id,Values=$VPC_ID" | jq -r '.NetworkAcls[].NetworkAclId')
+
+function create_acl () {
+  INDEX=$1
+  CIDR=$2
+  ACTION=$3
+
+  ERROR=0
+  ACTION_LOG=$(mktemp)
+
+  echo -n "$INDEX:$CIDR $ACTION "
+
+  aws --region us-west-2 ec2 replace-network-acl-entry --network-acl-id "$NACL_ID" --rule-number "$COUNTER" --ingress --protocol all --rule-action ALLOW --cidr-block "$CIDR" > "$ACTION_LOG" 2>&1
+  RC=$?
+
+  # Update failed, try creating
+  if [ "255" == "$RC" ]; then
+    aws --region us-west-2 ec2 create-network-acl-entry --network-acl-id "$NACL_ID" --rule-number "$COUNTER" --ingress --protocol all --rule-action ALLOW --cidr-block "$CIDR" >> "$ACTION_LOG" 2>&1
+    RC=$?
+    # Creation failed, bad
+    if [ "0" != "$RC" ]; then
+      ERROR=$RC
+    fi
+  elif [ "$RC" != "0" ]; then
+    # Unexpected failure updating
+    ERROR=$RC
+  fi
+
+  if [ "$ERROR" == "0" ]; then
+    echo "OK"
+  else
+    echo "FAILED: $ERROR"
+    sed -e's/^/  /g' < "$ACTION_LOG"
+  fi
+
+  rm "$ACTION_LOG"
+}
+
+function clear_acl () {
+  INDEX=$1
+  create_acl "$INDEX" "0.0.0.0/32" "ALLOW"
+}
+
+function get_blocklist () {
+  local BLOCKLIST_FILE=/var/run/nat-blocklist.txt.asc
+  # See if we have the key already
+  gpg --quiet --batch --list-keys "$BLOCKLIST_KEYID" >/dev/null 2>&1
+
+  # Otherwise, get it from nubis-secret
+  if [ "$?" != "0" ]; then
+    nubis-secret --global get nat/blocklist/gpg-key/0x$BLOCKLIST_KEYID | gpg --import > /dev/null 2>&1
+    if [ "$?" != "0" ]; then
+      echo "nubis-secret/gpg-import failed $?"
+      exit 3
+    fi
+  fi
+
+  # update the blocklist
+  HTTP_STATUS=$(curl -w "%{http_code}" --retry 5 -fqs -z $BLOCKLIST_FILE -o $BLOCKLIST_FILE "$BLOCKLIST_URL" 2> /dev/null)
+
+  if [ "$?" != "0" ]; then
+    echo "Curl failed $?"
+    exit 4
+  fi
+
+  if [ "$HTTP_STATUS" == "304" ]; then
+    exit 2
+  fi
+
+  # Verify signature *and* get at content
+  gpg --status-fd 1 2>/dev/null < $BLOCKLIST_FILE | grep "^\[GNUPG:\] VALIDSIG $BLOCKLIST_KEYID" > /dev/null
+
+  if [ "$?" != "0" ]; then
+    echo "Not a trusted signature"
+    exit 5
+  fi
+
+  BL=$(gpg --quiet --batch 2>/dev/null < $BLOCKLIST_FILE)
+
+  if [ "$?" == "0" ]; then
+    echo "$BL"
+  else
+    exit 6
+  fi
+}
+
+BLOCKLIST=$(get_blocklist)
+RC=$?
+if [ "$RC" == "2" ]; then
+  echo "List not modified, nothing to do"
+  exit
+elif [ "$RC" != "0" ]; then
+  echo "Couldn't verify blocklist! Aborting ($BLOCKLIST)"
+  exit
+fi
+
+COUNTER=0
+for IP in $BLOCKLIST; do
+  COUNTER=$((COUNTER + 1))
+  create_acl "$COUNTER" "$IP" "DENY"
+done
+
+MAX_RULES=18
+while [ "$COUNTER" -lt "$MAX_RULES" ]; do
+  COUNTER=$((COUNTER + 1))
+  clear_acl "$COUNTER"
+done
