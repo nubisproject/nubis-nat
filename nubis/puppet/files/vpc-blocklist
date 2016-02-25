@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Protect against parallel execution, only one copy can run at a time, we exit otherwise
+[ "${FLOCKER}" != "$0" ] && exec env FLOCKER="$0" flock -E0 -en "$0" "$0" "$@" || :
+
 # These 2 settings should be configurable, but care needs to be taken with the KeyIDs
 BLOCKLIST_URL=https://people.mozilla.org/~pchiasson/blocklist/blocklist.txt.asc
 
