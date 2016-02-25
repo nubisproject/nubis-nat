@@ -15,7 +15,7 @@ resources { 'firewall':
 }
 
 firewall { '000 allow ssh':
-    proto   => 'all',
+    proto   => 'tcp',
     dport   => '22',
     action  => 'accept',
 }
