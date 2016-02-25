@@ -112,7 +112,6 @@ function get_blocklist () {
 BLOCKLIST=$(get_blocklist)
 RC=$?
 if [ "$RC" == "2" ]; then
-  echo "List not modified, nothing to do"
   exit
 elif [ "$RC" != "0" ]; then
   echo "Couldn't verify blocklist! Aborting ($BLOCKLIST)"
