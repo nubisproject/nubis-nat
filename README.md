@@ -67,6 +67,25 @@ To remove all custom configuration and reset to the defaults:
 curl -X DELETE http://localhost:8500/v1/kv/$NUBIS_PROJECT?recurse
 ```
 
+## Forcing connection through proxy
+In order to force our connections through the proxy we will need to deny all connections via iptables and only allow connections through a set list of ports
+
+To start we need to set up the environment from user data. We need the ```$NUBIS_PROJECT``` and ```$NUBIS_ENVIRONMENT``` user data
+```bash
+eval $(curl -fs http://169.254.169.254/latest/user-data)
+
+Add the allowed ports in consul
+```bash
+curl -X PUT -d '[ "3128", "80", "443", "123" ]' http://localhost:8500/v1/kv/$NUBIS_PROJECT/$NUBIS_ENVIRONMENT/config/IptablesAllowTCP
+```
+
+We can do the same thing for UDP as well
+```bash
+curl -X PUT -d '[ "3128", "80", "443", "123" ]' http://localhost:8500/v1/kv/$NUBIS_PROJECT/$NUBIS_ENVIRONMENT/config/IptablesAllowUDP
+```
+
+This generates a puppet file in `/usr/local/bin/iptables.pp` and confd will reload the command by running `puppet apply`
+
 ## Testing
 After building a new proxy image you should start it using the template in the *nubis/cloudformation* folder, ssh in and test some basic functionality.
 
@@ -126,7 +145,7 @@ tail /var/log/squid3/*.log
 The NAT instance also runs the mozilla NSM suite, however the packages that gets installed also needs some configuration data which is grabbed from an s3 bucket during bootup.
 The IAM policy on the NAT that is needed is as follows:
 
-    ```json
+```json
     {
         "Resource": [
             "arn:aws:s3:::nsm-data"
@@ -148,10 +167,10 @@ The IAM policy on the NAT that is needed is as follows:
         "Sid": "GetNSMFiles",
         "Effect": "Allow"
     }
-    ```
+```
 
 In order to gain access to the the s3 bucket we will also need to provide our account ID to infosec
 
-    ```bash
-    aws ec2 describe-security-groups --group-names 'Default' --query 'SecurityGroups[0].OwnerId' --output text
-    ```
+```bash
+aws ec2 describe-security-groups --group-names 'Default' --query 'SecurityGroups[0].OwnerId' --output text
+```
