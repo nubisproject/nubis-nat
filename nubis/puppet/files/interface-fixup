@@ -4,7 +4,7 @@
 
 mac_eth1=$(__get_mac eth1)
 ip_addr=$(curl -s -fq "http://169.254.169.254/latest/meta-data/network/interfaces/macs/${mac_eth1}/local-ipv4s")
-vpc_cidr="http://169.254.169.254/latest/meta-data/network/interfaces/macs/${mac_eth1}/vpc-ipv4-cidr-block"
+vpc_cidr=$(curl --retry 3 -s -fq "http://169.254.169.254/latest/meta-data/network/interfaces/macs/${mac_eth1}/vpc-ipv4-cidr-block")
 
 cat <<EOF | tee /etc/consul/interface.json
 {
@@ -12,4 +12,4 @@ cat <<EOF | tee /etc/consul/interface.json
 }
 EOF
 
-find /etc/confd/templates -type f -name '*.tmpl' | xargs --verbose sed -i -e "s/%%VPC_CIDR%%/$vpc_cidr/g"
+sed -i -e "s/%%VPC_CIDR%%/$vpc_cidr/g" /etc/confd/templates/iptables.tmpl
