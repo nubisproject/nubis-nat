@@ -2,9 +2,18 @@
 
 [ -e /usr/local/lib/nubis/nubis-lib.sh ] && . /usr/local/lib/nubis/nubis-lib.sh || exit 1
 
-mac_eth1=$(__get_mac eth1)
-ip_addr=$(curl -s -fq "http://169.254.169.254/latest/meta-data/network/interfaces/macs/${mac_eth1}/local-ipv4s")
-vpc_cidr=$(curl --retry 3 -s -fq "http://169.254.169.254/latest/meta-data/network/interfaces/macs/${mac_eth1}/vpc-ipv4-cidr-block")
+# wait for mac address to be ready once
+# eni gets attached, we assume eni gets attached
+attempts=0
+until [ ! -z "${mac_eth1}" ] || [ "${attempts}" -eq 10 ]; do
+    log "Waiting on mac address of eth1 to be ready"
+    mac_eth1=$(__get_mac eth1)
+    sleep 5
+    let attempts++
+done
+
+ip_addr=$(curl --retry 5 -s -fq "http://169.254.169.254/latest/meta-data/network/interfaces/macs/${mac_eth1}/local-ipv4s")
+vpc_cidr=$(curl --retry 5 -s -fq "http://169.254.169.254/latest/meta-data/network/interfaces/macs/${mac_eth1}/vpc-ipv4-cidr-block")
 
 cat <<EOF | tee /etc/consul/interface.json
 {
@@ -12,4 +21,7 @@ cat <<EOF | tee /etc/consul/interface.json
 }
 EOF
 
-sed -i -e "s/%%VPC_CIDR%%/$vpc_cidr/g" /etc/confd/templates/iptables.tmpl
+perl -pi -e "s[%%VPC_CIDR%%][$vpc_cidr]g" /etc/confd/templates/iptables.tmpl
+
+# restarting consul to pickup advertise_addr
+service consul restart
