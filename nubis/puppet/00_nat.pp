@@ -23,14 +23,14 @@ file { '/usr/local/bin/eni-associate':
 }
 
 # This needs to happen before nat is configured
-file { '/etc/nubis.d/98-eni-associate':
+file { '/etc/nubis.d/000-eni-associate':
     ensure  => link,
     target  => '/usr/local/bin/eni-associate',
     require => File['/usr/local/bin/eni-associate'],
 }
 
-# This is 000 on purpose it needs to run before consul
-file { '/etc/nubis.d/000-interface-fixup':
+# This is 001 on purpose it needs to run before consul
+file { '/etc/nubis.d/001-interface-fixup':
     ensure => file,
     owner  => root,
     group  => root,
