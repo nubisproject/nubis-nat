@@ -17,7 +17,8 @@ vpc_cidr=$(curl --retry 5 -s -fq "http://169.254.169.254/latest/meta-data/networ
 
 cat <<EOF | tee /etc/consul/interface.json
 {
-  "advertise_addr": "$ip_addr"
+  "advertise_addr": "$ip_addr",
+  "bind_addr": "$ip_addr"
 }
 EOF
 
