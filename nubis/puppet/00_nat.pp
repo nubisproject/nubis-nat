@@ -1,3 +1,11 @@
+file { '/etc/sysconfig/iptables.save':
+    ensure => file,
+    owner  => root,
+    group  => root,
+    mode   => '0644',
+    source => 'puppet:///nubis/files/nat/iptables.save',
+}
+
 file { '/etc/confd/conf.d/iptables.toml':
     ensure => file,
     owner  => root,
