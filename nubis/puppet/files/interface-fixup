@@ -23,6 +23,3 @@ cat <<EOF | tee /etc/consul/interface.json
 EOF
 
 perl -pi -e "s[%%VPC_CIDR%%][$vpc_cidr]g" /etc/confd/templates/iptables.tmpl
-
-# restarting consul to pickup advertise_addr
-service consul restart
