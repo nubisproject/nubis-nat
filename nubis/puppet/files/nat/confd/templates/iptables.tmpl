@@ -1,13 +1,16 @@
 {{define "nat-chain" }}
-firewall { '000 snat for network %%VPC_CIDR%%':
+firewall { "000 snat for network ${vpc_cidr}":
   chain    => 'POSTROUTING',
   jump     => 'MASQUERADE',
   proto    => 'all',
   outiface => 'eth0',
-  source   => '%%VPC_CIDR%%',
+  source   => $vpc_cidr,
   table    => 'nat',
 }
 {{ end }}
+
+$vpc_cidr = '%%VPC_CIDR%%'
+
 class { 'firewall': }
 
 resources { 'firewall':
