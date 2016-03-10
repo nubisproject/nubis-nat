@@ -1,13 +1,16 @@
 #!/bin/bash
 
 # Protect against parallel execution, only one copy can run at a time, we exit otherwise
+# shellcheck disable=SC2015
 [ "${FLOCKER}" != "$0" ] && exec env FLOCKER="$0" flock -E0 -en "$0" "$0" "$@" || :
 
 # These 2 settings should be configurable, but care needs to be taken with the KeyIDs
-BLOCKLIST_URL=https://people.mozilla.org/~pchiasson/blocklist/blocklist.txt.asc
+BLOCKLIST_URL=https://s3.amazonaws.com/mozilla_infosec_blocklist/blocklist
 
 # This key will only be retrieved and trusted from nubis-secret
-BLOCKLIST_KEYID=F9BFE0C2480E76801AE53631CB32A10788C3A5A5
+# Set to a long keyid without prefix 0x to enable
+# BLOCKLIST_KEYID=F9BFE0C2480E76801AE53631CB32A10788C3A5A5
+BLOCKLIST_KEYID=
 
 export PATH=/usr/local/bin:$PATH
 
@@ -68,15 +71,18 @@ function clear_acl () {
 
 function get_blocklist () {
   local BLOCKLIST_FILE=/var/run/nat-blocklist.txt.asc
-  # See if we have the key already
-  gpg --quiet --batch --list-keys "$BLOCKLIST_KEYID" >/dev/null 2>&1
 
-  # Otherwise, get it from nubis-secret
-  if [ "$?" != "0" ]; then
-    nubis-secret --global get nat/blocklist/gpg-key/0x$BLOCKLIST_KEYID | gpg --import > /dev/null 2>&1
+  if [ "$BLOCKLIST_KEYID" != "" ]; then
+    # See if we have the key already
+    gpg --quiet --batch --list-keys "$BLOCKLIST_KEYID" >/dev/null 2>&1
+
+    # Otherwise, get it from nubis-secret
     if [ "$?" != "0" ]; then
-      echo "nubis-secret/gpg-import failed $?"
-      exit 3
+      nubis-secret --global get nat/blocklist/gpg-key/0x$BLOCKLIST_KEYID | gpg --import > /dev/null 2>&1
+      if [ "$?" != "0" ]; then
+        echo "nubis-secret/gpg-import failed $?"
+        exit 3
+      fi
     fi
   fi
 
@@ -92,15 +98,19 @@ function get_blocklist () {
     exit 2
   fi
 
-  # Verify signature *and* get at content
-  gpg --status-fd 1 2>/dev/null < $BLOCKLIST_FILE | grep "^\[GNUPG:\] VALIDSIG $BLOCKLIST_KEYID" > /dev/null
+  if [ "$BLOCKLIST_KEYID" != "" ]; then
+    # Verify signature *and* get at content
+    gpg --status-fd 1 2>/dev/null < $BLOCKLIST_FILE | grep "^\[GNUPG:\] VALIDSIG $BLOCKLIST_KEYID" > /dev/null
 
-  if [ "$?" != "0" ]; then
-    echo "Not a trusted signature"
-    exit 5
+    if [ "$?" != "0" ]; then
+      echo "Not a trusted signature"
+      exit 5
+    fi
+
+    BL=$(gpg --quiet --batch 2>/dev/null < $BLOCKLIST_FILE)
+  else
+    BL=$(cat $BLOCKLIST_FILE)
   fi
-
-  BL=$(gpg --quiet --batch 2>/dev/null < $BLOCKLIST_FILE)
 
   if [ "$?" == "0" ]; then
     echo "$BL"
