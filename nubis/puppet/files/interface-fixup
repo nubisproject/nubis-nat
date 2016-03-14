@@ -7,7 +7,7 @@
 attempts=0
 until [ ! -z "${mac_eth0}" ] || [ "${attempts}" -eq 10 ]; do
     log "Waiting on mac address of eth1 to be ready"
-    mac_eth1=$(__get_mac eth0)
+    mac_eth0=$(__get_mac eth0)
     sleep 5
     let attempts++
 done
