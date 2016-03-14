@@ -55,10 +55,10 @@ echo "Done"
 
 # Lets wait for ENI to become ready first
 attempts=0
-until [ ! -z "${ENI_ID}" ] || [ "${attempts}" -eq 10 ]; do
+until [ ! -z "${ENI_ID}" ] || [ "${attempts}" -eq 30 ]; do
     log "Waiting for ENI to become available"
     ENI_ID=$(_get_eni_id ${REGION} ${NUBIS_STACK})
-    sleep 5
+    sleep 10
     let attempts++
 done
 
