@@ -354,22 +354,41 @@ firewall { '008 allow inbound tcp consul eth1':
 }
 
 # allow squid outbound
-firewall { '009 allow outbound squid':
+firewall { '009 allow outbound udp squid':
     chain    => 'OUTPUT',
     outiface => 'eth0',
-    proto    => ['tcp', 'udp'],
-    dport    => '3128',
-    sport    => '1025-65535',
+    proto    => 'udp',
+    sport    => '3128',
+    dport    => '1025-65535',
     action   => 'accept',
 }
 
-firewall { '009 allow inbound squid':
+firewall { '009 allow inbound udp squid':
     chain   => 'INPUT',
     iniface => 'eth0',
     source  => $vpc_cidr,
-    proto   => [ 'tcp', 'udp' ],
-    sport   => '3128',
-    dport   => '1025-65535',
+    proto   => 'udp',
+    dport   => '3128',
+    sport   => '1025-65535',
+    action  => 'accept',
+}
+
+firewall { '009 allow outbound tcp squid':
+    chain    => 'OUTPUT',
+    outiface => 'eth0',
+    proto    => 'tcp',
+    sport    => '3128',
+    dport    => '1025-65535',
+    action   => 'accept',
+}
+
+firewall { '009 allow inbound tcp squid':
+    chain   => 'INPUT',
+    iniface => 'eth0',
+    source  => $vpc_cidr,
+    proto   => 'tcp',
+    dport   => '3128',
+    sport   => '1025-65535',
     action  => 'accept',
 }
 
