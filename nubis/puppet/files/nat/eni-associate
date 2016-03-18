@@ -46,6 +46,32 @@ function _get_eni_id {
         --output text
 }
 
+# returns vpc_subnet_cidr
+function get_vpc_subnet_cidr() {
+    if [ -z "$1" ]; then echo "Usage: ${FUNCNAME} [interface]"; return 1; fi
+
+    local interface=$1
+    mac_addr=$(__get_mac ${interface})
+
+    local vpc_subnet_cidr=$(curl -s -fq --retry 5 "http://169.254.169.254/latest/meta-data/network/interfaces/macs/${mac_addr}/subnet-ipv4-cidr-block")
+    echo "${vpc_subnet_cidr}"
+}
+
+# Wait for the interface to show up after attaching ENI
+function wait_for_interface() {
+    if [ -z "$1" ]; then echo "Usage: ${FUNCNAME} [interface]"; return 1; fi
+
+    local interface=$1
+
+    local attempts=0
+    until [ -z "${interface_mac}" ] || [ "${attempts}" -eq 30 ]; do
+        log "Waiting for interface ${interface} to be ready"
+        mac_interface=$(__get_mac "${interface}")
+        sleep 10
+        let attempts++
+    done
+}
+
 INSTANCE_ID=$(get_instance_id)
 REGION=$(get_region)
 
@@ -65,7 +91,17 @@ done
 if [[ ! -z "${ENI_ID}" ]]; then
     log "Attaching ${ENI_ID} to ${INSTANCE_ID}"
     aws ec2 attach-network-interface --region ${REGION} --network-interface-id ${ENI_ID} --instance-id ${INSTANCE_ID} --device-index 1
-    echo "${ENI_ID}" > /var/tmp/eni_id
+    RV=$?
+    if [ ${RV} -ne 0 ]; then
+        log "Sucesfully attached ${ENI_ID} to ${INSTANCE_ID}"
+        echo "${ENI_ID}" > /var/tmp/eni_id
+        wait_for_interface eth1
+
+        # once eth1 is up and running we can kill the routes
+        vpc_subnet_cidr=$(get_vpc_subnet_cidr eth0)
+        route del default eth1
+        route del -net ${vpc_subnet_cidr} dev eth0
+    fi
 else
     # Assuming if it hits here we do not attach
     log "Unable to attach ${ENI_ID} to ${INSTANCE_ID}"
