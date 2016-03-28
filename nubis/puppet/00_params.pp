@@ -4,7 +4,7 @@ case $::osfamily {
         $use_deprecated_opts            = true
         $makepasswd_package_version     = '5.44.1.15-5.12.amzn1'
         $makepasswd_package_name        = 'expect'
-        $git_package_version            = '2.4.3-6.40.amzn1'
+        $git_package_version            = '2.7.3-1.46.amzn1'
         $git_package_name               = 'git'
         $package_manager_update_command = '/usr/bin/yum check-update'
         $motd_update_command            = '/usr/sbin/update-motd'
