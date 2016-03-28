@@ -97,8 +97,8 @@ firewall { '002 allow outbound udp dns eth1':
      chain    => 'OUTPUT',
      outiface => 'eth1',
      proto    => 'udp',
-     sport    => '53',
-     dport    => '1025-65535',
+     dport    => '53',
+     sport    => '1025-65535',
      action   => 'accept',
 }
 
@@ -106,8 +106,8 @@ firewall { '002 allow inbound udp dns eth1':
      chain   => 'INPUT',
      iniface => 'eth1',
      proto   => 'udp',
-     dport   => '53',
-     sport   => '1025-65535',
+     sport   => '53',
+     dport   => '1025-65535',
      action  => 'accept',
 }
 
@@ -136,8 +136,8 @@ firewall { '003 allow tcp outbound dns eth1':
     outiface  => 'eth1',
     proto     => 'tcp',
     tcp_flags => '! SYN,RST,ACK,FIN SYN',
-    sport     => '53',
-    dport     => '1025-65535',
+    dport     => '53',
+    sport     => '1025-65535',
     action    => 'accept',
 }
 
@@ -145,8 +145,8 @@ firewall { '003 allow tcp inbound dns eth1':
     chain   => 'INPUT',
     iniface => 'eth1',
     proto   => 'tcp',
-    dport   => '53',
-    sport   => '1025-65535',
+    sport   => '53',
+    dport   => '1025-65535',
     action  => 'accept',
 }
 
@@ -291,9 +291,9 @@ firewall { '007 allow inbound tcp consul eth0':
 }
 
 # consul outbound port 8301 tcp
-firewall { '007 allow inbound tcp port 8301 eth0':
+firewall { '007 allow inbound tcp port 8301 eth1':
     chain   => 'INPUT',
-    iniface => 'eth0',
+    iniface => 'eth1',
     source  => $vpc_cidr,
     proto   => 'tcp',
     dport   => '8301',
@@ -301,9 +301,9 @@ firewall { '007 allow inbound tcp port 8301 eth0':
     action  => 'accept',
 }
 
-firewall { '007 allow outbound tcp port 8301 eth0':
+firewall { '007 allow outbound tcp port 8301 eth1':
     chain       => 'OUTPUT',
-    outiface    => 'eth0',
+    outiface    => 'eth1',
     destination => $vpc_cidr,
     proto       => 'tcp',
     sport       => '8301',
@@ -356,7 +356,7 @@ firewall { '008 allow inbound tcp consul eth1':
 # allow squid outbound
 firewall { '009 allow outbound udp squid':
     chain    => 'OUTPUT',
-    outiface => 'eth0',
+    outiface => 'eth1',
     proto    => 'udp',
     sport    => '3128',
     dport    => '1025-65535',
@@ -365,7 +365,7 @@ firewall { '009 allow outbound udp squid':
 
 firewall { '009 allow inbound udp squid':
     chain   => 'INPUT',
-    iniface => 'eth0',
+    iniface => 'eth1',
     source  => $vpc_cidr,
     proto   => 'udp',
     dport   => '3128',
@@ -375,7 +375,7 @@ firewall { '009 allow inbound udp squid':
 
 firewall { '009 allow outbound tcp squid':
     chain    => 'OUTPUT',
-    outiface => 'eth0',
+    outiface => 'eth1',
     proto    => 'tcp',
     sport    => '3128',
     dport    => '1025-65535',
@@ -384,7 +384,7 @@ firewall { '009 allow outbound tcp squid':
 
 firewall { '009 allow inbound tcp squid':
     chain   => 'INPUT',
-    iniface => 'eth0',
+    iniface => 'eth1',
     source  => $vpc_cidr,
     proto   => 'tcp',
     dport   => '3128',
@@ -439,7 +439,7 @@ firewall { "010 allow inbound ntp from ${vpc_cidr} to unpriviledged port":
 # ssh rules
 firewall { '011 allow outbound ssh':
     chain    => 'OUTPUT',
-    outiface => 'eth0',
+    outiface => 'eth1',
     proto    => tcp,
     sport    => '22',
     dport    => '1025-65535',
@@ -448,7 +448,7 @@ firewall { '011 allow outbound ssh':
 
 firewall { '011 allow inbound ssh':
     chain   => 'INPUT',
-    iniface => 'eth0',
+    iniface => 'eth1',
     source  => $vpc_cidr,
     proto   => tcp,
     dport   => '22',
@@ -459,7 +459,7 @@ firewall { '011 allow inbound ssh':
 # allow DHCP
 firewall { '012 allow inbound dhcp to broadcast':
     chain       => 'OUTPUT',
-    outiface    => 'eth0',
+    outiface    => 'eth1',
     proto       => 'udp',
     source      => '0.0.0.0/0',
     sport       => '68',
@@ -470,7 +470,7 @@ firewall { '012 allow inbound dhcp to broadcast':
 
 firewall { '012 allow outbound dhcp to broadcast':
     chain       => 'INPUT',
-    iniface     => 'eth0',
+    iniface     => 'eth1',
     proto       => 'udp',
     source      => '0.0.0.0/0',
     sport       => '67',
@@ -481,7 +481,7 @@ firewall { '012 allow outbound dhcp to broadcast':
 
 firewall { "012 allow inbound dhcp from ${vpc_cidr} to broadcast":
     chain       => 'INPUT',
-    iniface     => 'eth0',
+    iniface     => 'eth1',
     proto       => 'udp',
     source      => $vpc_cidr,
     sport       => '67',
@@ -492,7 +492,7 @@ firewall { "012 allow inbound dhcp from ${vpc_cidr} to broadcast":
 
 firewall { "012 allow outbound dhcp from anywhere to ${vpc_cidr}":
     chain       => 'OUTPUT',
-    outiface    => 'eth0',
+    outiface    => 'eth1',
     proto       => 'udp',
     source      => '0.0.0.0/0',
     sport       => '68',
@@ -503,7 +503,7 @@ firewall { "012 allow outbound dhcp from anywhere to ${vpc_cidr}":
 
 firewall { "012 allow inbound dhcp from ${vpc_cidr} to ${vpc_cidr}":
     chain       => 'INPUT',
-    iniface     => 'eth0',
+    iniface     => 'eth1',
     proto       => 'udp',
     source      => $vpc_cidr,
     sport       => '67',
@@ -514,7 +514,7 @@ firewall { "012 allow inbound dhcp from ${vpc_cidr} to ${vpc_cidr}":
 
 firewall { "012 allow outbound dhcp from ${vpc_cidr} to ${vpc_cidr}":
     chain       => 'OUTPUT',
-    outiface    => 'eth0',
+    outiface    => 'eth1',
     proto       => 'udp',
     source      => $vpc_cidr,
     sport       => '68',
