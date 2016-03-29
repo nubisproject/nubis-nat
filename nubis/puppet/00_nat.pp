@@ -6,6 +6,14 @@ file { '/etc/sysconfig/iptables.save':
     source => 'puppet:///nubis/files/nat/iptables.save',
 }
 
+file { '/etc/profile.d/proxy.sh':
+    ensure  => file,
+    owner   => root,
+    group   => root,
+    mode    => '0644',
+    source  => 'puppet:///nubis/files/nat/profile.d_proxy.sh',
+}
+
 file { '/etc/confd/conf.d/iptables.toml':
     ensure => file,
     owner  => root,
