@@ -62,14 +62,46 @@ function wait_for_interface() {
     if [ -z "$1" ]; then echo "Usage: ${FUNCNAME} [interface]"; return 1; fi
 
     local interface=$1
-
     local attempts=0
+    mac_interface=$(__get_mac "${interface}")
+
     until [ -z "${interface_mac}" ] || [ "${attempts}" -eq 30 ]; do
         log "Waiting for interface ${interface} to be ready"
-        mac_interface=$(__get_mac "${interface}")
         sleep 10
+        mac_interface=$(__get_mac "${interface}")
         let attempts++
     done
+}
+
+function wait_for_route() {
+    if [ -z "$1" ]; then echo "Usage: ${FUNCNAME} [interface]"; return 1; fi
+
+    local interface=$1
+    local attempts=0
+
+    route_table=$(/sbin/route | grep default | grep "${interface}")
+    until [ ! -z "${route_table}" ] || [ "${attempts}" -eq 30 ]; do
+        log "Waiting for route to come up"
+        sleep 10
+        route_table=$(/sbin/route | grep default | grep "${interface}")
+        let attempts++
+    done
+}
+
+# Remove extra routes, it waits for eni to be ready and route to be ready first
+function remove_routes() {
+    wait_for_interface eth1
+    wait_for_route eth1
+
+    vpc_subnet_cidr=$(get_vpc_subnet_cidr eth0)
+    /sbin/route -n
+
+    log "Removing default route for eth1"
+    /sbin/route del default eth1
+
+    log "Removing ${vpc_subnet_cidr} route from eth0"
+    /sbin/route del -net "${vpc_subnet_cidr}" dev eth0
+
 }
 
 INSTANCE_ID=$(get_instance_id)
@@ -95,12 +127,7 @@ if [[ ! -z "${ENI_ID}" ]]; then
     if [ ${RV} -ne 1 ]; then
         log "Sucesfully attached ${ENI_ID} to ${INSTANCE_ID}"
         echo "${ENI_ID}" > /var/tmp/eni_id
-        wait_for_interface eth1
-
-        # once eth1 is up and running we can kill the routes
-        vpc_subnet_cidr=$(get_vpc_subnet_cidr eth0)
-        route del default eth1
-        route del -net ${vpc_subnet_cidr} dev eth0
+        remove_routes
     fi
 else
     # Assuming if it hits here we do not attach
