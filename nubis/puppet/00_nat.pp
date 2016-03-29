@@ -14,6 +14,22 @@ file { '/etc/profile.d/proxy.sh':
     source  => 'puppet:///nubis/files/nat/profile.d_proxy.sh',
 }
 
+file { '/etc/rsyslog.d/99-iptables.conf':
+    ensure => file,
+    owner  => root,
+    group  => root,
+    mode   => '0644',
+    source => 'puppet:///nubis/files/nat/logging/99-iptables.conf',
+}
+
+file { '/etc/logrotate.d/iptables':
+    ensure => file,
+    owner  => root,
+    group  => root,
+    mode   => '0644',
+    source => 'puppet:///nubis/files/nat/logging/logrotate_iptables.conf',
+}
+
 file { '/etc/confd/conf.d/iptables.toml':
     ensure => file,
     owner  => root,

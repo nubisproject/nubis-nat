@@ -33,3 +33,15 @@ fluentd::source { 'squid_store':
     'path' => '/var/log/squid3/store.log',
   },
 }
+
+fluentd::configfile { 'iptables': }
+
+fluentd::source { 'iptables':
+    configfile => 'iptables',
+    type       => 'tail',
+    format     => 'none',
+    tag        => 'forward.iptables',
+    config     => {
+        'path' => '/var/log/iptables.log',
+    },
+}
