@@ -92,7 +92,7 @@ if [[ ! -z "${ENI_ID}" ]]; then
     log "Attaching ${ENI_ID} to ${INSTANCE_ID}"
     aws ec2 attach-network-interface --region ${REGION} --network-interface-id ${ENI_ID} --instance-id ${INSTANCE_ID} --device-index 1
     RV=$?
-    if [ ${RV} -ne 0 ]; then
+    if [ ${RV} -ne 1 ]; then
         log "Sucesfully attached ${ENI_ID} to ${INSTANCE_ID}"
         echo "${ENI_ID}" > /var/tmp/eni_id
         wait_for_interface eth1
