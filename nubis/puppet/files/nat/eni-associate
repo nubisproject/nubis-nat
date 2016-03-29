@@ -42,7 +42,7 @@ function _get_eni_id {
             Name=tag-value,Values=nubis-nat-eni-${environment} \
             Name=availability-zone,Values=${availability_zone}\
         --query \
-            'NetworkInterfaces[?Status == `available`][NetworkInterfaceId]'\
+            'NetworkInterfaces[*][NetworkInterfaceId]'\
         --output text
 }
 
