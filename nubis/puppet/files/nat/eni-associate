@@ -94,14 +94,12 @@ function remove_routes() {
     wait_for_route eth1
 
     vpc_subnet_cidr=$(get_vpc_subnet_cidr eth0)
-    /sbin/route -n
 
     log "Removing default route for eth1"
     /sbin/route del default eth1
 
     log "Removing ${vpc_subnet_cidr} route from eth0"
     /sbin/route del -net "${vpc_subnet_cidr}" dev eth0
-
 }
 
 INSTANCE_ID=$(get_instance_id)
