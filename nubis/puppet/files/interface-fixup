@@ -2,18 +2,22 @@
 
 [ -e /usr/local/lib/nubis/nubis-lib.sh ] && . /usr/local/lib/nubis/nubis-lib.sh || exit 1
 
+consul_interface="eth1"
+
 # wait for mac address to be ready once
 # eni gets attached, we assume eni gets attached
 attempts=0
-until [ ! -z "${mac_eth0}" ] || [ "${attempts}" -eq 10 ]; do
+until [ ! -z "${mac_eth}" ] || [ "${attempts}" -eq 10 ]; do
     log "Waiting on mac address of eth1 to be ready"
-    mac_eth0=$(__get_mac eth0)
+    mac_eth=$(__get_mac "${consul_interface}")
     sleep 5
     let attempts++
 done
 
-ip_addr=$(curl --retry 5 -s -fq "http://169.254.169.254/latest/meta-data/network/interfaces/macs/${mac_eth0}/local-ipv4s")
-vpc_cidr=$(curl --retry 5 -s -fq "http://169.254.169.254/latest/meta-data/network/interfaces/macs/${mac_eth0}/vpc-ipv4-cidr-block")
+# TODO: To make life easier we should use facter, of course that means we
+# we have facter installed
+ip_addr=$(curl --retry 5 -s -fq "http://169.254.169.254/latest/meta-data/network/interfaces/macs/${mac_eth}/local-ipv4s")
+vpc_cidr=$(curl --retry 5 -s -fq "http://169.254.169.254/latest/meta-data/network/interfaces/macs/${mac_eth}/vpc-ipv4-cidr-block")
 
 cat <<EOF | tee /etc/consul/interface.json
 {
