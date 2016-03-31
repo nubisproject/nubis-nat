@@ -64,7 +64,10 @@ echo -n "Waiting for instance to come up ... "
 aws ec2 wait instance-running --instance-ids ${INSTANCE_ID}
 echo "Done"
 
-# First, check with CloudFormation to see if we can find our IP
+# First, check our metadata
+ELASTICIP_ID=$(nubis-metadata NUBIS_NAT_EIP)
+
+# Second, check with CloudFormation to see if we can find our IP
 attempts=0
 until [ ! -z "${ELASTICIP_ID}" ] || [ "${attempts}" -eq 10 ]; do
     log "Waiting on Elastic IP to be ready"
