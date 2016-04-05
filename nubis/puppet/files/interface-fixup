@@ -17,7 +17,6 @@ done
 # TODO: To make life easier we should use facter, of course that means we
 # we have facter installed
 ip_addr=$(curl --retry 5 -s -fq "http://169.254.169.254/latest/meta-data/network/interfaces/macs/${mac_eth}/local-ipv4s")
-vpc_cidr=$(curl --retry 5 -s -fq "http://169.254.169.254/latest/meta-data/network/interfaces/macs/${mac_eth}/vpc-ipv4-cidr-block")
 
 cat <<EOF | tee /etc/consul/interface.json
 {
@@ -25,5 +24,3 @@ cat <<EOF | tee /etc/consul/interface.json
   "bind_addr": "$ip_addr"
 }
 EOF
-
-perl -pi -e "s[%%VPC_CIDR%%][$vpc_cidr]g" /etc/confd/templates/iptables.tmpl

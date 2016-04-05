@@ -6,7 +6,8 @@
 #   200 - 299 UDP confd generated rules
 #   990 - 999 Bottom of the file rules
 
-$vpc_cidr = '%%VPC_CIDR%%'
+$vpc_fact = "ec2_network_interfaces_macs_${macaddress_eth1}_vpc_ipv4_cidr_block"
+$vpc_cidr = inline_template("<%= scope.lookupvar(@vpc_fact.downcase) %>")
 
 class { 'firewall': }
 
