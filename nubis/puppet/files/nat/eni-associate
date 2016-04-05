@@ -102,6 +102,27 @@ function remove_routes() {
     /sbin/route del -net "${vpc_subnet_cidr}" dev eth0
 }
 
+function detach_eni() {
+    if [ -z "$1" ] ; then echo "Usage: ${FUNCNAME} [eni-id] [attach-id]"; return 1; fi
+
+    local ENI_ID=$1
+
+    local ATTACH_ID=$(aws --region "${REGION}"  ec2 describe-network-interfaces --network-interface-ids "${ENI_ID}" --query 'NetworkInterfaces[*][Attachment][*][AttachmentId]' --output text)
+
+    if [ ! -z "$ATTACH_ID" ]; then
+      log "Detaching ${ENI_ID} ${ATTACH_ID}"
+      aws --region "${REGION}" ec2 detach-network-interface --attachment-id "${ATTACH_ID}"
+
+      #XXX: Wait for detachment operation to complete
+      attempts=0
+      until [ ! -z "$ATTACH_ID" ] || [ "${attempts}" -gt 30 ] ; do
+         ATTACH_ID=$(aws --region "${REGION}"  ec2 describe-network-interfaces --network-interface-ids "${ENI_ID}" --query 'NetworkInterfaces[*][Attachment][*][AttachmentId]' --output text)
+         sleep 1
+         let attempts++
+      done
+    fi
+}
+
 INSTANCE_ID=$(get_instance_id)
 REGION=$(get_region)
 
@@ -119,8 +140,12 @@ until [ ! -z "${ENI_ID}" ] || [ "${attempts}" -eq 30 ]; do
 done
 
 if [[ ! -z "${ENI_ID}" ]]; then
+
+    detach_eni "${ENI_ID}"
+
     log "Attaching ${ENI_ID} to ${INSTANCE_ID}"
     aws ec2 attach-network-interface --region ${REGION} --network-interface-id ${ENI_ID} --instance-id ${INSTANCE_ID} --device-index 1
+
     RV=$?
     if [ ${RV} -ne 1 ]; then
         log "Sucesfully attached ${ENI_ID} to ${INSTANCE_ID}"
