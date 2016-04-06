@@ -108,7 +108,7 @@ firewall { '007 Consul/udp in':
   action    => 'accept',
 }
 
-# Allow Consul/udp IN internally
+# Allow node monitoring IN internally
 firewall { '008 node monitoring IN':
   chain     => 'INPUT',
   proto     => 'tcp',
