@@ -73,7 +73,7 @@ firewall { '004 SSH in':
   proto     => 'tcp',
   dport     => 'ssh',
   state     => [ 'NEW' ],
-#: For debugging, allow ssh from anywhere, rely on security groups to filter that out
+#: For convenience, allow ssh from anywhere, rely on security groups to filter that out
 #  iniface   => 'eth1',
   action    => 'accept',
 }
