@@ -36,8 +36,8 @@ firewall { "000 snat for network":
 
 # Allow all traffic thatis part of already known flows
 firewall { '002 accept established flows':
-  proto   => 'all',
   chain   => 'FORWARD',
+  proto   => 'all',
   state   => [ 'ESTABLISHED','RELATED' ],
   action  => 'accept',
 }
