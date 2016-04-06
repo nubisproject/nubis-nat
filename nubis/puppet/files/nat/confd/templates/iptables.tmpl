@@ -10,7 +10,7 @@ resources { 'firewall':
 # All trafic destined for this host, filtered by security groups first
 firewallchain { 'INPUT:filter:IPv4':
     ensure  => 'present',
-    policy  => 'accept',
+    policy  => 'drop',
 }
 
 # All trafic out from this host, filtered by security groups first
@@ -32,6 +32,105 @@ firewall { "000 snat for network":
   proto    => 'all',
   outiface => 'eth0',
   table    => 'nat',
+}
+
+# Allow all traffic thatis part of already known flows
+firewall { '000 accept established flows':
+  chain   => 'INPUT',
+  proto   => 'all',
+  state   => [ 'ESTABLISHED','RELATED' ],
+  action  => 'accept',
+}
+
+# Allow all loopback in
+firewall { '001 loopback in':
+  chain     => 'INPUT',
+  proto     => 'all',
+  state     => [ 'NEW' ],
+  iniface   => 'lo',
+  action    => 'accept',
+}
+
+# Allow DHCP in
+firewall { '002 dhcp in':
+  chain     => 'INPUT',
+  proto     => 'udp',
+  dport     => [ 'bootpc','bootps' ],
+  action    => 'accept',
+}
+
+# Allow all ICMP in
+firewall { '003 ICMP in':
+  chain     => 'INPUT',
+  proto     => 'icmp',
+  state     => [ 'NEW' ],
+  action    => 'accept',
+}
+
+# Allow ssh IN internally
+firewall { '004 SSH in':
+  chain     => 'INPUT',
+  proto     => 'tcp',
+  dport     => 'ssh',
+  state     => [ 'NEW' ],
+#: For debugging, allow ssh from anywhere, rely on security groups to filter that out
+#  iniface   => 'eth1',
+  action    => 'accept',
+}
+
+# Allow Squid/tcp IN internally
+firewall { '005 Squid/tcp in':
+  chain     => 'INPUT',
+  proto     => 'tcp',
+  dport     => '3128',
+  state     => [ 'NEW' ],
+  iniface   => 'eth1',
+  action    => 'accept',
+}
+
+# Allow Consul/tcp IN internally
+firewall { '006 Consul/tcp in':
+  chain     => 'INPUT',
+  proto     => 'tcp',
+  dport     => '8300-8302',
+  state     => [ 'NEW' ],
+  iniface   => 'eth1',
+  action    => 'accept',
+}
+
+# Allow Consul/udp IN internally
+firewall { '007 Consul/udp in':
+  chain     => 'INPUT',
+  proto     => 'udp',
+  dport     => '8300-8302',
+  state     => [ 'NEW' ],
+  iniface   => 'eth1',
+  action    => 'accept',
+}
+
+# Allow Consul/udp IN internally
+firewall { '008 node monitoring IN':
+  chain     => 'INPUT',
+  proto     => 'tcp',
+  dport     => '9100-9110',
+  state     => [ 'NEW' ],
+  iniface   => 'eth1',
+  action    => 'accept',
+}
+
+firewall { '998 INPUT logging':
+    chain      => 'INPUT',
+    jump       => 'LOG',
+    log_level  => '6',
+    log_prefix => '[fwdeny-input] ',
+    proto      => 'all',
+}
+
+# And drop it
+firewall { "999 INPUT reject":
+    chain   => 'INPUT',
+    proto   => 'all',
+    action  => 'reject',
 }
 
 # Allow all traffic thatis part of already known flows
