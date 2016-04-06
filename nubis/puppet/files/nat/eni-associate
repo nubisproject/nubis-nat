@@ -114,9 +114,11 @@ function detach_eni() {
       aws --region "${REGION}" ec2 detach-network-interface --attachment-id "${ATTACH_ID}"
 
       #XXX: Wait for detachment operation to complete
+      local ATTACHED=$(aws --region "${REGION}"  ec2 describe-network-interfaces --network-interface-ids "${ENI_ID}" --query 'NetworkInterfaces[*][Attachment][*][AttachmentId]' --output text)
+
       attempts=0
-      until [ ! -z "$ATTACH_ID" ] || [ "${attempts}" -gt 30 ] ; do
-         ATTACH_ID=$(aws --region "${REGION}"  ec2 describe-network-interfaces --network-interface-ids "${ENI_ID}" --query 'NetworkInterfaces[*][Attachment][*][AttachmentId]' --output text)
+      while [ ! -z "$ATTACHED" ] || [ "${attempts}" -eq 30 ] ; do
+         ATTACHED=$(aws --region "${REGION}"  ec2 describe-network-interfaces --network-interface-ids "${ENI_ID}" --query 'NetworkInterfaces[*][Attachment][*][AttachmentId]' --output text)
          sleep 1
          let attempts++
       done
@@ -131,6 +133,8 @@ aws ec2 wait instance-running --instance-ids ${INSTANCE_ID} --region ${REGION}
 echo "Done"
 
 # Lets wait for ENI to become ready first
+ENI_ID=$(_get_eni_id ${REGION} ${NUBIS_STACK})
+
 attempts=0
 until [ ! -z "${ENI_ID}" ] || [ "${attempts}" -eq 30 ]; do
     log "Waiting for ENI to become available"
@@ -149,7 +153,6 @@ if [[ ! -z "${ENI_ID}" ]]; then
     RV=$?
     if [ ${RV} -ne 1 ]; then
         log "Sucesfully attached ${ENI_ID} to ${INSTANCE_ID}"
-        echo "${ENI_ID}" > /var/tmp/eni_id
         remove_routes
     fi
 else
