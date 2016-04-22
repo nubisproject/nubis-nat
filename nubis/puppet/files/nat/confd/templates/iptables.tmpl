@@ -6,6 +6,9 @@
 #   200 - 299 UDP confd generated rules
 #   990 - 999 Bottom of the file rules
 
+$vpc_fact = "ec2_network_interfaces_macs_${macaddress_eth1}_vpc_ipv4_cidr_block"
+$vpc_cidr = inline_template("<%= scope.lookupvar(@vpc_fact.downcase) %>")
+
 class { 'firewall': }
 
 resources { 'firewall':
@@ -84,13 +87,13 @@ firewall { '004 SSH in':
   action    => 'accept',
 }
 
-# Allow Squid/tcp IN internally
+# Allow Squid/tcp IN for all our VPC (either interface, because ELBs are silly)
 firewall { '005 Squid/tcp in':
   chain     => 'INPUT',
   proto     => 'tcp',
   dport     => '3128',
+  source    => $vpc_cidr,
   state     => [ 'NEW' ],
-  iniface   => 'eth1',
   action    => 'accept',
 }
 
