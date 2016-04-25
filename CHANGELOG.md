@@ -1,29 +1,31 @@
 # Change Log
 
-## [v1.1.0](https://github.com/nubisproject/nubis-nat/tree/v1.1.0) (2016-04-18)
+## [v1.1.0](https://github.com/nubisproject/nubis-nat/tree/v1.1.0) (2016-04-24)
 **Implemented enhancements:**
 
+- Move to the v1.0.2-dev train [\#28](https://github.com/nubisproject/nubis-nat/issues/28)
+- Add comments for nat iptable rule [\#21](https://github.com/nubisproject/nubis-nat/issues/21)
 - Update puppetfile to point nubis puppet nat to new location [\#61](https://github.com/nubisproject/nubis-nat/issues/61)
 - Instead of waiting for the ENI to be available, just steal it [\#57](https://github.com/nubisproject/nubis-nat/issues/57)
 - Filter out iptable logs to its own file and also send it to fluent [\#37](https://github.com/nubisproject/nubis-nat/issues/37)
-- Move to the v1.0.2-dev train [\#28](https://github.com/nubisproject/nubis-nat/issues/28)
-- Add comments for nat iptable rule [\#21](https://github.com/nubisproject/nubis-nat/issues/21)
 - Merge nubis-proxy into nubis-nat [\#11](https://github.com/nubisproject/nubis-nat/issues/11)
 - Manage iptable rules via confd [\#22](https://github.com/nubisproject/nubis-nat/pull/22) ([limed](https://github.com/limed))
 
 **Fixed bugs:**
 
+- \[bug\] Not calling curl to discover vpc\_cidr ip [\#33](https://github.com/nubisproject/nubis-nat/issues/33)
+- \[bug\] Advertise address for consul never gets set now [\#32](https://github.com/nubisproject/nubis-nat/issues/32)
 - Override proxy information [\#70](https://github.com/nubisproject/nubis-nat/issues/70)
 - \[bug\] Remove additional ENI routes [\#63](https://github.com/nubisproject/nubis-nat/issues/63)
 - \[bug\] sport and dport flipped for squid iptable rule [\#54](https://github.com/nubisproject/nubis-nat/issues/54)
 - \[bug\] Bind everythin back to eth0 instead [\#45](https://github.com/nubisproject/nubis-nat/issues/45)
 - Bind consul to eth1 [\#38](https://github.com/nubisproject/nubis-nat/issues/38)
-- \[bug\] Not calling curl to discover vpc\_cidr ip [\#33](https://github.com/nubisproject/nubis-nat/issues/33)
-- \[bug\] Advertise address for consul never gets set now [\#32](https://github.com/nubisproject/nubis-nat/issues/32)
 - Nat instance needs to report its interface IP [\#13](https://github.com/nubisproject/nubis-nat/issues/13)
 
 **Closed issues:**
 
+- \[blocklist\] Need to DENY not ALLOW offenders [\#93](https://github.com/nubisproject/nubis-nat/issues/93)
+- Allow Squid traffic to come in from either interfaces, as long as its from [\#91](https://github.com/nubisproject/nubis-nat/issues/91)
 - Bump down number of nat instance to 1 [\#88](https://github.com/nubisproject/nubis-nat/issues/88)
 - ENI detach logic is broken, it doesn't actually retry as it should [\#85](https://github.com/nubisproject/nubis-nat/issues/85)
 - Fix ENI startup issues [\#83](https://github.com/nubisproject/nubis-nat/issues/83)
@@ -32,7 +34,6 @@
 - Check nubis metadata for our assigned EIP before peeking at cloudformation [\#78](https://github.com/nubisproject/nubis-nat/issues/78)
 - Upgrade git to 2.7.3 [\#66](https://github.com/nubisproject/nubis-nat/issues/66)
 - \[blocklist\] region us-west-2 hardcoded in 2 places [\#64](https://github.com/nubisproject/nubis-nat/issues/64)
-- Move services back to eth1 now [\#59](https://github.com/nubisproject/nubis-nat/issues/59)
 - Instead of needing confd to inject VPC information, consider using facter [\#56](https://github.com/nubisproject/nubis-nat/issues/56)
 - Interface fixup script bug [\#52](https://github.com/nubisproject/nubis-nat/issues/52)
 - Bump timeout for eni-attach script [\#50](https://github.com/nubisproject/nubis-nat/issues/50)
@@ -41,14 +42,18 @@
 - Create a basic masquerade rule during bootup [\#41](https://github.com/nubisproject/nubis-nat/issues/41)
 - Advertise eth1 as the Consul address, since it's effectively our \*inside\* address. [\#29](https://github.com/nubisproject/nubis-nat/issues/29)
 - POC: Implement an IP blocklisting service [\#23](https://github.com/nubisproject/nubis-nat/issues/23)
-- Allow only specific port to connect to NAT instance [\#20](https://github.com/nubisproject/nubis-nat/issues/20)
 - Modify ENI attach script to look at different tags [\#6](https://github.com/nubisproject/nubis-nat/issues/6)
 - Clean up cloudformation [\#4](https://github.com/nubisproject/nubis-nat/issues/4)
-- Install NSM on base image [\#3](https://github.com/nubisproject/nubis-nat/issues/3)
 - EIP attach script will not attach [\#1](https://github.com/nubisproject/nubis-nat/issues/1)
+- Move services back to eth1 now [\#59](https://github.com/nubisproject/nubis-nat/issues/59)
+- Allow only specific port to connect to NAT instance [\#20](https://github.com/nubisproject/nubis-nat/issues/20)
+- Install NSM on base image [\#3](https://github.com/nubisproject/nubis-nat/issues/3)
 
 **Merged pull requests:**
 
+- Correctly use the action passed into create\_acl\(\) [\#94](https://github.com/nubisproject/nubis-nat/pull/94) ([gozer](https://github.com/gozer))
+- Allow Squid traffic inbound on any interfaces [\#92](https://github.com/nubisproject/nubis-nat/pull/92) ([gozer](https://github.com/gozer))
+- Update CHANGELOG for v1.1.0 release [\#90](https://github.com/nubisproject/nubis-nat/pull/90) ([tinnightcap](https://github.com/tinnightcap))
 - Update versions for  release [\#89](https://github.com/nubisproject/nubis-nat/pull/89) ([tinnightcap](https://github.com/tinnightcap))
 - Implement FORWARDing [\#87](https://github.com/nubisproject/nubis-nat/pull/87) ([gozer](https://github.com/gozer))
 - Fix bug that caused ENI detaching logic not to wait for it to actually detach [\#86](https://github.com/nubisproject/nubis-nat/pull/86) ([gozer](https://github.com/gozer))
