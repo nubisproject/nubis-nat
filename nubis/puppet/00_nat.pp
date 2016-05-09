@@ -70,12 +70,12 @@ file { '/etc/nubis.d/0-1-interface-fixup':
     source => 'puppet:///nubis/files/interface-fixup',
 }
 
+class { 'nsm':
+    nsm_mailto  => 'infosec@mozilla.com'
+}
+
 class { 'nubis_nat':
     startup_order     => '0-3',
     nat_in_interface  => 'eth1',
     nat_out_interface => 'eth0',
-}
-
-class { 'nsm':
-    nsm_mailto  => 'infosec@mozilla.com'
 }
