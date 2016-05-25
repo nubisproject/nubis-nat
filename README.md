@@ -190,10 +190,10 @@ aws ec2 describe-security-groups --group-names 'Default' --query 'SecurityGroups
 ```
 
 ## IP Blocklist
-The ability to restrict access to Nubis enviroments based on IP address is a basic security requirement. While Networ ACLs are used for the actual blocking, that administrator script runs from the nat instance and therefore is documented here.
+The ability to restrict access to Nubis enviroments based on IP address is a basic security requirement. While Network ACLs are used for the actual blocking, that administrator script runs from the nat instance and therefore is documented here.
 
 ### Implementation
-Within the [nat](https://github.com/nubisproject/nubis-nat) instances we have implemented an IP blocklist [shell script](https://github.com/nubisproject/nubis-nat/blob/master/nubis/puppet/files/vpc-blocklist) that updates the default [Network Access Controll List](http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_ACLs.html) (NACL) for the [Vitrual Private Cloud](https://aws.amazon.com/vpc/) (VPC). The script runs on a [cron job](https://github.com/nubisproject/nubis-nat/blob/master/nubis/puppet/04_blocklist.pp) and simply updates the default NACL for the VPC. Necessary permissions can be seen [here](link to security policy document).
+Within the [nat](https://github.com/nubisproject/nubis-nat) instances we have implemented an IP blocklist [shell script](https://github.com/nubisproject/nubis-nat/blob/master/nubis/puppet/files/vpc-blocklist) that updates the default [Network Access Control List](http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_ACLs.html) (NACL) for the [Vitrual Private Cloud](https://aws.amazon.com/vpc/) (VPC). The script runs on a [cron job](https://github.com/nubisproject/nubis-nat/blob/master/nubis/puppet/04_blocklist.pp) and simply updates the default NACL for the VPC. Necessary permissions can be seen [here](https://github.com/nubisproject/nubis-deploy/blob/master/modules/vpc/nat-policy.json#L43).
 
 ### Blocklist File
 The Mozilla Infosec team maintains a blocklist for AWS located [here](https://s3.amazonaws.com/mozilla_infosec_blocklist/blocklist). This list is auto generated from their security monitoring systems with the necessary resolution. Their full list often contains far more that 18 entries (see [Limitations](#limitations) below). For that reason they make decisions about what IPs to include based on their own priority.
