@@ -128,17 +128,18 @@ elif [ "$RC" != "0" ]; then
   exit
 fi
 
+MAX_RULES=18
 COUNTER=0
+
 for IP in $BLOCKLIST; do
-  COUNTER=$((COUNTER + 1))
   if [ "$COUNTER" -ge "$MAX_RULES" ]; then
     echo "blocklist contained more than $MAX_RULES entries, skipping leftover"
     break
   fi
+  COUNTER=$((COUNTER + 1))
   create_acl "$COUNTER" "$IP" "DENY"
 done
 
-MAX_RULES=18
 while [ "$COUNTER" -lt "$MAX_RULES" ]; do
   COUNTER=$((COUNTER + 1))
   clear_acl "$COUNTER"
