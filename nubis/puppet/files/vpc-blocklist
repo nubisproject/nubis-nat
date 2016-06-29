@@ -38,12 +38,12 @@ function create_acl () {
 
   echo -n "$INDEX:$CIDR $ACTION "
 
-  aws --region "$REGION" ec2 replace-network-acl-entry --network-acl-id "$NACL_ID" --rule-number "$COUNTER" --ingress --protocol all --rule-action "$ACTION" --cidr-block "$CIDR" > "$ACTION_LOG" 2>&1
+  aws --region "$REGION" ec2 replace-network-acl-entry --network-acl-id "$NACL_ID" --rule-number "$INDEX" --ingress --protocol all --rule-action "$ACTION" --cidr-block "$CIDR" > "$ACTION_LOG" 2>&1
   RC=$?
 
   # Update failed, try creating
   if [ "255" == "$RC" ]; then
-    aws --region "$REGION" ec2 create-network-acl-entry --network-acl-id "$NACL_ID" --rule-number "$COUNTER" --ingress --protocol all --rule-action "$ACTION" --cidr-block "$CIDR" >> "$ACTION_LOG" 2>&1
+    aws --region "$REGION" ec2 create-network-acl-entry --network-acl-id "$NACL_ID" --rule-number "$INDEX" --ingress --protocol all --rule-action "$ACTION" --cidr-block "$CIDR" >> "$ACTION_LOG" 2>&1
     RC=$?
     # Creation failed, bad
     if [ "0" != "$RC" ]; then
