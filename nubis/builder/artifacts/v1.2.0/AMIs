@@ -1,0 +1,3 @@
+amazon-ebs-amazon-linux:
+us-east-1: ami-2e44c339
+us-west-2: ami-e23dfd82
