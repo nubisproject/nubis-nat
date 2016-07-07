@@ -1,6 +1,36 @@
 # Change Log
 
-## [v1.1.0](https://github.com/nubisproject/nubis-nat/tree/v1.1.0) (2016-04-24)
+## [v1.2.0](https://github.com/nubisproject/nubis-nat/tree/v1.2.0) (2016-07-07)
+[Full Changelog](https://github.com/nubisproject/nubis-nat/compare/v1.1.0...v1.2.0)
+
+**Implemented enhancements:**
+
+- Point puppet-nsm to nubisproject org [\#107](https://github.com/nubisproject/nubis-nat/issues/107)
+- Move to v1.2.0-dev cycle [\#99](https://github.com/nubisproject/nubis-nat/issues/99)
+
+**Fixed bugs:**
+
+- Fixing some dependency issues with supervisord [\#101](https://github.com/nubisproject/nubis-nat/issues/101)
+
+**Closed issues:**
+
+- Off by one error in VPC blocklist script [\#110](https://github.com/nubisproject/nubis-nat/issues/110)
+- \[blocklist\] stop adding rules when we hit MAX\_RULES [\#103](https://github.com/nubisproject/nubis-nat/issues/103)
+
+**Merged pull requests:**
+
+- Update builder artifacts for v1.2.0 release [\#112](https://github.com/nubisproject/nubis-nat/pull/112) ([tinnightcap](https://github.com/tinnightcap))
+- Small cleanup and off-by-one error [\#111](https://github.com/nubisproject/nubis-nat/pull/111) ([gozer](https://github.com/gozer))
+- Another typo [\#109](https://github.com/nubisproject/nubis-nat/pull/109) ([tinnightcap](https://github.com/tinnightcap))
+- Switch nubis-puppet-nsm org [\#108](https://github.com/nubisproject/nubis-nat/pull/108) ([limed](https://github.com/limed))
+- Add missing link [\#106](https://github.com/nubisproject/nubis-nat/pull/106) ([tinnightcap](https://github.com/tinnightcap))
+- Update doc with default entries. [\#105](https://github.com/nubisproject/nubis-nat/pull/105) ([tinnightcap](https://github.com/tinnightcap))
+- Handle gracefully \(skip them\) blocklist that have more than MAX\_RULES\(18\) entries [\#104](https://github.com/nubisproject/nubis-nat/pull/104) ([gozer](https://github.com/gozer))
+- Fixing dependency for supervisord by shuffling classes around [\#102](https://github.com/nubisproject/nubis-nat/pull/102) ([limed](https://github.com/limed))
+- Bumping up to new dev cycle [\#100](https://github.com/nubisproject/nubis-nat/pull/100) ([limed](https://github.com/limed))
+- Update README.md for NAT and IP Blocklist [\#98](https://github.com/nubisproject/nubis-nat/pull/98) ([tinnightcap](https://github.com/tinnightcap))
+
+## [v1.1.0](https://github.com/nubisproject/nubis-nat/tree/v1.1.0) (2016-04-25)
 **Implemented enhancements:**
 
 - Move to the v1.0.2-dev train [\#28](https://github.com/nubisproject/nubis-nat/issues/28)
