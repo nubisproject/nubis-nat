@@ -1,5 +1,21 @@
 # Change Log
 
+## [v1.2.1](https://github.com/nubisproject/nubis-nat/tree/v1.2.1) (2016-07-30)
+[Full Changelog](https://github.com/nubisproject/nubis-nat/compare/v1.2.0...v1.2.1)
+
+**Implemented enhancements:**
+
+- Consider moving route removal stuff out of eni-attach and into nubis-puppet-nat instead [\#72](https://github.com/nubisproject/nubis-nat/issues/72)
+- \[puppet\] Pin nubis/nsm at a specific revision [\#25](https://github.com/nubisproject/nubis-nat/issues/25)
+- \[puppet\] Pin nubis/nubis\_nat at a specific revision [\#24](https://github.com/nubisproject/nubis-nat/issues/24)
+
+**Merged pull requests:**
+
+- Update builder artifacts for v1.2.1 release [\#119](https://github.com/nubisproject/nubis-nat/pull/119) ([tinnightcap](https://github.com/tinnightcap))
+- Pinning puppet nsm to v1.2.0 [\#117](https://github.com/nubisproject/nubis-nat/pull/117) ([limed](https://github.com/limed))
+- Pin nubis-puppet-nat to version v1.2.0 [\#116](https://github.com/nubisproject/nubis-nat/pull/116) ([limed](https://github.com/limed))
+- Update builder artifacts for v1.3.0-dev release [\#115](https://github.com/nubisproject/nubis-nat/pull/115) ([tinnightcap](https://github.com/tinnightcap))
+
 ## [v1.2.0](https://github.com/nubisproject/nubis-nat/tree/v1.2.0) (2016-07-07)
 [Full Changelog](https://github.com/nubisproject/nubis-nat/compare/v1.1.0...v1.2.0)
 
@@ -14,11 +30,15 @@
 
 **Closed issues:**
 
+- Tag v1.2.0 release [\#113](https://github.com/nubisproject/nubis-nat/issues/113)
 - Off by one error in VPC blocklist script [\#110](https://github.com/nubisproject/nubis-nat/issues/110)
 - \[blocklist\] stop adding rules when we hit MAX\_RULES [\#103](https://github.com/nubisproject/nubis-nat/issues/103)
+- \[blocklist\] Need to DENY not ALLOW offenders [\#93](https://github.com/nubisproject/nubis-nat/issues/93)
+- Allow Squid traffic to come in from either interfaces, as long as its from [\#91](https://github.com/nubisproject/nubis-nat/issues/91)
 
 **Merged pull requests:**
 
+- Update CHANGELOG for v1.2.0 release [\#114](https://github.com/nubisproject/nubis-nat/pull/114) ([tinnightcap](https://github.com/tinnightcap))
 - Update builder artifacts for v1.2.0 release [\#112](https://github.com/nubisproject/nubis-nat/pull/112) ([tinnightcap](https://github.com/tinnightcap))
 - Small cleanup and off-by-one error [\#111](https://github.com/nubisproject/nubis-nat/pull/111) ([gozer](https://github.com/gozer))
 - Another typo [\#109](https://github.com/nubisproject/nubis-nat/pull/109) ([tinnightcap](https://github.com/tinnightcap))
@@ -54,8 +74,6 @@
 
 **Closed issues:**
 
-- \[blocklist\] Need to DENY not ALLOW offenders [\#93](https://github.com/nubisproject/nubis-nat/issues/93)
-- Allow Squid traffic to come in from either interfaces, as long as its from [\#91](https://github.com/nubisproject/nubis-nat/issues/91)
 - Bump down number of nat instance to 1 [\#88](https://github.com/nubisproject/nubis-nat/issues/88)
 - ENI detach logic is broken, it doesn't actually retry as it should [\#85](https://github.com/nubisproject/nubis-nat/issues/85)
 - Fix ENI startup issues [\#83](https://github.com/nubisproject/nubis-nat/issues/83)
