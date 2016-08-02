@@ -1,5 +1,20 @@
 # Change Log
 
+## [v1.2.2](https://github.com/nubisproject/nubis-nat/tree/v1.2.2) (2016-08-02)
+[Full Changelog](https://github.com/nubisproject/nubis-nat/compare/v1.2.1...v1.2.2)
+
+**Closed issues:**
+
+- Add additional testing documentation to test out nubis-nat [\#124](https://github.com/nubisproject/nubis-nat/issues/124)
+- Move to v1.3.0-dev cycle [\#121](https://github.com/nubisproject/nubis-nat/issues/121)
+
+**Merged pull requests:**
+
+- Update builder artifacts for v1.2.2 release [\#128](https://github.com/nubisproject/nubis-nat/pull/128) ([tinnightcap](https://github.com/tinnightcap))
+- Bump nubis-puppet-nat to v1.2.2 [\#127](https://github.com/nubisproject/nubis-nat/pull/127) ([limed](https://github.com/limed))
+- Added additional documentation on how to test FORWARD rule [\#125](https://github.com/nubisproject/nubis-nat/pull/125) ([limed](https://github.com/limed))
+- Bump up to v1.3.0-dev cycle [\#122](https://github.com/nubisproject/nubis-nat/pull/122) ([limed](https://github.com/limed))
+
 ## [v1.2.1](https://github.com/nubisproject/nubis-nat/tree/v1.2.1) (2016-07-30)
 [Full Changelog](https://github.com/nubisproject/nubis-nat/compare/v1.2.0...v1.2.1)
 
@@ -9,8 +24,13 @@
 - \[puppet\] Pin nubis/nsm at a specific revision [\#25](https://github.com/nubisproject/nubis-nat/issues/25)
 - \[puppet\] Pin nubis/nubis\_nat at a specific revision [\#24](https://github.com/nubisproject/nubis-nat/issues/24)
 
+**Closed issues:**
+
+- Tag v1.2.1 release [\#118](https://github.com/nubisproject/nubis-nat/issues/118)
+
 **Merged pull requests:**
 
+- Update CHANGELOG for v1.2.1 release [\#120](https://github.com/nubisproject/nubis-nat/pull/120) ([tinnightcap](https://github.com/tinnightcap))
 - Update builder artifacts for v1.2.1 release [\#119](https://github.com/nubisproject/nubis-nat/pull/119) ([tinnightcap](https://github.com/tinnightcap))
 - Pinning puppet nsm to v1.2.0 [\#117](https://github.com/nubisproject/nubis-nat/pull/117) ([limed](https://github.com/limed))
 - Pin nubis-puppet-nat to version v1.2.0 [\#116](https://github.com/nubisproject/nubis-nat/pull/116) ([limed](https://github.com/limed))
