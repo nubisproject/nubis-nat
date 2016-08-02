@@ -155,6 +155,17 @@ And of course you can always check the log files:
 tail /var/log/squid3/*.log
 ```
 
+To test if the FORWARD iptable rule works you can run a test to check if ntp can actually connect outbound:
+```bash
+ntpdate -q -v pool.ntp.org
+```
+
+An additional test that you can run by adding an iptable rule and then doing a simple telnet:
+```bash
+$ consulate kv set $NUBIS_PROJECT/$NUBIS_ENVIRONMENT/config/IptablesAllowTCP '[ 22 ]'
+$ telnet sshhost.example.com 22
+```
+
 ## NSM
 The NAT instance also runs the mozilla NSM suite, however the packages that gets installed also needs some configuration data which is grabbed from an s3 bucket during bootup.
 The IAM policy on the NAT that is needed is as follows:
