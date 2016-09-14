@@ -156,6 +156,17 @@ firewall { '005 NTP':
   action    => 'accept',
 }
 
+# Allow all SMTP out
+firewall { '006 SMTP':
+    chain    => 'FORWARD',
+    proto    => 'tcp',
+    dport    => '25',
+    state    => [ 'NEW' ],
+    outiface => 'eth0',
+    iniface  => 'eth1',
+    action   => 'accept',
+}
+
 {{ if exists "/config/IptablesAllowTCP" }}{{ range jsonArray (getv "/config/IptablesAllowTCP") }}
 firewall { '100 IptablesAllowTCP {{.}}':
   chain     => 'FORWARD',
