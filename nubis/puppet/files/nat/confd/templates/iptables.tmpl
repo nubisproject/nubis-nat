@@ -156,6 +156,17 @@ firewall { '005 NTP':
   action    => 'accept',
 }
 
+# Allow all out on port 6363
+firewall { '007 LDAP-6363':
+  chain     => 'FORWARD',
+  proto     => 'tcp',
+  dport     => '6363',
+  state     => [ 'NEW' ],
+  outiface  => 'eth0',
+  iniface   => 'eth1',
+  action    => 'accept',
+}
+
 {{ if exists "/config/IptablesAllowTCP" }}{{ range jsonArray (getv "/config/IptablesAllowTCP") }}
 firewall { '100 IptablesAllowTCP {{.}}':
   chain     => 'FORWARD',
