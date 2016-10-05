@@ -7,11 +7,11 @@ file { '/etc/sysconfig/iptables.save':
 }
 
 file { '/etc/profile.d/proxy.sh':
-    ensure  => file,
-    owner   => root,
-    group   => root,
-    mode    => '0644',
-    source  => 'puppet:///nubis/files/nat/profile.d_proxy.sh',
+    ensure => file,
+    owner  => root,
+    group  => root,
+    mode   => '0644',
+    source => 'puppet:///nubis/files/nat/profile.d_proxy.sh',
 }
 
 file { '/etc/rsyslog.d/99-iptables.conf':
@@ -47,11 +47,11 @@ file { '/etc/confd/templates/iptables.tmpl':
 }
 
 file { '/usr/local/bin/eni-associate':
-    ensure  => file,
-    owner   => root,
-    group   => root,
-    mode    => '0755',
-    source  => 'puppet:///nubis/files/nat/eni-associate',
+    ensure => file,
+    owner  => root,
+    group  => root,
+    mode   => '0755',
+    source => 'puppet:///nubis/files/nat/eni-associate',
 }
 
 # This needs to happen before nat is configured

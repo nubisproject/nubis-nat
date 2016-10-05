@@ -1,4 +1,9 @@
 ﻿# nubis-nat
+
+[![Version](https://img.shields.io/github/release/nubisproject/nubis-nat.svg?maxAge=2592000)](https://github.com/nubisproject/nubis-nat/releases)
+[![Build Status](https://img.shields.io/travis/nubisproject/nubis-nat/master.svg?maxAge=2592000)](https://travis-ci.org/nubisproject/nubis-nat)
+[![Issues](https://img.shields.io/github/issues/nubisproject/nubis-nat.svg?maxAge=2592000)](https://github.com/nubisproject/nubis-nat/issues)
+
 The nubis-nat project currently wraps a number of services into a single deployed instance type.
 
  - [Nat](#nat)
