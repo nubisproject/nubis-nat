@@ -25,22 +25,24 @@
 
 # TODO: Make use the one provided in nubis-base
 # Common functions.
+# shellcheck disable=SC1091
 [ -e /usr/local/lib/nubis/nubis-lib.sh ] && . /usr/local/lib/nubis/nubis-lib.sh || exit 1
 
 function _get_eni_id {
-
+    # shellcheck disable=SC2128
     if [ -z "$1" ] && [ -z "$2" ]; then echo "Usage: ${FUNCNAME} [region] [stackname]"; return 1; fi
 
-    local availability_zone=$(get_availability_zone)
+    local availability_zone
+    availability_zone=$(get_availability_zone)
     local environment=${NUBIS_ENVIRONMENT}
     local region=$1
     local stack_name=$2
 
     aws ec2 describe-network-interfaces \
-        --region ${region} \
+        --region "${region}" \
         --filter \
-            Name=tag-value,Values=nubis-nat-eni-${environment} \
-            Name=availability-zone,Values=${availability_zone}\
+            "Name=tag-value,Values=nubis-nat-eni-${environment}" \
+            "Name=availability-zone,Values=${availability_zone}"\
         --query \
             'NetworkInterfaces[*][NetworkInterfaceId]'\
         --output text
@@ -48,17 +50,20 @@ function _get_eni_id {
 
 # returns vpc_subnet_cidr
 function get_vpc_subnet_cidr() {
+    # shellcheck disable=SC2128
     if [ -z "$1" ]; then echo "Usage: ${FUNCNAME} [interface]"; return 1; fi
 
     local interface=$1
-    mac_addr=$(__get_mac ${interface})
+    mac_addr=$(__get_mac "${interface}")
 
-    local vpc_subnet_cidr=$(curl -s -fq --retry 5 "http://169.254.169.254/latest/meta-data/network/interfaces/macs/${mac_addr}/subnet-ipv4-cidr-block")
+    local vpc_subnet_cidr
+    vpc_subnet_cidr=$(curl -s -fq --retry 5 "http://169.254.169.254/latest/meta-data/network/interfaces/macs/${mac_addr}/subnet-ipv4-cidr-block")
     echo "${vpc_subnet_cidr}"
 }
 
 # Wait for the interface to show up after attaching ENI
 function wait_for_interface() {
+    # shellcheck disable=SC2128
     if [ -z "$1" ]; then echo "Usage: ${FUNCNAME} [interface]"; return 1; fi
 
     local interface=$1
@@ -74,6 +79,7 @@ function wait_for_interface() {
 }
 
 function wait_for_route() {
+    # shellcheck disable=SC2128
     if [ -z "$1" ]; then echo "Usage: ${FUNCNAME} [interface]"; return 1; fi
 
     local interface=$1
@@ -103,18 +109,20 @@ function remove_routes() {
 }
 
 function detach_eni() {
+    # shellcheck disable=SC2128
     if [ -z "$1" ] ; then echo "Usage: ${FUNCNAME} [eni-id] [attach-id]"; return 1; fi
 
     local ENI_ID=$1
-
-    local ATTACH_ID=$(aws --region "${REGION}"  ec2 describe-network-interfaces --network-interface-ids "${ENI_ID}" --query 'NetworkInterfaces[*][Attachment][*][AttachmentId]' --output text)
+    local ATTACH_ID
+    ATTACH_ID=$(aws --region "${REGION}"  ec2 describe-network-interfaces --network-interface-ids "${ENI_ID}" --query 'NetworkInterfaces[*][Attachment][*][AttachmentId]' --output text)
 
     if [ ! -z "$ATTACH_ID" ]; then
       log "Detaching ${ENI_ID} ${ATTACH_ID}"
       aws --region "${REGION}" ec2 detach-network-interface --attachment-id "${ATTACH_ID}"
 
       #XXX: Wait for detachment operation to complete
-      local ATTACHED=$(aws --region "${REGION}"  ec2 describe-network-interfaces --network-interface-ids "${ENI_ID}" --query 'NetworkInterfaces[*][Attachment][*][AttachmentId]' --output text)
+      local ATTACHED
+      ATTACHED=$(aws --region "${REGION}"  ec2 describe-network-interfaces --network-interface-ids "${ENI_ID}" --query 'NetworkInterfaces[*][Attachment][*][AttachmentId]' --output text)
 
       attempts=0
       while [ ! -z "$ATTACHED" ] || [ "${attempts}" -eq 30 ] ; do
@@ -129,16 +137,16 @@ INSTANCE_ID=$(get_instance_id)
 REGION=$(get_region)
 
 echo -n "Waiting for instance to come up ... "
-aws ec2 wait instance-running --instance-ids ${INSTANCE_ID} --region ${REGION}
+aws ec2 wait instance-running --instance-ids "${INSTANCE_ID}" --region "${REGION}"
 echo "Done"
 
 # Lets wait for ENI to become ready first
-ENI_ID=$(_get_eni_id ${REGION} ${NUBIS_STACK})
+ENI_ID=$(_get_eni_id "${REGION}" "${NUBIS_STACK}")
 
 attempts=0
 until [ ! -z "${ENI_ID}" ] || [ "${attempts}" -eq 30 ]; do
     log "Waiting for ENI to become available"
-    ENI_ID=$(_get_eni_id ${REGION} ${NUBIS_STACK})
+    ENI_ID=$(_get_eni_id "${REGION}" "${NUBIS_STACK}")
     sleep 10
     let attempts++
 done
@@ -148,7 +156,7 @@ if [[ ! -z "${ENI_ID}" ]]; then
     detach_eni "${ENI_ID}"
 
     log "Attaching ${ENI_ID} to ${INSTANCE_ID}"
-    aws ec2 attach-network-interface --region ${REGION} --network-interface-id ${ENI_ID} --instance-id ${INSTANCE_ID} --device-index 1
+    aws ec2 attach-network-interface --region "${REGION}" --network-interface-id "${ENI_ID}" --instance-id "${INSTANCE_ID}" --device-index 1
 
     RV=$?
     if [ ${RV} -ne 1 ]; then
