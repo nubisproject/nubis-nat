@@ -36,15 +36,14 @@ function _get_eni_id {
     availability_zone=$(get_availability_zone)
     local environment=${NUBIS_ENVIRONMENT}
     local region=$1
-    local stack_name=$2
 
     aws ec2 describe-network-interfaces \
         --region "${region}" \
         --filter \
             "Name=tag-value,Values=nubis-nat-eni-${environment}" \
-            "Name=availability-zone,Values=${availability_zone}"\
+            "Name=availability-zone,Values=${availability_zone}" \
         --query \
-            'NetworkInterfaces[*][NetworkInterfaceId]'\
+            'NetworkInterfaces[*][NetworkInterfaceId]' \
         --output text
 }
 
@@ -70,7 +69,7 @@ function wait_for_interface() {
     local attempts=0
     mac_interface=$(__get_mac "${interface}")
 
-    until [ -z "${interface_mac}" ] || [ "${attempts}" -eq 30 ]; do
+    until [ -z "${mac_interface}" ] || [ "${attempts}" -eq 30 ]; do
         log "Waiting for interface ${interface} to be ready"
         sleep 10
         mac_interface=$(__get_mac "${interface}")
