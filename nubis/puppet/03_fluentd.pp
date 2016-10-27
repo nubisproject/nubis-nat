@@ -41,7 +41,7 @@ fluentd::configfile { 'iptables': }
 fluentd::source { 'iptables':
     configfile => 'iptables',
     type       => 'tail',
-    time_format  => '%b %d %H:%M:%S'
+    time_format  => '%b %d %H:%M:%S',
 
     # Incomplete format, missing various fields TOS, PREC, TTL, ID, etc, but most importantly
     # TODO: it's missing the ACK/SYN/FIN flags
