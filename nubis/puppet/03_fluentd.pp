@@ -12,7 +12,7 @@ fluentd::source { 'squid_access':
   tag        => 'forward.squid.access',
 
   config     => {
-    'path' => '/var/log/squid3/access.log',
+    'path' => "/var/log/${::squid3::params::service_name}/access.log",
   },
 }
 
@@ -22,7 +22,7 @@ fluentd::source { 'squid_cache':
   format     => 'none',
   tag        => 'forward.squid.cache',
   config     => {
-    'path' => '/var/log/squid3/cache.log',
+    'path' => "/var/log/${::squid3::params::service_name}/cache.log",
   },
 }
 
@@ -32,7 +32,7 @@ fluentd::source { 'squid_store':
   format     => 'none',
   tag        => 'forward.squid.store',
   config     => {
-    'path' => '/var/log/squid3/store.log',
+    'path' => "/var/log/${::squid3::params::service_name}/store.log",
   },
 }
 
