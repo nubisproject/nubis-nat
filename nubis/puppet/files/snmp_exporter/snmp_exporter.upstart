@@ -1,0 +1,14 @@
+description "Node Exporter"
+start on (local-filesystems and net-device-up IFACE!=lo)
+stop on runlevel [016]
+
+respawn
+env GOMAXPROCS=2
+setuid root
+setgid root
+
+script
+  exec >> /var/log/node_exporter.log
+  exec 2>&1
+  exec /usr/local/bin/node_exporter -collector.textfile.directory /var/lib/node_exporter/metrics
+end script
