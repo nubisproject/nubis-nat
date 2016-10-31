@@ -1,0 +1,9 @@
+#!/bin/bash
+
+ENABLED={{ if exists "/config/enabled" }}{{ getv "/config/enabled" }}{{ else }}0{{ end }}
+
+if [ "$ENABLED" == "1" ]; then
+  service snmp_exporter start
+else
+  service snmp_exporter stop
+fi

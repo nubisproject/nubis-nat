@@ -26,6 +26,7 @@ class { '::squid3':
         "allow_subnets dst \"/etc/${service_name}/allow_subnets.txt\"",
         "deny_subnets dst \"/etc/${service_name}/deny_subnets.txt\"",
         "deny_domains dstdomain parameters(\"/etc/${service_name}/deny_domains.txt\")",
+        'snmppublic snmp_community nubis'
     ],
     http_access                   => [
         'allow allow_regex_domains',
@@ -37,6 +38,11 @@ class { '::squid3':
     cache                         => [ 'deny all' ],
     server_persistent_connections => 'off',
     template                      => 'short',
+    config_hash                   => {
+      'snmp_access'           => "allow snmppublic localhost\nsnmp_access deny all",
+      'snmp_port'             => '3401',
+      'snmp_incoming_address' => '127.0.0.1',
+    },
 }
 
 file {

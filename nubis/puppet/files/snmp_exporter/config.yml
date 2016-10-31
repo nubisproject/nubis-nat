@@ -1,0 +1,55 @@
+---
+# Default module: interface stats and uptime.
+default:
+  version: 2
+  auth:
+    community: nubis
+  walk:
+    - 1.3.6.1.4.1.3495
+  metrics:
+    - name: squid_sysUpTime
+      oid: 1.3.6.1.4.1.3495.1.1.3.0
+
+    - name: squid_cacheProtoClientHttpRequests
+      oid: 1.3.6.1.4.1.3495.1.3.2.1.1.0
+    - name: squid_cacheHttpHits
+      oid: 1.3.6.1.4.1.3495.1.3.2.1.2.0 
+    - name: squid_cacheHttpErrors
+      oid: 1.3.6.1.4.1.3495.1.3.2.1.3.0 
+    - name: squid_cacheHttpInKb
+      oid: 1.3.6.1.4.1.3495.1.3.2.1.4.0 
+    - name: squid_cacheHttpOutKb
+      oid: 1.3.6.1.4.1.3495.1.3.2.1.5.0 
+    - name: squid_cacheServerRequests
+      oid: 1.3.6.1.4.1.3495.1.3.2.1.10.0 
+    - name: squid_cacheServerErrors
+      oid: 1.3.6.1.4.1.3495.1.3.2.1.11.0 
+    - name: squid_cacheServerInKb
+      oid: 1.3.6.1.4.1.3495.1.3.2.1.12.0 
+    - name: squid_cacheServerOutKb
+      oid: 1.3.6.1.4.1.3495.1.3.2.1.13.0 
+    - name: squid_cacheCurrentSwapSize
+      oid: 1.3.6.1.4.1.3495.1.3.2.1.14.0 
+    - name: squid_cacheClients
+      oid: 1.3.6.1.4.1.3495.1.3.2.1.15.0 
+
+    - name: squid_cacheClientHttpRequests
+      oid: 1.3.6.1.4.1.3495.1.5.2.2.3
+      indexes:
+        - labelname: client
+          type: IpAddress
+    - name: squid_cacheClientHttpKb
+      oid: 1.3.6.1.4.1.3495.1.5.2.2.4
+      indexes:
+        - labelname: client
+          type: IpAddress
+    - name: squid_cacheClientHttpHits
+      oid: 1.3.6.1.4.1.3495.1.5.2.2.5
+      indexes:
+        - labelname: client
+          type: IpAddress
+    - name: squid_cacheClientHTTPHitKb
+      oid: 1.3.6.1.4.1.3495.1.5.2.2.6
+      indexes:
+        - labelname: client
+          type: IpAddress
