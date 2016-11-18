@@ -10,4 +10,4 @@ mod 'tinnightcap/puppet-squid3',
 
 mod 'nubis/nsm',
     :git => 'https://github.com/nubisproject/nubis-puppet-nsm.git',
-    :ref => 'v1.2.0'
+    :ref => 'v1.2.2'
