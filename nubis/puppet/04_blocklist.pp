@@ -6,7 +6,7 @@ file { '/usr/local/bin/nubis-nat-vpc-blocklist':
 }
 
 cron::job{ 'nubis-nat-vpc-blocklist':
-  minute      => '*',
+  minute      => '*/15',
   hour        => '*',
   date        => '*',
   month       => '*',
