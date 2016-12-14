@@ -12,7 +12,7 @@ cron::job{ 'nubis-nat-vpc-blocklist':
   month       => '*',
   weekday     => '*',
   user        => 'root',
-  command     => '/usr/local/bin/nubis-nat-vpc-blocklist',
+  command     => 'nubis-cron nubis-nat-vpc-blocklist /usr/local/bin/nubis-nat-vpc-blocklist',
   environment => [
     'PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"',
   ]
