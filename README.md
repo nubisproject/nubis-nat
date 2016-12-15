@@ -18,7 +18,7 @@ In practice the nat instances update the default route for each subnet. There is
 
 We will, in short order, be adding statefull failover by using the netfilter [contrackd](http://conntrack-tools.netfilter.org/) tool.
 
-![NAT Diagram](images/Nat_Diagram.png)
+![NAT Diagram](media/Nat_Diagram.png)
 
 ## Proxy
 This project is currently based around [Squid3](http://www.squid-cache.org/). As configured we are only taking advantage of the forward proxy abilities and none of the caching abilities. The default configuration is a logging only forward proxy, in other words there are no blocklists or allow lists deployed. There is a list of "safe ports" which are allowed, all others are blocked.
