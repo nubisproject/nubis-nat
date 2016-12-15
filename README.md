@@ -6,19 +6,47 @@
 
 The nubis-nat project currently wraps a number of services into a single deployed instance type.
 
- - [Nat](#nat)
+ - [Nat](#nat-deployment)
  - [Proxy](#proxy)
  - [NSM](#nsm)
  - [IP Blocklist](#ip-blocklist)
 
-## Nat
+## Nat Deployment
+The Nubis Nat project is designed to be deployed into a standard Nubis Account. It takes advantage of the standard deployment found [here](https://github.com/nubisproject/nubis-docs/blob/master/DEPLOYMENT_OVERVIEW.md). For further specifics about Fluent consult the documentation [here](http://docs.fluentd.org/articles/quickstart).
+
 The nat works as one might expect. We are simply using iptables source natting in the postrouting table.
 
 In practice the nat instances update the default route for each subnet. There is a single NAT Auto Scaling Group (ASG) that has a desired and minimum value of two nats. If there are multiple Availability Zones (AZs) this ASG is deployed across them all. This provides a minimum level of redundancy due to the placement of EC2 instances within AZs, you can read about that [here](http://docs.aws.amazon.com/autoscaling/latest/userguide/as-instance-termination.html#default-termination-policy). When the NAT instances come online the first operational NAT instance assigns itself (its ENI) to the default route. All additional NAT instances monitor the primary NAT using a consul exclusive lock. If a node discovers the primary nat is no longer reporting healthy, it assigns the default route to itself. This provides for a minimum level of failover style redundancy.
 
 We will, in short order, be adding statefull failover by using the netfilter [contrackd](http://conntrack-tools.netfilter.org/) tool.
 
+### Deployment Diagram
+![Deployment Diagram](media/Nubis_Nat_Diagram.png "Deployment Diagram")
+
+**NOTE**: The line colors are representative and are for readability only. They are not intended to indicate any underlying protocol or specific communication details.
+
 ![NAT Diagram](media/Nat_Diagram.png)
+
+### Deployment Notes
+The Nubis Nat deployment consists of:
+ - A pair of EC2 instances acting as nat gateways
+ - An Auto Scaling group to provide resiliency and high availability
+ - An Elastic IP (EIP) which is placed in the Route Table
+
+### Deployment Resources
+Details for the deployment including; naming conventions, relationships, permissions, etcetera, can be found in the [Terraform template](https://github.com/nubisproject/nubis-consul/blob/master/modules/vpc/main.tf) used for deployment. Links to specific resources can be found in the following table.
+
+|Resource Type|Resource Title|Code Location|
+|-------------|--------------|-------------|
+|aws_security_group|nat|[modules/vpc/main.tf#391](https://github.com/nubisproject/nubis-consul/blob/master/modules/vpc/main.tf#391)|
+|aws_network_interface|private-nat|[modules/vpc/main.tf#707](https://github.com/nubisproject/nubis-consul/blob/master/modules/vpc/main.tf#707)|
+|atlas_artifact|nubis-nat|[modules/vpc/main.tf#735](https://github.com/nubisproject/nubis-consul/blob/master/modules/vpc/main.tf#735)|
+|aws_autoscaling_group|nat|[modules/vpc/main.tf#757](https://github.com/nubisproject/nubis-consul/blob/master/modules/vpc/main.tf#757)|
+|aws_launch_configuration|nat|[modules/vpc/main.tf#806](https://github.com/nubisproject/nubis-consul/blob/master/modules/vpc/main.tf#806)|
+|aws_iam_role|nat|[modules/vpc/main.tf#848](https://github.com/nubisproject/nubis-consul/blob/master/modules/vpc/main.tf#848)|
+|aws_iam_role_policy|nat|[modules/vpc/main.tf#875](https://github.com/nubisproject/nubis-consul/blob/master/modules/vpc/main.tf#875)|
+|aws_iam_instance_profile|nat|[modules/vpc/main.tf#887](https://github.com/nubisproject/nubis-consul/blob/master/modules/vpc/main.tf#887)|
+|aws_eip|nat|[modules/vpc/main.tf#1374](https://github.com/nubisproject/nubis-consul/blob/master/modules/vpc/main.tf#1374)|
 
 ## Proxy
 This project is currently based around [Squid3](http://www.squid-cache.org/). As configured we are only taking advantage of the forward proxy abilities and none of the caching abilities. The default configuration is a logging only forward proxy, in other words there are no blocklists or allow lists deployed. There is a list of "safe ports" which are allowed, all others are blocked.
