@@ -38,15 +38,15 @@ Details for the deployment including; naming conventions, relationships, permiss
 
 |Resource Type|Resource Title|Code Location|
 |-------------|--------------|-------------|
-|aws_security_group|nat|[modules/vpc/main.tf#391](https://github.com/nubisproject/nubis-consul/blob/master/modules/vpc/main.tf#391)|
-|aws_network_interface|private-nat|[modules/vpc/main.tf#707](https://github.com/nubisproject/nubis-consul/blob/master/modules/vpc/main.tf#707)|
-|atlas_artifact|nubis-nat|[modules/vpc/main.tf#735](https://github.com/nubisproject/nubis-consul/blob/master/modules/vpc/main.tf#735)|
-|aws_autoscaling_group|nat|[modules/vpc/main.tf#757](https://github.com/nubisproject/nubis-consul/blob/master/modules/vpc/main.tf#757)|
-|aws_launch_configuration|nat|[modules/vpc/main.tf#806](https://github.com/nubisproject/nubis-consul/blob/master/modules/vpc/main.tf#806)|
-|aws_iam_role|nat|[modules/vpc/main.tf#848](https://github.com/nubisproject/nubis-consul/blob/master/modules/vpc/main.tf#848)|
-|aws_iam_role_policy|nat|[modules/vpc/main.tf#875](https://github.com/nubisproject/nubis-consul/blob/master/modules/vpc/main.tf#875)|
-|aws_iam_instance_profile|nat|[modules/vpc/main.tf#887](https://github.com/nubisproject/nubis-consul/blob/master/modules/vpc/main.tf#887)|
-|aws_eip|nat|[modules/vpc/main.tf#1374](https://github.com/nubisproject/nubis-consul/blob/master/modules/vpc/main.tf#1374)|
+|aws_security_group|nat|[modules/vpc/main.tf#L391](https://github.com/nubisproject/nubis-consul/blob/master/modules/vpc/main.tf#L391)|
+|aws_network_interface|private-nat|[modules/vpc/main.tf#L707](https://github.com/nubisproject/nubis-consul/blob/master/modules/vpc/main.tf#L707)|
+|atlas_artifact|nubis-nat|[modules/vpc/main.tf#L735](https://github.com/nubisproject/nubis-consul/blob/master/modules/vpc/main.tf#L735)|
+|aws_autoscaling_group|nat|[modules/vpc/main.tf#L757](https://github.com/nubisproject/nubis-consul/blob/master/modules/vpc/main.tf#L757)|
+|aws_launch_configuration|nat|[modules/vpc/main.tf#L806](https://github.com/nubisproject/nubis-consul/blob/master/modules/vpc/main.tf#L806)|
+|aws_iam_role|nat|[modules/vpc/main.tf#L848](https://github.com/nubisproject/nubis-consul/blob/master/modules/vpc/main.tf#L848)|
+|aws_iam_role_policy|nat|[modules/vpc/main.tf#L875](https://github.com/nubisproject/nubis-consul/blob/master/modules/vpc/main.tf#L875)|
+|aws_iam_instance_profile|nat|[modules/vpc/main.tf#L887](https://github.com/nubisproject/nubis-consul/blob/master/modules/vpc/main.tf#L887)|
+|aws_eip|nat|[modules/vpc/main.tf#L1374](https://github.com/nubisproject/nubis-consul/blob/master/modules/vpc/main.tf#L1374)|
 
 ## Proxy
 This project is currently based around [Squid3](http://www.squid-cache.org/). As configured we are only taking advantage of the forward proxy abilities and none of the caching abilities. The default configuration is a logging only forward proxy, in other words there are no blocklists or allow lists deployed. There is a list of "safe ports" which are allowed, all others are blocked.
