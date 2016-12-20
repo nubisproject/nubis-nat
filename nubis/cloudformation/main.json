@@ -32,7 +32,7 @@
     "StacksVersion": {
       "Description": "Version of the Nubis Stacks",
       "Type": "String",
-      "Default": "v1.3.0-dev"
+      "Default": "v1.3.0"
     }
   },
   "Mappings": {
