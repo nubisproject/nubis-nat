@@ -1,5 +1,43 @@
 # Change Log
 
+## [v1.3.0](https://github.com/nubisproject/nubis-nat/tree/v1.3.0) (2016-12-20)
+[Full Changelog](https://github.com/nubisproject/nubis-nat/compare/v1.2.2...v1.3.0)
+
+**Closed issues:**
+
+- \[monitoring\] expose Squid telemetry [\#150](https://github.com/nubisproject/nubis-nat/issues/150)
+- Parse iptables logs for fluentd's consumption [\#146](https://github.com/nubisproject/nubis-nat/issues/146)
+- Squid log format parser for fluentd ignores the milliseconds [\#145](https://github.com/nubisproject/nubis-nat/issues/145)
+- fluentd is looking at the wrong log files path [\#144](https://github.com/nubisproject/nubis-nat/issues/144)
+- \[bug\] Interface wait loop will always wait for 5 minutes [\#142](https://github.com/nubisproject/nubis-nat/issues/142)
+- \[squid\] Parse access-logs for fluentd [\#140](https://github.com/nubisproject/nubis-nat/issues/140)
+- Cleanup old leftovers from nubis-skel [\#138](https://github.com/nubisproject/nubis-nat/issues/138)
+- Tag v1.2.3 release [\#130](https://github.com/nubisproject/nubis-nat/issues/130)
+- Pin nubis-puppet-nat to new release [\#123](https://github.com/nubisproject/nubis-nat/issues/123)
+
+**Merged pull requests:**
+
+- Update builder artifacts for v1.3.0 release [\#162](https://github.com/nubisproject/nubis-nat/pull/162) ([tinnightcap](https://github.com/tinnightcap))
+- Update Links [\#160](https://github.com/nubisproject/nubis-nat/pull/160) ([tinnightcap](https://github.com/tinnightcap))
+- Update documentation [\#159](https://github.com/nubisproject/nubis-nat/pull/159) ([tinnightcap](https://github.com/tinnightcap))
+- decrease VPC blocklist interval to 15 minutes [\#158](https://github.com/nubisproject/nubis-nat/pull/158) ([gozer](https://github.com/gozer))
+- use nubis-cron [\#157](https://github.com/nubisproject/nubis-nat/pull/157) ([gozer](https://github.com/gozer))
+- update to nubis-travis v0.1.3 [\#156](https://github.com/nubisproject/nubis-nat/pull/156) ([gozer](https://github.com/gozer))
+- update to nubis-travis v0.1.3 [\#155](https://github.com/nubisproject/nubis-nat/pull/155) ([gozer](https://github.com/gozer))
+- Bump up nsm module, this is to ensure that we create bro user as a system user [\#153](https://github.com/nubisproject/nubis-nat/pull/153) ([limed](https://github.com/limed))
+- Expose Squid telemetry to monitoring [\#151](https://github.com/nubisproject/nubis-nat/pull/151) ([gozer](https://github.com/gozer))
+- Parse \(partial\) of iptables's reject logs [\#149](https://github.com/nubisproject/nubis-nat/pull/149) ([gozer](https://github.com/gozer))
+- Include milliseconds from squid's access logs [\#148](https://github.com/nubisproject/nubis-nat/pull/148) ([gozer](https://github.com/gozer))
+- Use ::squid3::params::service\_name to find the correct path to the log files we want to watch [\#147](https://github.com/nubisproject/nubis-nat/pull/147) ([gozer](https://github.com/gozer))
+- Fix variable naming bug that caused us to always wait the full timeout before determining our interface was available. [\#143](https://github.com/nubisproject/nubis-nat/pull/143) ([gozer](https://github.com/gozer))
+- Build a regexp to parse Squid access-logs [\#141](https://github.com/nubisproject/nubis-nat/pull/141) ([gozer](https://github.com/gozer))
+- Cleanup old nubis-skel cruft [\#139](https://github.com/nubisproject/nubis-nat/pull/139) ([gozer](https://github.com/gozer))
+- Cleanup some shell construct according to ShellCheck's recommendations [\#137](https://github.com/nubisproject/nubis-nat/pull/137) ([gozer](https://github.com/gozer))
+- Enable nubis-travis v0.1.0 [\#136](https://github.com/nubisproject/nubis-nat/pull/136) ([gozer](https://github.com/gozer))
+- Allow outbound port 6363 on NAT instance [\#135](https://github.com/nubisproject/nubis-nat/pull/135) ([limed](https://github.com/limed))
+- Update builder artifacts for v1.3.0-dev release [\#132](https://github.com/nubisproject/nubis-nat/pull/132) ([gozer](https://github.com/gozer))
+- Update builder artifacts for v1.2.3 release [\#131](https://github.com/nubisproject/nubis-nat/pull/131) ([gozer](https://github.com/gozer))
+
 ## [v1.2.2](https://github.com/nubisproject/nubis-nat/tree/v1.2.2) (2016-08-02)
 [Full Changelog](https://github.com/nubisproject/nubis-nat/compare/v1.2.1...v1.2.2)
 
@@ -7,9 +45,11 @@
 
 - Add additional testing documentation to test out nubis-nat [\#124](https://github.com/nubisproject/nubis-nat/issues/124)
 - Move to v1.3.0-dev cycle [\#121](https://github.com/nubisproject/nubis-nat/issues/121)
+- Tag v1.2.2 release [\#126](https://github.com/nubisproject/nubis-nat/issues/126)
 
 **Merged pull requests:**
 
+- Update CHANGELOG for v1.2.2 release [\#129](https://github.com/nubisproject/nubis-nat/pull/129) ([tinnightcap](https://github.com/tinnightcap))
 - Update builder artifacts for v1.2.2 release [\#128](https://github.com/nubisproject/nubis-nat/pull/128) ([tinnightcap](https://github.com/tinnightcap))
 - Bump nubis-puppet-nat to v1.2.2 [\#127](https://github.com/nubisproject/nubis-nat/pull/127) ([limed](https://github.com/limed))
 - Added additional documentation on how to test FORWARD rule [\#125](https://github.com/nubisproject/nubis-nat/pull/125) ([limed](https://github.com/limed))
