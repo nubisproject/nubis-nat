@@ -19,7 +19,7 @@ PROJECT=$(nubis-metadata NUBIS_PROJECT)
 INSTANCE_ID=$(curl -fqs http://169.254.169.254/latest/meta-data/instance-id)
 
 # We only run this on the elected leader of the NAT instances, if its not us, bail out
-consul-do "$PROJECT/$ENVIRONMENT/blocklist" "$INSTANCE_ID" || exit
+consul-do "$PROJECT/$ENVIRONMENT/blocklist" "$INSTANCE_ID" || exit 0
 
 for MAC in $(curl -fqs http://169.254.169.254/latest/meta-data/network/interfaces/macs/); do
   VPC_ID=$(curl -fqs "http://169.254.169.254/latest/meta-data/network/interfaces/macs/$MAC/vpc-id")
