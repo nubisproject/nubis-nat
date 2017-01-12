@@ -98,7 +98,7 @@ package { 'boto':
   ensure => '2.42.0',
 }
 package { 'boto3':
-  ensure => '1.4.2',
+  ensure => '1.4.3',
 }
 package { 'botocore':
   ensure => '1.4.86',
@@ -491,13 +491,13 @@ package { 'kbd-misc':
   ensure => '1.15-11.4.amzn1',
 }
 package { 'kernel':
-  ensure => '4.4.23-31.54.amzn1',
+  ensure => '4.4.35-33.55.amzn1',
 }
 package { 'kernel-headers':
-  ensure => '4.4.35-33.55.amzn1',
+  ensure => '4.4.39-34.54.amzn1',
 }
 package { 'kernel-tools':
-  ensure => '4.4.35-33.55.amzn1',
+  ensure => '4.4.39-34.54.amzn1',
 }
 package { 'keyutils':
   ensure => '1.5.8-3.12.amzn1',
@@ -824,10 +824,10 @@ package { 'nss-util':
   ensure => '3.21.3-1.1.51.amzn1',
 }
 package { 'ntp':
-  ensure => '4.2.6p5-41.32.amzn1',
+  ensure => '4.2.6p5-43.33.amzn1',
 }
 package { 'ntpdate':
-  ensure => '4.2.6p5-41.32.amzn1',
+  ensure => '4.2.6p5-43.33.amzn1',
 }
 package { 'ntsysv':
   ensure => '1.3.49.3-2.14.amzn1',
@@ -1376,7 +1376,7 @@ package { 'squid':
   ensure => '3.1.23-16.22.amzn1',
 }
 package { 'sudo':
-  ensure => '1.8.6p3-20.22.amzn1',
+  ensure => '1.8.6p3-25.23.amzn1',
 }
 package { 'supervisor':
   ensure => '3.2.0',
@@ -1451,16 +1451,16 @@ package { 'util-linux':
   ensure => '2.23.2-26.27.amzn1',
 }
 package { 'vim-common':
-  ensure => '8.0.0134-1.43.amzn1',
+  ensure => '8.0.0134-1.44.amzn1',
 }
 package { 'vim-enhanced':
-  ensure => '8.0.0134-1.43.amzn1',
+  ensure => '8.0.0134-1.44.amzn1',
 }
 package { 'vim-filesystem':
-  ensure => '8.0.0134-1.43.amzn1',
+  ensure => '8.0.0134-1.44.amzn1',
 }
 package { 'vim-minimal':
-  ensure => '8.0.0134-1.43.amzn1',
+  ensure => '8.0.0134-1.44.amzn1',
 }
 package { 'virt-what':
   ensure => '1.13-2.5.amzn1',
