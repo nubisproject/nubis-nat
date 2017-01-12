@@ -45,7 +45,7 @@ fluentd::source { 'iptables':
 
     # Incomplete format, missing various fields TOS, PREC, TTL, ID, etc, but most importantly
     # TODO: it's missing the ACK/SYN/FIN flags
-    format     => '^(?<time>(\S+\s+\S+\s+\S+)).*\[(?<iptables_chain>(\S+))\]\s+IN=(?<iptables_in>(\S*))\s+OUT=(?<iptables_out>(\S*))\s+MAC=(?<iptables_mac>([0-9a-f:]+))\s+SRC=(?<iptables_src>(\S*))\s+DST=(?<iptables_dst>(\S*))\s+LEN=(?<iptables_len>(\d+))\s+.* PROTO=(?<iptables_proto>(\S+))\s+SPT=(?<iptables_source_port>(\S*))\s+DPT=(?<iptables_destination_port>(\S*))',
+    format     => '/^(?<time>(\S+\s+\S+\s+\S+)).*\[(?<iptables_chain>(\S+))\]\s+IN=(?<iptables_in>(\S*))\s+OUT=(?<iptables_out>(\S*))\s+MAC=(?<iptables_mac>([0-9a-f:]+))\s+SRC=(?<iptables_src>(\S*))\s+DST=(?<iptables_dst>(\S*))\s+LEN=(?<iptables_len>(\d+))\s+.* PROTO=(?<iptables_proto>(\S+))\s+SPT=(?<iptables_source_port>(\S*))\s+DPT=(?<iptables_destination_port>(\S*))/',
 
     tag        => 'forward.iptables',
     config     => {
