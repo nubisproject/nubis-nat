@@ -135,10 +135,6 @@ function detach_eni() {
 INSTANCE_ID=$(get_instance_id)
 REGION=$(get_region)
 
-echo -n "Waiting for instance to come up ... "
-aws ec2 wait instance-running --instance-ids "${INSTANCE_ID}" --region "${REGION}"
-echo "Done"
-
 # Lets wait for ENI to become ready first
 ENI_ID=$(_get_eni_id "${REGION}" "${NUBIS_STACK}")
 
