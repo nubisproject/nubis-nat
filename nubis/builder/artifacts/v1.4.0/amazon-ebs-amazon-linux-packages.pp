@@ -29,10 +29,10 @@ package { 'attr':
   ensure => '2.4.46-12.10.amzn1',
 }
 package { 'audit':
-  ensure => '2.4.1-5.27.amzn1',
+  ensure => '2.6.5-3.28.amzn1',
 }
 package { 'audit-libs':
-  ensure => '2.4.1-5.27.amzn1',
+  ensure => '2.6.5-3.28.amzn1',
 }
 package { 'augeas-libs':
   ensure => '1.0.0-5.7.amzn1',
@@ -101,7 +101,7 @@ package { 'boto3':
   ensure => '1.4.4',
 }
 package { 'botocore':
-  ensure => '1.5.17',
+  ensure => '1.5.28',
 }
 package { 'bro':
   ensure => '2.5_2016_02_01_12_18_22-1',
@@ -197,7 +197,7 @@ package { 'dash':
   ensure => '0.5.5.1-4.5.amzn1',
 }
 package { 'datadog-agent':
-  ensure => '5.11.2-1',
+  ensure => '5.12.0-1',
 }
 package { 'db4':
   ensure => '4.7.25-18.11.amzn1',
@@ -227,19 +227,19 @@ package { 'dejavu-serif-fonts':
   ensure => '2.33-6.6.amzn1',
 }
 package { 'device-mapper':
-  ensure => '1.02.93-3.26.amzn1',
+  ensure => '1.02.135-1.29.amzn1',
 }
 package { 'device-mapper-event':
-  ensure => '1.02.93-3.26.amzn1',
+  ensure => '1.02.135-1.29.amzn1',
 }
 package { 'device-mapper-event-libs':
-  ensure => '1.02.93-3.26.amzn1',
+  ensure => '1.02.135-1.29.amzn1',
 }
 package { 'device-mapper-libs':
-  ensure => '1.02.93-3.26.amzn1',
+  ensure => '1.02.135-1.29.amzn1',
 }
 package { 'device-mapper-persistent-data':
-  ensure => '0.3.2-1.7.amzn1',
+  ensure => '0.6.3-1.11.amzn1',
 }
 package { 'dhclient':
   ensure => '4.1.1-51.P1.26.amzn1',
@@ -491,13 +491,13 @@ package { 'kbd-misc':
   ensure => '1.15-11.4.amzn1',
 }
 package { 'kernel':
-  ensure => '4.4.41-36.55.amzn1',
+  ensure => '4.9.15-5.29.amzn1',
 }
 package { 'kernel-headers':
-  ensure => '4.4.44-39.55.amzn1',
+  ensure => '4.9.15-5.29.amzn1',
 }
 package { 'kernel-tools':
-  ensure => '4.4.44-39.55.amzn1',
+  ensure => '4.9.15-5.29.amzn1',
 }
 package { 'keyutils':
   ensure => '1.5.8-3.12.amzn1',
@@ -578,7 +578,7 @@ package { 'libcap':
   ensure => '2.16-5.5.8.amzn1',
 }
 package { 'libcap-ng':
-  ensure => '0.7.3-5.13.amzn1',
+  ensure => '0.7.5-4.14.amzn1',
 }
 package { 'libcgroup':
   ensure => '0.40.rc1-5.11.amzn1',
@@ -734,10 +734,10 @@ package { 'lua':
   ensure => '5.1.4-4.1.9.amzn1',
 }
 package { 'lvm2':
-  ensure => '2.02.115-3.26.amzn1',
+  ensure => '2.02.166-1.29.amzn1',
 }
 package { 'lvm2-libs':
-  ensure => '2.02.115-3.26.amzn1',
+  ensure => '2.02.166-1.29.amzn1',
 }
 package { 'm4':
   ensure => '1.4.16-9.10.amzn1',
@@ -851,7 +851,7 @@ package { 'openssh-server':
   ensure => '6.6.1p1-31.63.amzn1',
 }
 package { 'openssl':
-  ensure => '1.0.1k-15.96.amzn1',
+  ensure => '1.0.1k-15.99.amzn1',
 }
 package { 'p11-kit':
   ensure => '0.18.5-2.3.amzn1',
@@ -1142,7 +1142,7 @@ package { 'python27-configobj':
   ensure => '4.7.2-7.15.amzn1',
 }
 package { 'python27-crypto':
-  ensure => '2.6.1-1.12.amzn1',
+  ensure => '2.6.1-1.14.amzn1',
 }
 package { 'python27-daemon':
   ensure => '1.5.2-1.5.amzn1',
@@ -1235,7 +1235,7 @@ package { 'python27-six':
   ensure => '1.8.0-1.23.amzn1',
 }
 package { 'python27-urlgrabber':
-  ensure => '3.9.1-9.13.amzn1',
+  ensure => '3.10-8.16.amzn1',
 }
 package { 'python27-urllib3':
   ensure => '1.8.2-1.5.amzn1',
@@ -1277,16 +1277,16 @@ package { 'rpcbind':
   ensure => '0.2.0-11.8.amzn1',
 }
 package { 'rpm':
-  ensure => '4.11.2-2.73.amzn1',
+  ensure => '4.11.3-21.75.amzn1',
 }
 package { 'rpm-build-libs':
-  ensure => '4.11.2-2.73.amzn1',
+  ensure => '4.11.3-21.75.amzn1',
 }
 package { 'rpm-libs':
-  ensure => '4.11.2-2.73.amzn1',
+  ensure => '4.11.3-21.75.amzn1',
 }
 package { 'rpm-python27':
-  ensure => '4.11.2-2.73.amzn1',
+  ensure => '4.11.3-21.75.amzn1',
 }
 package { 'rsa':
   ensure => '3.4.1',
@@ -1388,7 +1388,7 @@ package { 'sysfsutils':
   ensure => '2.1.0-7.10.amzn1',
 }
 package { 'system-release':
-  ensure => '2016.09-0.9',
+  ensure => '2017.03-0.0',
 }
 package { 'systemtap-sdt-devel':
   ensure => '3.0-2.33.amzn1',
@@ -1421,10 +1421,10 @@ package { 'ttmkfdir':
   ensure => '3.0.9-32.1.5.amzn1',
 }
 package { 'tzdata':
-  ensure => '2016j-1.67.amzn1',
+  ensure => '2017a-1.68.amzn1',
 }
 package { 'tzdata-java':
-  ensure => '2016j-1.67.amzn1',
+  ensure => '2017a-1.68.amzn1',
 }
 package { 'udev':
   ensure => '173-4.13.amzn1',
@@ -1439,7 +1439,7 @@ package { 'upstart':
   ensure => '0.6.5-13.3.13.amzn1',
 }
 package { 'urlgrabber':
-  ensure => '3.9.1',
+  ensure => '3.10',
 }
 package { 'urllib3':
   ensure => '1.8.2',
@@ -1490,19 +1490,19 @@ package { 'xz-libs':
   ensure => '5.1.2-12alpha.12.amzn1',
 }
 package { 'yum':
-  ensure => '3.4.3-137.67.amzn1',
+  ensure => '3.4.3-150.68.amzn1',
 }
 package { 'yum-metadata-parser':
-  ensure => '1.1.4-8.12.amzn1',
+  ensure => '1.1.4-10.20.amzn1',
 }
 package { 'yum-plugin-priorities':
-  ensure => '1.1.31-34.28.amzn1',
+  ensure => '1.1.31-40.29.amzn1',
 }
 package { 'yum-plugin-upgrade-helper':
-  ensure => '1.1.31-34.28.amzn1',
+  ensure => '1.1.31-40.29.amzn1',
 }
 package { 'yum-utils':
-  ensure => '1.1.31-34.28.amzn1',
+  ensure => '1.1.31-40.29.amzn1',
 }
 package { 'zip':
   ensure => '3.0-1.10.amzn1',
