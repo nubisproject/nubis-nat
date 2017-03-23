@@ -9,6 +9,9 @@ case $::osfamily {
         $use_deprecated_opts            = false
         $motd_update_command            = '/bin/run-parts /etc/update-motd.d/ > /var/run/motd.dynamic'
     }
+    default: {
+        fail("Unsupported OS for node_exporter ${::osfamily}")
+    }
 }
 
 

@@ -47,19 +47,19 @@ case $::osfamily {
 }
 
 file { '/etc/snmp_exporter.yml':
-  ensure  => file,
-  owner   => root,
-  group   => root,
-  mode    => '0644',
-  source  => 'puppet:///nubis/files/snmp_exporter/config.yml',
+  ensure => file,
+  owner  => root,
+  group  => root,
+  mode   => '0644',
+  source => 'puppet:///nubis/files/snmp_exporter/config.yml',
 }
 
 file { '/etc/consul/svc-snmp-exporter.json':
-  ensure  => file,
-  owner   => root,
-  group   => root,
-  mode    => '0644',
-  source  => 'puppet:///nubis/files/snmp_exporter/svc-snmp-exporter.json',
+  ensure => file,
+  owner  => root,
+  group  => root,
+  mode   => '0644',
+  source => 'puppet:///nubis/files/snmp_exporter/svc-snmp-exporter.json',
 }
 
 file { '/etc/confd/conf.d/snmp_exporter.toml':

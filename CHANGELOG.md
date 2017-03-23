@@ -1,10 +1,28 @@
 # Change Log
 
-## [v1.3.0](https://github.com/nubisproject/nubis-nat/tree/v1.3.0) (2016-12-20)
+## [v1.4.0](https://github.com/nubisproject/nubis-nat/tree/v1.4.0) (2017-03-23)
+[Full Changelog](https://github.com/nubisproject/nubis-nat/compare/v1.3.0...v1.4.0)
+
+**Closed issues:**
+
+- Disable detailled monitoring [\#174](https://github.com/nubisproject/nubis-nat/issues/174)
+- EC2 instance waiting for itself to come up is redundant [\#171](https://github.com/nubisproject/nubis-nat/issues/171)
+- Waiting on interface readiness always takes 5 minutes [\#170](https://github.com/nubisproject/nubis-nat/issues/170)
+
+**Merged pull requests:**
+
+- ec2 wait instance-running on ourselves is completely redundant [\#173](https://github.com/nubisproject/nubis-nat/pull/173) ([gozer](https://github.com/gozer))
+- Typo fix to actually detect interface readiness and not just fall through [\#172](https://github.com/nubisproject/nubis-nat/pull/172) ([gozer](https://github.com/gozer))
+- Update builder artifacts for v1.4.0 release \[skip ci\] [\#169](https://github.com/nubisproject/nubis-nat/pull/169) ([tinnightcap](https://github.com/tinnightcap))
+- Update artifacts got missed [\#167](https://github.com/nubisproject/nubis-nat/pull/167) ([tinnightcap](https://github.com/tinnightcap))
+
+## [v1.3.0](https://github.com/nubisproject/nubis-nat/tree/v1.3.0) (2017-01-12)
 [Full Changelog](https://github.com/nubisproject/nubis-nat/compare/v1.2.2...v1.3.0)
 
 **Closed issues:**
 
+- Return success out of cron when using consul-do [\#164](https://github.com/nubisproject/nubis-nat/issues/164)
+- Don't run vpc-blocklist every \*minute\* [\#154](https://github.com/nubisproject/nubis-nat/issues/154)
 - \[monitoring\] expose Squid telemetry [\#150](https://github.com/nubisproject/nubis-nat/issues/150)
 - Parse iptables logs for fluentd's consumption [\#146](https://github.com/nubisproject/nubis-nat/issues/146)
 - Squid log format parser for fluentd ignores the milliseconds [\#145](https://github.com/nubisproject/nubis-nat/issues/145)
@@ -14,9 +32,12 @@
 - Cleanup old leftovers from nubis-skel [\#138](https://github.com/nubisproject/nubis-nat/issues/138)
 - Tag v1.2.3 release [\#130](https://github.com/nubisproject/nubis-nat/issues/130)
 - Pin nubis-puppet-nat to new release [\#123](https://github.com/nubisproject/nubis-nat/issues/123)
+- Tag v1.3.0 release [\#161](https://github.com/nubisproject/nubis-nat/issues/161)
 
 **Merged pull requests:**
 
+- use consul-do || exit 0 to keep cron job succeeding [\#165](https://github.com/nubisproject/nubis-nat/pull/165) ([gozer](https://github.com/gozer))
+- Update CHANGELOG for v1.3.0 release [\#163](https://github.com/nubisproject/nubis-nat/pull/163) ([tinnightcap](https://github.com/tinnightcap))
 - Update builder artifacts for v1.3.0 release [\#162](https://github.com/nubisproject/nubis-nat/pull/162) ([tinnightcap](https://github.com/tinnightcap))
 - Update Links [\#160](https://github.com/nubisproject/nubis-nat/pull/160) ([tinnightcap](https://github.com/tinnightcap))
 - Update documentation [\#159](https://github.com/nubisproject/nubis-nat/pull/159) ([tinnightcap](https://github.com/tinnightcap))
