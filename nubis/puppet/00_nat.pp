@@ -73,7 +73,7 @@ file { '/etc/nubis.d/0-1-interface-fixup':
 # TODO: Should have a proper fix and not have nsm class
 # install supervisor
 class { 'nsm':
-    nsm_mailto  => 'infosec@mozilla.com'
+    nsm_mailto  => 'moc@mozilla.com'
 }->
 class { 'nubis_nat':
     startup_order     => '0-3',
