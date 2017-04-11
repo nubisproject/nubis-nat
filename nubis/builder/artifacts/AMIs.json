@@ -3,11 +3,11 @@
     {
       "name": "amazon-ebs-amazon-linux",
       "builder_type": "amazon-ebs",
-      "build_time": 1491923572,
+      "build_time": 1491928567,
       "files": null,
-      "artifact_id": "ap-northeast-1:ami-a07c5ec7,ap-northeast-2:ami-72c4161c,ap-southeast-1:ami-3b46f858,ap-southeast-2:ami-bd9e90de,eu-central-1:ami-4a895b25,eu-west-1:ami-732e1415,sa-east-1:ami-34462458,us-east-1:ami-f3a820e5,us-west-1:ami-45270225,us-west-2:ami-1b05957b",
-      "packer_run_uuid": "d84eaf92-56c4-f934-72f3-81772b7fe682"
+      "artifact_id": "ap-northeast-1:ami-f3496b94,ap-northeast-2:ami-ddc416b3,ap-southeast-1:ami-6545fb06,ap-southeast-2:ami-629a9401,eu-central-1:ami-1d8a5872,eu-west-1:ami-fa211b9c,sa-east-1:ami-6747250b,us-east-1:ami-4aba325c,us-west-1:ami-a22306c2,us-west-2:ami-4f0a9a2f",
+      "packer_run_uuid": "95ce41f8-1ab8-c2f3-16f1-8794e7f51c3f"
     }
   ],
-  "last_run_uuid": "d84eaf92-56c4-f934-72f3-81772b7fe682"
+  "last_run_uuid": "95ce41f8-1ab8-c2f3-16f1-8794e7f51c3f"
 }
