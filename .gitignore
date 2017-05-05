@@ -8,3 +8,4 @@ nubis/.tmp
 nubis/.librarian
 nubis/builder/artifacts/*-dev/
 .~lock.*
+nubis/builder/artifacts/AMIs.json

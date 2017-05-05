@@ -1,5 +1,23 @@
 # Change Log
 
+## [v1.4.2](https://github.com/nubisproject/nubis-nat/tree/v1.4.2) (2017-05-05)
+[Full Changelog](https://github.com/nubisproject/nubis-nat/compare/v1.4.2...v1.4.2)
+
+**Merged pull requests:**
+
+- Add nubis/builder/artifacts/AMIs.json to .gitignore [\#185](https://github.com/nubisproject/nubis-nat/pull/185) ([tinnightcap](https://github.com/tinnightcap))
+
+## [v1.4.2](https://github.com/nubisproject/nubis-nat/tree/v1.4.2) (2017-05-03)
+[Full Changelog](https://github.com/nubisproject/nubis-nat/compare/v1.4.1...v1.4.2)
+
+**Closed issues:**
+
+- Tag v1.4.2 release [\#182](https://github.com/nubisproject/nubis-nat/issues/182)
+
+**Merged pull requests:**
+
+- Update CHANGELOG for v1.4.2 release \[skip ci\] [\#183](https://github.com/nubisproject/nubis-nat/pull/183) ([tinnightcap](https://github.com/tinnightcap))
+
 ## [v1.4.1](https://github.com/nubisproject/nubis-nat/tree/v1.4.1) (2017-04-11)
 [Full Changelog](https://github.com/nubisproject/nubis-nat/compare/v1.4.0...v1.4.1)
 
