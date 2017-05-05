@@ -1,12 +1,35 @@
 # Change Log
 
-## [v1.4.1](https://github.com/nubisproject/nubis-nat/tree/v1.4.1) (2017-04-11)
-[Full Changelog](https://github.com/nubisproject/nubis-nat/compare/v1.4.0...v1.4.1)
+## [v1.4.2](https://github.com/nubisproject/nubis-nat/tree/v1.4.2) (2017-05-05)
+[Full Changelog](https://github.com/nubisproject/nubis-nat/compare/v1.4.2...v1.4.2)
 
 **Merged pull requests:**
 
+- Add nubis/builder/artifacts/AMIs.json to .gitignore [\#185](https://github.com/nubisproject/nubis-nat/pull/185) ([tinnightcap](https://github.com/tinnightcap))
+
+## [v1.4.2](https://github.com/nubisproject/nubis-nat/tree/v1.4.2) (2017-05-03)
+[Full Changelog](https://github.com/nubisproject/nubis-nat/compare/v1.4.1...v1.4.2)
+
+**Closed issues:**
+
+- Tag v1.4.2 release [\#182](https://github.com/nubisproject/nubis-nat/issues/182)
+
+**Merged pull requests:**
+
+- Update CHANGELOG for v1.4.2 release \[skip ci\] [\#183](https://github.com/nubisproject/nubis-nat/pull/183) ([tinnightcap](https://github.com/tinnightcap))
+
+## [v1.4.1](https://github.com/nubisproject/nubis-nat/tree/v1.4.1) (2017-04-11)
+[Full Changelog](https://github.com/nubisproject/nubis-nat/compare/v1.4.0...v1.4.1)
+
+**Closed issues:**
+
+- Tag v1.4.1 release [\#179](https://github.com/nubisproject/nubis-nat/issues/179)
+
+**Merged pull requests:**
+
+- Merge v1.4.1 release into develop. \[skip ci\] [\#181](https://github.com/nubisproject/nubis-nat/pull/181) ([tinnightcap](https://github.com/tinnightcap))
+- Update CHANGELOG for v1.4.1 release \[skip ci\] [\#180](https://github.com/nubisproject/nubis-nat/pull/180) ([tinnightcap](https://github.com/tinnightcap))
 - Change email address for nsm [\#178](https://github.com/nubisproject/nubis-nat/pull/178) ([limed](https://github.com/limed))
-- Merge v1.4.0 release into develop. \[skip ci\] [\#177](https://github.com/nubisproject/nubis-nat/pull/177) ([tinnightcap](https://github.com/tinnightcap))
 
 ## [v1.4.0](https://github.com/nubisproject/nubis-nat/tree/v1.4.0) (2017-03-23)
 [Full Changelog](https://github.com/nubisproject/nubis-nat/compare/v1.3.0...v1.4.0)
@@ -20,6 +43,7 @@
 
 **Merged pull requests:**
 
+- Merge v1.4.0 release into develop. \[skip ci\] [\#177](https://github.com/nubisproject/nubis-nat/pull/177) ([tinnightcap](https://github.com/tinnightcap))
 - Update CHANGELOG for v1.4.0 release \[skip ci\] [\#176](https://github.com/nubisproject/nubis-nat/pull/176) ([tinnightcap](https://github.com/tinnightcap))
 - ec2 wait instance-running on ourselves is completely redundant [\#173](https://github.com/nubisproject/nubis-nat/pull/173) ([gozer](https://github.com/gozer))
 - Typo fix to actually detect interface readiness and not just fall through [\#172](https://github.com/nubisproject/nubis-nat/pull/172) ([gozer](https://github.com/gozer))
@@ -28,6 +52,10 @@
 
 ## [v1.3.0](https://github.com/nubisproject/nubis-nat/tree/v1.3.0) (2017-01-12)
 [Full Changelog](https://github.com/nubisproject/nubis-nat/compare/v1.2.2...v1.3.0)
+
+**Fixed bugs:**
+
+- Allow outbound port 6363 [\#133](https://github.com/nubisproject/nubis-nat/issues/133)
 
 **Closed issues:**
 
@@ -150,6 +178,7 @@
 - Instead of waiting for the ENI to be available, just steal it [\#57](https://github.com/nubisproject/nubis-nat/issues/57)
 - Filter out iptable logs to its own file and also send it to fluent [\#37](https://github.com/nubisproject/nubis-nat/issues/37)
 - Merge nubis-proxy into nubis-nat [\#11](https://github.com/nubisproject/nubis-nat/issues/11)
+- Manage iptable rules via confd [\#22](https://github.com/nubisproject/nubis-nat/pull/22) ([limed](https://github.com/limed))
 
 **Fixed bugs:**
 
@@ -223,8 +252,10 @@
 - Fixes issue \#33, vpc cidr ip not being set since we're not calling curl [\#34](https://github.com/nubisproject/nubis-nat/pull/34) ([limed](https://github.com/limed))
 - Pin base image to specific image, fixes issue \#28 [\#31](https://github.com/nubisproject/nubis-nat/pull/31) ([limed](https://github.com/limed))
 - Move Consul advertisement to eth1 [\#30](https://github.com/nubisproject/nubis-nat/pull/30) ([gozer](https://github.com/gozer))
+- POC: Implement a VPC blocklisting process. [\#26](https://github.com/nubisproject/nubis-nat/pull/26) ([gozer](https://github.com/gozer))
 - Updated readme with some NSM information [\#19](https://github.com/nubisproject/nubis-nat/pull/19) ([limed](https://github.com/limed))
 - Include nsm puppet class, this installs nsm on the nat instances [\#17](https://github.com/nubisproject/nubis-nat/pull/17) ([limed](https://github.com/limed))
+- Nubis proxy merge [\#15](https://github.com/nubisproject/nubis-nat/pull/15) ([limed](https://github.com/limed))
 - Include advertise-addr config, we need this since NAT instances has 2 interfaces [\#14](https://github.com/nubisproject/nubis-nat/pull/14) ([limed](https://github.com/limed))
 - Bump metadata [\#10](https://github.com/nubisproject/nubis-nat/pull/10) ([limed](https://github.com/limed))
 - Fixing filters to be more specific [\#9](https://github.com/nubisproject/nubis-nat/pull/9) ([limed](https://github.com/limed))
