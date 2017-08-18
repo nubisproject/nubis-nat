@@ -1,5 +1,17 @@
 # Change Log
 
+## [v1.5.0](https://github.com/nubisproject/nubis-nat/tree/v1.5.0) (2017-06-24)
+[Full Changelog](https://github.com/nubisproject/nubis-nat/compare/v1.4.2...v1.5.0)
+
+**Closed issues:**
+
+- Tag v1.5.0 release [\#189](https://github.com/nubisproject/nubis-nat/issues/189)
+
+**Merged pull requests:**
+
+- Merge v1.5.0 release into develop. \[skip ci\] [\#191](https://github.com/nubisproject/nubis-nat/pull/191) ([tinnightcap](https://github.com/tinnightcap))
+- Update CHANGELOG for v1.5.0 release \[skip ci\] [\#190](https://github.com/nubisproject/nubis-nat/pull/190) ([tinnightcap](https://github.com/tinnightcap))
+
 ## [v1.4.2](https://github.com/nubisproject/nubis-nat/tree/v1.4.2) (2017-05-05)
 [Full Changelog](https://github.com/nubisproject/nubis-nat/compare/v1.4.1...v1.4.2)
 
