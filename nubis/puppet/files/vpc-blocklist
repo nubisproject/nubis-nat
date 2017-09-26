@@ -5,7 +5,7 @@
 [ "${FLOCKER}" != "$0" ] && exec env FLOCKER="$0" flock -E0 -en "$0" "$0" "$@" || :
 
 # These 2 settings should be configurable, but care needs to be taken with the KeyIDs
-BLOCKLIST_URL=https://s3.amazonaws.com/mozilla_infosec_blocklist/blocklist
+BLOCKLIST_URL=https://s3.amazonaws.com/mozilla_infosec_blocklist/ipblocklist
 
 # This key will only be retrieved and trusted from nubis-secret
 # Set to a long keyid without prefix 0x to enable
@@ -14,18 +14,18 @@ BLOCKLIST_KEYID=
 
 export PATH=/usr/local/bin:$PATH
 
-ENVIRONMENT=$(nubis-metadata NUBIS_ENVIRONMENT)
+ARENA=$(nubis-metadata NUBIS_ARENA)
 PROJECT=$(nubis-metadata NUBIS_PROJECT)
 INSTANCE_ID=$(curl -fqs http://169.254.169.254/latest/meta-data/instance-id)
 
 # We only run this on the elected leader of the NAT instances, if its not us, bail out
-consul-do "$PROJECT/$ENVIRONMENT/blocklist" "$INSTANCE_ID" || exit 0
+consul-do "$PROJECT/$ARENA/blocklist" "$INSTANCE_ID" || exit 0
 
 for MAC in $(curl -fqs http://169.254.169.254/latest/meta-data/network/interfaces/macs/); do
   VPC_ID=$(curl -fqs "http://169.254.169.254/latest/meta-data/network/interfaces/macs/$MAC/vpc-id")
 done
 
-REGION=$(curl -s http://169.254.169.254/latest/dynamic/instance-identity/document | jq '.region' -r)
+REGION=$(nubis-region)
 NACL_ID=$(aws --region "$REGION" ec2 describe-network-acls --filters "Name=vpc-id,Values=$VPC_ID" | jq -r '.NetworkAcls[].NetworkAclId')
 
 function create_acl () {

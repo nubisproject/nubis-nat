@@ -1,8 +1,8 @@
 forge "https://forgeapi.puppetlabs.com"
 
 mod 'nubis/nubis_nat',
-    :git => 'https://github.com/nubisproject/nubis-puppet-nat.git',
-    :ref => 'v1.2.2'
+    :git => 'https://github.com/gozer/nubis-puppet-nat.git',
+    :ref => 'feature/arena'
 
 mod 'tinnightcap/puppet-squid3',
     :git => 'https://github.com/tinnightcap/puppet-squid3.git',
