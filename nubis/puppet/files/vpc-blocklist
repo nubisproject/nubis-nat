@@ -73,13 +73,9 @@ function get_blocklist () {
   local BLOCKLIST_FILE=/var/run/nat-blocklist.txt.asc
 
   if [ "$BLOCKLIST_KEYID" != "" ]; then
-    # See if we have the key already
-    gpg --quiet --batch --list-keys "$BLOCKLIST_KEYID" >/dev/null 2>&1
-
-    # Otherwise, get it from nubis-secret
-    if [ "$?" != "0" ]; then
-      nubis-secret --global get nat/blocklist/gpg-key/0x$BLOCKLIST_KEYID | gpg --import > /dev/null 2>&1
-      if [ "$?" != "0" ]; then
+    # See if we have the key already, otherwise, get it from nubis-secret
+    if ! gpg --quiet --batch --list-keys "$BLOCKLIST_KEYID" >/dev/null 2>&1; then
+      if ! nubis-secret --global get nat/blocklist/gpg-key/0x$BLOCKLIST_KEYID | gpg --import > /dev/null 2>&1; then
         echo "nubis-secret/gpg-import failed $?"
         exit 3
       fi
@@ -89,6 +85,7 @@ function get_blocklist () {
   # update the blocklist
   HTTP_STATUS=$(curl -w "%{http_code}" --retry 5 -fqs -z $BLOCKLIST_FILE -o $BLOCKLIST_FILE "$BLOCKLIST_URL" 2> /dev/null)
 
+  # shellcheck disable=SC2181
   if [ "$?" != "0" ]; then
     echo "Curl failed $?"
     exit 4
@@ -100,9 +97,8 @@ function get_blocklist () {
 
   if [ "$BLOCKLIST_KEYID" != "" ]; then
     # Verify signature *and* get at content
-    gpg --status-fd 1 2>/dev/null < $BLOCKLIST_FILE | grep "^\[GNUPG:\] VALIDSIG $BLOCKLIST_KEYID" > /dev/null
 
-    if [ "$?" != "0" ]; then
+    if ! gpg --status-fd 1 2>/dev/null < $BLOCKLIST_FILE | grep "^\[GNUPG:\] VALIDSIG $BLOCKLIST_KEYID" > /dev/null; then
       echo "Not a trusted signature"
       exit 5
     fi
@@ -112,6 +108,7 @@ function get_blocklist () {
     BL=$(cat $BLOCKLIST_FILE)
   fi
 
+  # shellcheck disable=SC2181
   if [ "$?" == "0" ]; then
     echo "$BL"
   else
