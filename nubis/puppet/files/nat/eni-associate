@@ -34,13 +34,13 @@ function _get_eni_id {
 
     local availability_zone
     availability_zone=$(get_availability_zone)
-    local environment=${NUBIS_ENVIRONMENT}
+    local arena=${NUBIS_ARENA}
     local region=$1
 
     aws ec2 describe-network-interfaces \
         --region "${region}" \
         --filter \
-            "Name=tag-value,Values=nubis-nat-eni-${environment}" \
+            "Name=tag-value,Values=nubis-nat-eni-${arena}" \
             "Name=availability-zone,Values=${availability_zone}" \
         --query \
             'NetworkInterfaces[*][NetworkInterfaceId]' \

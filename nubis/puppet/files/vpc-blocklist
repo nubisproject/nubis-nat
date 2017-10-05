@@ -5,7 +5,7 @@
 [ "${FLOCKER}" != "$0" ] && exec env FLOCKER="$0" flock -E0 -en "$0" "$0" "$@" || :
 
 # These 2 settings should be configurable, but care needs to be taken with the KeyIDs
-BLOCKLIST_URL=https://s3.amazonaws.com/mozilla_infosec_blocklist/blocklist
+BLOCKLIST_URL=https://s3.amazonaws.com/mozilla_infosec_blocklist/ipblocklist
 
 # This key will only be retrieved and trusted from nubis-secret
 # Set to a long keyid without prefix 0x to enable
@@ -14,18 +14,18 @@ BLOCKLIST_KEYID=
 
 export PATH=/usr/local/bin:$PATH
 
-ENVIRONMENT=$(nubis-metadata NUBIS_ENVIRONMENT)
+ARENA=$(nubis-metadata NUBIS_ARENA)
 PROJECT=$(nubis-metadata NUBIS_PROJECT)
 INSTANCE_ID=$(curl -fqs http://169.254.169.254/latest/meta-data/instance-id)
 
 # We only run this on the elected leader of the NAT instances, if its not us, bail out
-consul-do "$PROJECT/$ENVIRONMENT/blocklist" "$INSTANCE_ID" || exit 0
+consul-do "$PROJECT/$ARENA/blocklist" "$INSTANCE_ID" || exit 0
 
 for MAC in $(curl -fqs http://169.254.169.254/latest/meta-data/network/interfaces/macs/); do
   VPC_ID=$(curl -fqs "http://169.254.169.254/latest/meta-data/network/interfaces/macs/$MAC/vpc-id")
 done
 
-REGION=$(curl -s http://169.254.169.254/latest/dynamic/instance-identity/document | jq '.region' -r)
+REGION=$(nubis-region)
 NACL_ID=$(aws --region "$REGION" ec2 describe-network-acls --filters "Name=vpc-id,Values=$VPC_ID" | jq -r '.NetworkAcls[].NetworkAclId')
 
 function create_acl () {
@@ -73,13 +73,9 @@ function get_blocklist () {
   local BLOCKLIST_FILE=/var/run/nat-blocklist.txt.asc
 
   if [ "$BLOCKLIST_KEYID" != "" ]; then
-    # See if we have the key already
-    gpg --quiet --batch --list-keys "$BLOCKLIST_KEYID" >/dev/null 2>&1
-
-    # Otherwise, get it from nubis-secret
-    if [ "$?" != "0" ]; then
-      nubis-secret --global get nat/blocklist/gpg-key/0x$BLOCKLIST_KEYID | gpg --import > /dev/null 2>&1
-      if [ "$?" != "0" ]; then
+    # See if we have the key already, otherwise, get it from nubis-secret
+    if ! gpg --quiet --batch --list-keys "$BLOCKLIST_KEYID" >/dev/null 2>&1; then
+      if ! nubis-secret --global get nat/blocklist/gpg-key/0x$BLOCKLIST_KEYID | gpg --import > /dev/null 2>&1; then
         echo "nubis-secret/gpg-import failed $?"
         exit 3
       fi
@@ -89,6 +85,7 @@ function get_blocklist () {
   # update the blocklist
   HTTP_STATUS=$(curl -w "%{http_code}" --retry 5 -fqs -z $BLOCKLIST_FILE -o $BLOCKLIST_FILE "$BLOCKLIST_URL" 2> /dev/null)
 
+  # shellcheck disable=SC2181
   if [ "$?" != "0" ]; then
     echo "Curl failed $?"
     exit 4
@@ -100,9 +97,8 @@ function get_blocklist () {
 
   if [ "$BLOCKLIST_KEYID" != "" ]; then
     # Verify signature *and* get at content
-    gpg --status-fd 1 2>/dev/null < $BLOCKLIST_FILE | grep "^\[GNUPG:\] VALIDSIG $BLOCKLIST_KEYID" > /dev/null
 
-    if [ "$?" != "0" ]; then
+    if ! gpg --status-fd 1 2>/dev/null < $BLOCKLIST_FILE | grep "^\[GNUPG:\] VALIDSIG $BLOCKLIST_KEYID" > /dev/null; then
       echo "Not a trusted signature"
       exit 5
     fi
@@ -112,6 +108,7 @@ function get_blocklist () {
     BL=$(cat $BLOCKLIST_FILE)
   fi
 
+  # shellcheck disable=SC2181
   if [ "$?" == "0" ]; then
     echo "$BL"
   else
