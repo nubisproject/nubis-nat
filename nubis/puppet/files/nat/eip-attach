@@ -7,80 +7,13 @@
 AWS_DEFAULT_REGION=$(get_region)
 export AWS_DEFAULT_REGION
 
-function __my_az() {
-    local az region availability_zone
-    az=$1
-    region=$(get_region)
-    availability_zone=($(aws --region "${region}" ec2 describe-availability-zones --query "AvailabilityZones[0:3].ZoneName" --output text))
-    if [[ "${availability_zone[0]}" == "${az}" ]]; then
-        echo "Az1"
-    elif [[ "${availability_zone[1]}" == "${az}" ]]; then
-        echo "Az2"
-    else
-        echo "Az3"
-    fi
-}
-
-function __get_logical_id() {
-    # shellcheck disable=SC2128
-    if [ -z "$1" ] || [ -z "$2" ]; then echo "Usage: $FUNCNAME [stackname] [resource name]"; exit 1; fi
-
-
-    local stackname=$1
-    local search_string=$2
-
-    local logical_id
-    logical_id=$(aws cloudformation describe-stack-resources --stack-name "${stackname}" --query "StackResources[?LogicalResourceId == \`${search_string}\`].PhysicalResourceId" --output text)
-    echo "${logical_id}"
-}
-
-function __get_stack_output() {
-    # shellcheck disable=SC2128
-    if [ -z "$1" ] || [ -z "$2" ]; then echo "Usage: $FUNCNAME [stackname] [output key]"; exit 1; fi
-
-    local stackname=$1
-    local output_key=$2
-
-    local output_value
-    output_value=$(aws cloudformation describe-stacks --stack-name "${stackname}" --query "Stacks[].Outputs[?OutputKey == \`${output_key}\`].OutputValue" --output text)
-    echo "${output_value}"
-}
-
-function get_eip_id() {
-    local environment stackname az my_az
-
-    environment=${NUBIS_ENVIRONMENT^}
-    stackname=${NUBIS_STACK}
-
-    az=$(get_availability_zone)
-    my_az=$(__my_az "${az}")
-
-    logical_id=$(__get_logical_id "${stackname}" "${environment}VPCStacki")
-    eip_id=$(__get_stack_output "${stackname}" "Eip${my_az}")
-
-    echo "${eip_id}"
-}
-
 # Meat and potatoes of script
 
 ENI_ID=$(get_eni_id eth0)
 INSTANCE_ID=$(get_instance_id)
 
-echo -n "Waiting for instance to come up ... "
-aws ec2 wait instance-running --instance-ids "${INSTANCE_ID}"
-echo "Done"
-
-# First, check our metadata
+# check our metadata
 ELASTICIP_ID=$(nubis-metadata NUBIS_NAT_EIP)
-
-# Second, check with CloudFormation to see if we can find our IP
-attempts=0
-until [ ! -z "${ELASTICIP_ID}" ] || [ "${attempts}" -eq 10 ]; do
-    log "Waiting on Elastic IP to be ready"
-    ELASTICIP_ID=$(get_eip_id)
-    sleep 5
-    let attempts++
-done
 
 if [[ -z "${INSTANCE_ID}" ]]; then
     log "ERROR: Instance ID not found"

@@ -1,7 +1,7 @@
 [template]
 src = "squid_allow_domains.tmpl"
 dest = "/etc/squid/allow_domains.txt"
-prefix = "/%%PROJECT%%/%%ENVIRONMENT%%"
+prefix = "/%%PROJECT%%/%%ARENA%%"
 
 keys = [
     "/config/AllowDomains",

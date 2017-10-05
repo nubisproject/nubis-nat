@@ -1,7 +1,7 @@
 [template]
 src = "iptables.tmpl"
 dest = "/usr/local/bin/iptables.pp"
-prefix = "/%%PROJECT%%/%%ENVIRONMENT%%"
+prefix = "/%%PROJECT%%/%%ARENA%%"
 uid = 0
 gid = 0
 mode = "0644"
