@@ -1,5 +1,26 @@
 # Change Log
 
+## [v2.0.0](https://github.com/nubisproject/nubis-nat/tree/v2.0.0) (2017-10-05)
+[Full Changelog](https://github.com/nubisproject/nubis-nat/compare/v1.5.1...v2.0.0)
+
+**Merged pull requests:**
+
+- Arena drop [\#198](https://github.com/nubisproject/nubis-nat/pull/198) ([gozer](https://github.com/gozer))
+- Update nubis-travis to v1.4.2 [\#196](https://github.com/nubisproject/nubis-nat/pull/196) ([tinnightcap](https://github.com/tinnightcap))
+- Migrate to mozilla slack [\#195](https://github.com/nubisproject/nubis-nat/pull/195) ([tinnightcap](https://github.com/tinnightcap))
+
+## [v1.5.1](https://github.com/nubisproject/nubis-nat/tree/v1.5.1) (2017-08-18)
+[Full Changelog](https://github.com/nubisproject/nubis-nat/compare/v1.5.0...v1.5.1)
+
+**Closed issues:**
+
+- Tag v1.5.1 release [\#192](https://github.com/nubisproject/nubis-nat/issues/192)
+
+**Merged pull requests:**
+
+- Merge v1.5.1 release into develop. \[skip ci\] [\#194](https://github.com/nubisproject/nubis-nat/pull/194) ([tinnightcap](https://github.com/tinnightcap))
+- Update CHANGELOG for v1.5.1 release \[skip ci\] [\#193](https://github.com/nubisproject/nubis-nat/pull/193) ([tinnightcap](https://github.com/tinnightcap))
+
 ## [v1.5.0](https://github.com/nubisproject/nubis-nat/tree/v1.5.0) (2017-06-24)
 [Full Changelog](https://github.com/nubisproject/nubis-nat/compare/v1.4.2...v1.5.0)
 
