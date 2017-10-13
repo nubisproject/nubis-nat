@@ -1,10 +1,31 @@
 # Change Log
 
+## [v2.0.1](https://github.com/nubisproject/nubis-nat/tree/v2.0.1) (2017-10-13)
+[Full Changelog](https://github.com/nubisproject/nubis-nat/compare/v2.0.0...v2.0.1)
+
+**Implemented enhancements:**
+
+- Generalize nsm\_mailto parameter [\#18](https://github.com/nubisproject/nubis-nat/issues/18)
+
+**Fixed bugs:**
+
+- Ensure bro user doesn't get killed with by user management [\#152](https://github.com/nubisproject/nubis-nat/issues/152)
+
+**Closed issues:**
+
+- \[nat-vpc-blocklist\] Return failure code if verification fails [\#168](https://github.com/nubisproject/nubis-nat/issues/168)
+
 ## [v2.0.0](https://github.com/nubisproject/nubis-nat/tree/v2.0.0) (2017-10-05)
 [Full Changelog](https://github.com/nubisproject/nubis-nat/compare/v1.5.1...v2.0.0)
 
+**Closed issues:**
+
+- Tag v2.0.0 release [\#199](https://github.com/nubisproject/nubis-nat/issues/199)
+
 **Merged pull requests:**
 
+- Merge v2.0.0 release into develop. \[skip ci\] [\#201](https://github.com/nubisproject/nubis-nat/pull/201) ([tinnightcap](https://github.com/tinnightcap))
+- Update CHANGELOG for v2.0.0 release \[skip ci\] [\#200](https://github.com/nubisproject/nubis-nat/pull/200) ([tinnightcap](https://github.com/tinnightcap))
 - Arena drop [\#198](https://github.com/nubisproject/nubis-nat/pull/198) ([gozer](https://github.com/gozer))
 - Update nubis-travis to v1.4.2 [\#196](https://github.com/nubisproject/nubis-nat/pull/196) ([tinnightcap](https://github.com/tinnightcap))
 - Migrate to mozilla slack [\#195](https://github.com/nubisproject/nubis-nat/pull/195) ([tinnightcap](https://github.com/tinnightcap))
