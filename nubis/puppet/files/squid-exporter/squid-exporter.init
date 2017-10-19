@@ -6,7 +6,7 @@
 #   * Sections: 20.2, 20.3
 #
 ### BEGIN INIT INFO
-# Provides:          snmp_exporter
+# Provides:          squid-exporter
 # Required-Start:    $remote_fs $syslog
 # Required-Stop:     $remote_fs $syslog
 # Default-Start:     2 3 4 5
@@ -18,9 +18,9 @@
 PATH=/sbin:/usr/sbin:/bin:/usr/bin
 export PATH
 
-name=snmp_exporter
+name=squid-exporter
 program="/usr/local/bin/$name"
-args="-web.listen-address :9106 -config.file /etc/snmp_exporter.yml"
+args="-listern-port 9106"
 pidfile=/var/run/$name.pid
 user=root
 group=root
