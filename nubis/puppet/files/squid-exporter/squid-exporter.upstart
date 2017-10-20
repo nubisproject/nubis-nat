@@ -12,16 +12,16 @@ env GOMAXPROCS=2
 
 post-stop script
 
-  goal=$(initctl status $UPSTART_JOB | awk '{print $2}' | cut -d '/' -f 1)
-  if [ $goal != "stop" ]; then
-      echo "Backoff for $SLEEP_TIME seconds"
-      sleep $SLEEP_TIME
-      NEW_SLEEP_TIME=`expr 2 \* $SLEEP_TIME`
-      if [ $NEW_SLEEP_TIME -ge 60 ]; then
-          NEW_SLEEP_TIME=60
-      fi
-      initctl set-env SLEEP_TIME=$NEW_SLEEP_TIME
-  fi
+    goal=$(initctl status $UPSTART_JOB | awk '{print $2}' | cut -d '/' -f 1)
+    if [ $goal != "stop" ]; then
+        echo "Backoff for $SLEEP_TIME seconds"
+        sleep $SLEEP_TIME
+        NEW_SLEEP_TIME=`expr 2 \* $SLEEP_TIME`
+        if [ $NEW_SLEEP_TIME -ge 60 ]; then
+            NEW_SLEEP_TIME=60
+        fi
+        initctl set-env SLEEP_TIME=$NEW_SLEEP_TIME
+    fi
 
 end script
 
@@ -30,10 +30,12 @@ script
 		. /etc/profile.d/proxy.sh
 	fi
 
-	exec >> /var/log/squid_exporter.log
-	exec 2>&1
+    exec >> /var/log/squid_exporter.log
+    exec 2>&1
 
-	# Yes this listern is a typo but its on purpose because its a typo upstream
-	# see: https://github.com/boynux/squid-exporter/pull/2
-	exec /usr/local/bin/squid-exporter -listern-port 9106
+    bind_addr=$(jq -r .bind_addr /etc/consul/interface.json)
+
+    # Yes this listern is a typo but its on purpose because its a typo upstream
+    # see: https://github.com/boynux/squid-exporter/pull/2
+    exec /usr/local/bin/squid-exporter ${bind_addr} -listern-port 9106
 end script

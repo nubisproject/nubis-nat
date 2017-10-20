@@ -1,0 +1,12 @@
+#!/bin/bash
+
+log "Starting up squid exporter"
+
+os=$(lsb_release -i | awk '{print $3}')
+if [ "${os}" == 'AmazonAMI' ]; then
+    /etc/init.d/squid-exporter start
+elif [ "${os}" == "Ubuntu" ]; then
+    start squid-exporter
+else
+    log "[warn] Cannot start squid exporter"
+fi

@@ -12,17 +12,23 @@ exec { 'chmod /usr/local/bin/squid-exporter':
   path    =>  ['/sbin','/bin','/usr/sbin','/usr/bin','/usr/local/sbin','/usr/local/bin'],
 }
 
+# Make sure its not running during packer build
+# we start this up after our eni starts up
+# startup will happen in nubis.d
+service { 'squid-exporter':
+  ensure => 'stopped',
+  enable => false,
+}
+
 case $::osfamily {
   'RedHat': {
-    file { '/etc/init.d/squid_exporter':
+    file { '/etc/init.d/squid-exporter':
       ensure => file,
       owner  => root,
       group  => root,
       mode   => '0755',
       source => 'puppet:///nubis/files/squid-exporter/squid-exporter.init',
-    }->
-    service { 'squid_exporter':
-      enable => true,
+      before =>  Service['squid-exporter'],
     }
   }
   'Debian': {
@@ -32,6 +38,7 @@ case $::osfamily {
       group  => root,
       mode   => '0644',
       source => 'puppet:///nubis/files/squid-exporter/squid-exporter.upstart',
+      before =>  Service['squid-exporter'],
     }
     file { '/etc/init/squid-exporter.override':
       ensure  => file,
@@ -39,9 +46,26 @@ case $::osfamily {
       group   => root,
       mode    => '0644',
       content => 'manual',
+      before  => Service['squid-exporter'],
     }
   }
   default: {
     fail("Unsupported OS for squid-exporter ${::osfamily}")
   }
+}
+
+file { '/etc/consul/svc-squid-exporter.json':
+  ensure => file,
+  owner  => root,
+  group  => root,
+  mode   => '0644',
+  source =>  'puppet:///nubis/files/squid-exporter/svc-squid-exporter.json',
+}
+
+file { '/etc/nubis.d/99-squid-exporter-startup':
+  ensure => file,
+  owner  => root,
+  group  => root,
+  mode   => '0755',
+  source =>  'puppet:///nubis/files/squid-exporter/99-squid-exporter-startup',
 }
