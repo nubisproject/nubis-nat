@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# shellcheck disable=SC1091
+[ -e /usr/local/lib/nubis/nubis-lib.sh ] && . /usr/local/lib/nubis/nubis-lib.sh || exit 1
+
 log "Starting up squid exporter"
 
 os=$(lsb_release -i | awk '{print $3}')
