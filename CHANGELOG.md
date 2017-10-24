@@ -1,5 +1,16 @@
 # Change Log
 
+## [v2.0.2](https://github.com/nubisproject/nubis-nat/tree/v2.0.2) (2017-10-24)
+[Full Changelog](https://github.com/nubisproject/nubis-nat/compare/v2.0.1...v2.0.2)
+
+**Closed issues:**
+
+- \[squid-exporter\] Use squid exporter instead of snmp [\#197](https://github.com/nubisproject/nubis-nat/issues/197)
+
+**Merged pull requests:**
+
+- Use a proper squid exporter [\#205](https://github.com/nubisproject/nubis-nat/pull/205) ([limed](https://github.com/limed))
+
 ## [v2.0.1](https://github.com/nubisproject/nubis-nat/tree/v2.0.1) (2017-10-13)
 [Full Changelog](https://github.com/nubisproject/nubis-nat/compare/v2.0.0...v2.0.1)
 
@@ -14,6 +25,12 @@
 **Closed issues:**
 
 - \[nat-vpc-blocklist\] Return failure code if verification fails [\#168](https://github.com/nubisproject/nubis-nat/issues/168)
+- Tag v2.0.1 release [\#202](https://github.com/nubisproject/nubis-nat/issues/202)
+
+**Merged pull requests:**
+
+- Merge v2.0.1 release into develop. \[skip ci\] [\#204](https://github.com/nubisproject/nubis-nat/pull/204) ([tinnightcap](https://github.com/tinnightcap))
+- Update CHANGELOG for v2.0.1 release \[skip ci\] [\#203](https://github.com/nubisproject/nubis-nat/pull/203) ([tinnightcap](https://github.com/tinnightcap))
 
 ## [v2.0.0](https://github.com/nubisproject/nubis-nat/tree/v2.0.0) (2017-10-05)
 [Full Changelog](https://github.com/nubisproject/nubis-nat/compare/v1.5.1...v2.0.0)
