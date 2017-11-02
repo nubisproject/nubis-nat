@@ -6,9 +6,12 @@
 **Closed issues:**
 
 - \[squid-exporter\] Use squid exporter instead of snmp [\#197](https://github.com/nubisproject/nubis-nat/issues/197)
+- Tag v2.0.2 release [\#207](https://github.com/nubisproject/nubis-nat/issues/207)
 
 **Merged pull requests:**
 
+- Merge v2.0.2 release into develop. \[skip ci\] [\#209](https://github.com/nubisproject/nubis-nat/pull/209) ([tinnightcap](https://github.com/tinnightcap))
+- Update CHANGELOG for v2.0.2 release \[skip ci\] [\#208](https://github.com/nubisproject/nubis-nat/pull/208) ([tinnightcap](https://github.com/tinnightcap))
 - Use a proper squid exporter [\#205](https://github.com/nubisproject/nubis-nat/pull/205) ([limed](https://github.com/limed))
 
 ## [v2.0.1](https://github.com/nubisproject/nubis-nat/tree/v2.0.1) (2017-10-13)
