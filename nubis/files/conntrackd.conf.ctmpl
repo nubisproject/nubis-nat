@@ -1,0 +1,46 @@
+{{ $side := plugin "nubis-metadata" "NUBIS_NAT_SIDE" }}
+{{ $peer := plugin "nubis-metadata" "NUBIS_NAT_PEER_SIDE" }}
+
+# This is generated for the {{ $side }} side
+
+{{ $arena := plugin "nubis-metadata" "NUBIS_ARENA" }}
+{{ $project := plugin "nubis-metadata" "NUBIS_PROJECT" }}
+{{ $prefix := ( print "nubis/" $project "/" $arena "/config/EIP/" ) }}
+
+Sync {
+        Mode FTFW {
+            DisableExternalCache Off
+        }
+        UDP {
+	        # Ourselves
+                IPv4_address {{ key ( print $prefix $side ) }}
+		
+		# Our peer from the {{ $peer }} side
+                IPv4_Destination_Address {{ key ( print $prefix $peer ) }}
+
+                Port 3780
+                Interface eth1
+        }
+}
+
+General {
+        Nice -20
+        HashSize 32768
+        HashLimit 131072
+        LogFile on
+        LockFile /var/lock/conntrack.lock
+        UNIX {
+                Path /var/run/conntrackd.ctl
+                Backlog 20
+        }
+        Filter From Kernelspace {
+                Protocol Accept {
+                        TCP
+                        UDP
+                        ICMP
+                }
+                Address Ignore {
+                        IPv4_address 127.0.0.1 # loopback
+                }
+        }
+}

@@ -1,0 +1,13 @@
+[Unit]
+Description=Squid Exporter
+Wants=basic.target
+After=basic.target network.target squid.service
+
+[Service]
+Restart=on-failure
+RestartSec=10s
+
+ExecStart=/usr/local/bin/squid-exporter -listern-port 9106 -listern-address 0.0.0.0
+
+[Install]
+WantedBy=multi-user.target
