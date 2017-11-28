@@ -4,7 +4,7 @@ mod 'nubis/nubis_nat',
     :git => 'https://github.com/nubisproject/nubis-puppet-nat.git',
     :ref => 'develop'
 
-mod 'tinnightcap/puppet-squid3',
+mod 'tinnightcap/squid3',
     :git => 'https://github.com/tinnightcap/puppet-squid3.git',
     :ref => '9e778ffca2f07d034717da29715e01def7712430'
 
