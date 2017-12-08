@@ -1,5 +1,33 @@
 # Change Log
 
+## [v2.0.4](https://github.com/nubisproject/nubis-nat/tree/v2.0.4) (2017-12-08)
+[Full Changelog](https://github.com/nubisproject/nubis-nat/compare/v2.0.3...v2.0.4)
+
+**Implemented enhancements:**
+
+- Updating nubis-proxy puppet module [\#12](https://github.com/nubisproject/nubis-nat/issues/12)
+
+**Closed issues:**
+
+- \[squid-exporter\] Update squid exporter [\#206](https://github.com/nubisproject/nubis-nat/issues/206)
+
+**Merged pull requests:**
+
+- \[Centennial\] [\#214](https://github.com/nubisproject/nubis-nat/pull/214) ([gozer](https://github.com/gozer))
+- Use proper interface for squid exporter service [\#213](https://github.com/nubisproject/nubis-nat/pull/213) ([limed](https://github.com/limed))
+
+## [v2.0.3](https://github.com/nubisproject/nubis-nat/tree/v2.0.3) (2017-11-02)
+[Full Changelog](https://github.com/nubisproject/nubis-nat/compare/v2.0.2...v2.0.3)
+
+**Closed issues:**
+
+- Tag v2.0.3 release [\#210](https://github.com/nubisproject/nubis-nat/issues/210)
+
+**Merged pull requests:**
+
+- Merge v2.0.3 release into develop. \[skip ci\] [\#212](https://github.com/nubisproject/nubis-nat/pull/212) ([tinnightcap](https://github.com/tinnightcap))
+- Update CHANGELOG for v2.0.3 release \[skip ci\] [\#211](https://github.com/nubisproject/nubis-nat/pull/211) ([tinnightcap](https://github.com/tinnightcap))
+
 ## [v2.0.2](https://github.com/nubisproject/nubis-nat/tree/v2.0.2) (2017-10-24)
 [Full Changelog](https://github.com/nubisproject/nubis-nat/compare/v2.0.1...v2.0.2)
 
