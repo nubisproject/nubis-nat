@@ -3,7 +3,7 @@
     "name": "squid-exporter",
     "port": 9106,
     "check": {
-      "http": "http://localhost:9106/metrics",
+      "http": "http://%%INTERFACE%%:9106/metrics",
       "notes": "squid-exporter is healthy and full of yummy metrics",
       "interval": "60s"
     }

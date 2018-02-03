@@ -25,3 +25,5 @@ cat <<EOF | tee /etc/consul/interface.json
   "bind_addr": "$ip_addr"
 }
 EOF
+
+find /etc/consul -type f -name '*.json' -print0 | xargs -0 --verbose sed -i -e "s/%%INTERFACE%%/${ip_addr}/g"

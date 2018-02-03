@@ -1,10 +1,11 @@
 {
   "variables": {
     "builders": [
-      "amazon-ebs-amazon-linux"
+      "amazon-ebs-centos"
     ],
+    "deregister": "true",
     "project_description": "Creates a HA nat instance as well as a squid proxy",
     "project_name": "nubis-nat",
-    "project_version": "v2.0.3"
+    "project_version": "v2.1.0"
   }
 }

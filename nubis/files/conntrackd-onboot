@@ -1,0 +1,12 @@
+#!/bin/bash
+
+IP=$(ip addr show dev eth1 scope global | grep inet | awk '{print $2}' | cut -d/ -f1)
+
+# Stick our side's IP in Consul
+NUBIS_ARENA=$(nubis-metadata NUBIS_ARENA)
+NUBIS_PROJECT=$(nubis-metadata NUBIS_PROJECT)
+KV_PREFIX="nubis/$NUBIS_PROJECT/$NUBIS_ARENA/config"
+
+SIDE=$(nubis-metadata NUBIS_NAT_SIDE)
+
+consulate kv set "$KV_PREFIX/EIP/$SIDE" "$IP"
