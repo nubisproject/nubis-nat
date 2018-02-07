@@ -1,11 +1,24 @@
 # Change Log
 
-## [v2.0.4](https://github.com/nubisproject/nubis-nat/tree/v2.0.4) (2017-12-08)
-[Full Changelog](https://github.com/nubisproject/nubis-nat/compare/v2.0.3...v2.0.4)
+## [v2.1.0](https://github.com/nubisproject/nubis-nat/tree/v2.1.0) (2018-02-03)
+[Full Changelog](https://github.com/nubisproject/nubis-nat/compare/v2.0.4...v2.1.0)
 
 **Implemented enhancements:**
 
 - Updating nubis-proxy puppet module [\#12](https://github.com/nubisproject/nubis-nat/issues/12)
+
+**Closed issues:**
+
+- Tag v2.1.0 release [\#217](https://github.com/nubisproject/nubis-nat/issues/217)
+- \[squid-exporter\] Use squid exporter instead of snmp [\#197](https://github.com/nubisproject/nubis-nat/issues/197)
+
+**Merged pull requests:**
+
+- Update CHANGELOG for v2.1.0 release \[skip ci\] [\#219](https://github.com/nubisproject/nubis-nat/pull/219) ([nubis-automation](https://github.com/nubis-automation))
+- Update CHANGELOG for v2.1.0 release \[skip ci\] [\#218](https://github.com/nubisproject/nubis-nat/pull/218) ([nubis-automation](https://github.com/nubis-automation))
+
+## [v2.0.4](https://github.com/nubisproject/nubis-nat/tree/v2.0.4) (2017-12-08)
+[Full Changelog](https://github.com/nubisproject/nubis-nat/compare/v2.0.3...v2.0.4)
 
 **Closed issues:**
 
@@ -34,7 +47,6 @@
 
 **Closed issues:**
 
-- \[squid-exporter\] Use squid exporter instead of snmp [\#197](https://github.com/nubisproject/nubis-nat/issues/197)
 - Tag v2.0.2 release [\#207](https://github.com/nubisproject/nubis-nat/issues/207)
 
 **Merged pull requests:**
