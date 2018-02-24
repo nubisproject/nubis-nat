@@ -98,6 +98,7 @@ function get_blocklist () {
   if [ "$BLOCKLIST_KEYID" != "" ]; then
     # Verify signature *and* get at content
 
+    # shellcheck disable=SC1117
     if ! gpg --status-fd 1 2>/dev/null < $BLOCKLIST_FILE | grep "^\[GNUPG:\] VALIDSIG $BLOCKLIST_KEYID" > /dev/null; then
       echo "Not a trusted signature"
       exit 5
