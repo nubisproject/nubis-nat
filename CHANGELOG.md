@@ -1,6 +1,20 @@
 # Change Log
 
-## [v2.1.0](https://github.com/nubisproject/nubis-nat/tree/v2.1.0) (2018-02-03)
+## [v2.2.0](https://github.com/nubisproject/nubis-nat/tree/v2.2.0) (2018-04-06)
+[Full Changelog](https://github.com/nubisproject/nubis-nat/compare/v2.1.0...v2.2.0)
+
+**Closed issues:**
+
+- Tag project as platform [\#225](https://github.com/nubisproject/nubis-nat/issues/225)
+- Linting [\#224](https://github.com/nubisproject/nubis-nat/issues/224)
+
+**Merged pull requests:**
+
+- Tag project as platform [\#227](https://github.com/nubisproject/nubis-nat/pull/227) ([limed](https://github.com/limed))
+- Linting [\#226](https://github.com/nubisproject/nubis-nat/pull/226) ([limed](https://github.com/limed))
+- Update nubis-travis [\#223](https://github.com/nubisproject/nubis-nat/pull/223) ([tinnightcap](https://github.com/tinnightcap))
+
+## [v2.1.0](https://github.com/nubisproject/nubis-nat/tree/v2.1.0) (2018-02-07)
 [Full Changelog](https://github.com/nubisproject/nubis-nat/compare/v2.0.4...v2.1.0)
 
 **Implemented enhancements:**
@@ -9,11 +23,14 @@
 
 **Closed issues:**
 
+- Tag v2.1.0 release [\#220](https://github.com/nubisproject/nubis-nat/issues/220)
 - Tag v2.1.0 release [\#217](https://github.com/nubisproject/nubis-nat/issues/217)
 - \[squid-exporter\] Use squid exporter instead of snmp [\#197](https://github.com/nubisproject/nubis-nat/issues/197)
 
 **Merged pull requests:**
 
+- Update CHANGELOG for v2.1.0 release \[skip ci\] [\#222](https://github.com/nubisproject/nubis-nat/pull/222) ([nubis-automation](https://github.com/nubis-automation))
+- Update CHANGELOG for v2.1.0 release \[skip ci\] [\#221](https://github.com/nubisproject/nubis-nat/pull/221) ([nubis-automation](https://github.com/nubis-automation))
 - Update CHANGELOG for v2.1.0 release \[skip ci\] [\#219](https://github.com/nubisproject/nubis-nat/pull/219) ([nubis-automation](https://github.com/nubis-automation))
 - Update CHANGELOG for v2.1.0 release \[skip ci\] [\#218](https://github.com/nubisproject/nubis-nat/pull/218) ([nubis-automation](https://github.com/nubis-automation))
 

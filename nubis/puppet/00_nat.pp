@@ -1,81 +1,81 @@
 file { '/etc/sysconfig/iptables.save':
-    ensure => file,
-    owner  => root,
-    group  => root,
-    mode   => '0644',
-    source => 'puppet:///nubis/files/nat/iptables.save',
+  ensure => file,
+  owner  => root,
+  group  => root,
+  mode   => '0644',
+  source => 'puppet:///nubis/files/nat/iptables.save',
 }
 
 file { '/etc/profile.d/proxy.sh':
-    ensure => file,
-    owner  => root,
-    group  => root,
-    mode   => '0644',
-    source => 'puppet:///nubis/files/nat/profile.d_proxy.sh',
+  ensure => file,
+  owner  => root,
+  group  => root,
+  mode   => '0644',
+  source => 'puppet:///nubis/files/nat/profile.d_proxy.sh',
 }
 
 file { '/etc/rsyslog.d/99-iptables.conf':
-    ensure => file,
-    owner  => root,
-    group  => root,
-    mode   => '0644',
-    source => 'puppet:///nubis/files/nat/logging/99-iptables.conf',
+  ensure => file,
+  owner  => root,
+  group  => root,
+  mode   => '0644',
+  source => 'puppet:///nubis/files/nat/logging/99-iptables.conf',
 }
 
 file { '/etc/logrotate.d/iptables':
-    ensure => file,
-    owner  => root,
-    group  => root,
-    mode   => '0644',
-    source => 'puppet:///nubis/files/nat/logging/logrotate_iptables.conf',
+  ensure => file,
+  owner  => root,
+  group  => root,
+  mode   => '0644',
+  source => 'puppet:///nubis/files/nat/logging/logrotate_iptables.conf',
 }
 
 file { '/etc/confd/conf.d/iptables.toml':
-    ensure => file,
-    owner  => root,
-    group  => root,
-    mode   => '0644',
-    source => 'puppet:///nubis/files/nat/confd/conf.d/iptables.toml'
+  ensure => file,
+  owner  => root,
+  group  => root,
+  mode   => '0644',
+  source => 'puppet:///nubis/files/nat/confd/conf.d/iptables.toml'
 }
 
 file { '/etc/confd/templates/iptables.tmpl':
-    ensure => file,
-    owner  => root,
-    group  => root,
-    mode   => '0644',
-    source => 'puppet:///nubis/files/nat/confd/templates/iptables.tmpl',
+  ensure => file,
+  owner  => root,
+  group  => root,
+  mode   => '0644',
+  source => 'puppet:///nubis/files/nat/confd/templates/iptables.tmpl',
 }
 
 file { '/usr/local/bin/eni-associate':
-    ensure => file,
-    owner  => root,
-    group  => root,
-    mode   => '0755',
-    source => 'puppet:///nubis/files/nat/eni-associate',
+  ensure => file,
+  owner  => root,
+  group  => root,
+  mode   => '0755',
+  source => 'puppet:///nubis/files/nat/eni-associate',
 }
 
 # This needs to happen before nat is configured
 file { '/etc/nubis.d/0-0-eni-associate':
-    ensure  => link,
-    target  => '/usr/local/bin/eni-associate',
-    require => File['/usr/local/bin/eni-associate'],
+  ensure  => link,
+  target  => '/usr/local/bin/eni-associate',
+  require => File['/usr/local/bin/eni-associate'],
 }
 
 # This is 001 on purpose it needs to run before consul
 file { '/etc/nubis.d/0-1-interface-fixup':
-    ensure => file,
-    owner  => root,
-    group  => root,
-    mode   => '0755',
-    source => 'puppet:///nubis/files/interface-fixup',
+  ensure => file,
+  owner  => root,
+  group  => root,
+  mode   => '0755',
+  source => 'puppet:///nubis/files/interface-fixup',
 }
 
 file { '/etc/nubis.d/conntrackd-onboot':
-    ensure => file,
-    owner  => root,
-    group  => root,
-    mode   => '0755',
-    source => 'puppet:///nubis/files/conntrackd-onboot',
+  ensure => file,
+  owner  => root,
+  group  => root,
+  mode   => '0755',
+  source => 'puppet:///nubis/files/conntrackd-onboot',
 }
 
 # TODO: Should have a proper fix and not have nsm class
@@ -86,8 +86,8 @@ file { '/etc/nubis.d/conntrackd-onboot':
 
 package { 'epel-release':
   ensure => latest,
-}->
-yumrepo { 'epel':
+}
+->yumrepo { 'epel':
   enabled => 1,
 }
 
@@ -105,8 +105,8 @@ package { 'ec2-net-utils':
     Yumrepo['ec2-net-utils'],
     Yumrepo['epel'],
   ]
-}->
-service { 'elastic-network-interfaces':
+}
+->service { 'elastic-network-interfaces':
   enable => true,
 }
 
@@ -134,11 +134,11 @@ file { '/usr/local/bin/supervisord':
 }
 
 class { 'nubis_nat':
-    startup_order     => '0-3',
-    nat_in_interface  => 'eth1',
-    nat_out_interface => 'eth0',
-    require           => [
-      File['/usr/local/bin/supervisord'],
-      Package['supervisor'],
-    ],
+  startup_order     => '0-3',
+  nat_in_interface  => 'eth1',
+  nat_out_interface => 'eth0',
+  require           => [
+    File['/usr/local/bin/supervisord'],
+    Package['supervisor'],
+  ],
 }
