@@ -6,6 +6,7 @@ class { '::squid3':
         '443         # https',
         '873         # rsync',
         '8000        # http alternate',
+        '8443        # https alternate',
         '9418        # git',
     ],
     safe_ports                    => [
