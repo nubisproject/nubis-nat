@@ -73,7 +73,7 @@ function wait_for_interface() {
         log "Waiting for interface ${interface} to be ready"
         sleep 10
         mac_interface=$(__get_mac "${interface}")
-        let attempts++
+        attempts=$((attempts +1))
     done
 }
 
@@ -89,7 +89,7 @@ function wait_for_route() {
         log "Waiting for route to come up"
         sleep 10
         route_table=$(/sbin/route | grep default | grep "${interface}")
-        let attempts++
+        attempts=$((attempts +1))
     done
 }
 
@@ -127,7 +127,7 @@ function detach_eni() {
       while [ ! -z "$ATTACHED" ] || [ "${attempts}" -eq 30 ] ; do
          ATTACHED=$(aws --region "${REGION}"  ec2 describe-network-interfaces --network-interface-ids "${ENI_ID}" --query 'NetworkInterfaces[*][Attachment][*][AttachmentId]' --output text)
          sleep 1
-         let attempts++
+        attempts=$((attempts +1))
       done
     fi
 }
@@ -143,7 +143,7 @@ until [ ! -z "${ENI_ID}" ] || [ "${attempts}" -eq 30 ]; do
     log "Waiting for ENI to become available"
     ENI_ID=$(_get_eni_id "${REGION}" "${NUBIS_STACK}")
     sleep 10
-    let attempts++
+    attempts=$((attempts +1))
 done
 
 if [[ ! -z "${ENI_ID}" ]]; then

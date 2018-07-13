@@ -12,7 +12,7 @@ until [ ! -z "${mac_eth}" ] || [ "${attempts}" -eq 10 ]; do
     log "Waiting on mac address of eth1 to be ready"
     mac_eth=$(__get_mac "${consul_interface}")
     sleep 5
-    let attempts++
+    attempts=$((attempts +1))
 done
 
 # TODO: To make life easier we should use facter, of course that means we
