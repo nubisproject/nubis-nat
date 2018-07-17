@@ -1,5 +1,16 @@
 # Change Log
 
+## [v2.3.0](https://github.com/nubisproject/nubis-nat/tree/v2.3.0) (2018-07-17)
+[Full Changelog](https://github.com/nubisproject/nubis-nat/compare/v2.2.0...v2.3.0)
+
+**Closed issues:**
+
+- \[squid\] Consider adding tcp/8443 to safe https ports [\#228](https://github.com/nubisproject/nubis-nat/issues/228)
+
+**Merged pull requests:**
+
+- Allow outbound SSL connections on tcp/8443 [\#232](https://github.com/nubisproject/nubis-nat/pull/232) ([gozer](https://github.com/gozer))
+
 ## [v2.2.0](https://github.com/nubisproject/nubis-nat/tree/v2.2.0) (2018-04-06)
 [Full Changelog](https://github.com/nubisproject/nubis-nat/compare/v2.1.0...v2.2.0)
 
@@ -7,9 +18,12 @@
 
 - Tag project as platform [\#225](https://github.com/nubisproject/nubis-nat/issues/225)
 - Linting [\#224](https://github.com/nubisproject/nubis-nat/issues/224)
+- Tag v2.2.0 release [\#229](https://github.com/nubisproject/nubis-nat/issues/229)
 
 **Merged pull requests:**
 
+- Update CHANGELOG for v2.2.0 release \[skip ci\] [\#231](https://github.com/nubisproject/nubis-nat/pull/231) ([nubis-automation](https://github.com/nubis-automation))
+- Update CHANGELOG for v2.2.0 release \[skip ci\] [\#230](https://github.com/nubisproject/nubis-nat/pull/230) ([nubis-automation](https://github.com/nubis-automation))
 - Tag project as platform [\#227](https://github.com/nubisproject/nubis-nat/pull/227) ([limed](https://github.com/limed))
 - Linting [\#226](https://github.com/nubisproject/nubis-nat/pull/226) ([limed](https://github.com/limed))
 - Update nubis-travis [\#223](https://github.com/nubisproject/nubis-nat/pull/223) ([tinnightcap](https://github.com/tinnightcap))
