@@ -1,16 +1,19 @@
 # Change Log
 
-## [v2.3.0](https://github.com/nubisproject/nubis-nat/tree/v2.3.0) (2018-07-17)
+## [v2.3.0](https://github.com/nubisproject/nubis-nat/tree/v2.3.0) (2018-07-20)
 [Full Changelog](https://github.com/nubisproject/nubis-nat/compare/v2.2.0...v2.3.0)
 
 **Closed issues:**
 
 - Tag v2.2.0 release [\#229](https://github.com/nubisproject/nubis-nat/issues/229)
 - \[squid\] Consider adding tcp/8443 to safe https ports [\#228](https://github.com/nubisproject/nubis-nat/issues/228)
+- Tag v2.3.0 release [\#236](https://github.com/nubisproject/nubis-nat/issues/236)
 - Tag v2.3.0 release [\#233](https://github.com/nubisproject/nubis-nat/issues/233)
 
 **Merged pull requests:**
 
+- Update CHANGELOG for v2.3.0 release \[skip ci\] [\#238](https://github.com/nubisproject/nubis-nat/pull/238) ([nubis-automation](https://github.com/nubis-automation))
+- Update CHANGELOG for v2.3.0 release \[skip ci\] [\#237](https://github.com/nubisproject/nubis-nat/pull/237) ([nubis-automation](https://github.com/nubis-automation))
 - Update CHANGELOG for v2.3.0 release \[skip ci\] [\#235](https://github.com/nubisproject/nubis-nat/pull/235) ([nubis-automation](https://github.com/nubis-automation))
 - Update CHANGELOG for v2.3.0 release \[skip ci\] [\#234](https://github.com/nubisproject/nubis-nat/pull/234) ([nubis-automation](https://github.com/nubis-automation))
 - Allow outbound SSL connections on tcp/8443 [\#232](https://github.com/nubisproject/nubis-nat/pull/232) ([gozer](https://github.com/gozer))
