@@ -7,12 +7,15 @@
 
 - Tag v2.2.0 release [\#229](https://github.com/nubisproject/nubis-nat/issues/229)
 - \[squid\] Consider adding tcp/8443 to safe https ports [\#228](https://github.com/nubisproject/nubis-nat/issues/228)
+- Tag v2.3.0 release [\#242](https://github.com/nubisproject/nubis-nat/issues/242)
 - Tag v2.3.0 release [\#239](https://github.com/nubisproject/nubis-nat/issues/239)
 - Tag v2.3.0 release [\#236](https://github.com/nubisproject/nubis-nat/issues/236)
 - Tag v2.3.0 release [\#233](https://github.com/nubisproject/nubis-nat/issues/233)
 
 **Merged pull requests:**
 
+- Update CHANGELOG for v2.3.0 release \[skip ci\] [\#244](https://github.com/nubisproject/nubis-nat/pull/244) ([nubis-automation](https://github.com/nubis-automation))
+- Update CHANGELOG for v2.3.0 release \[skip ci\] [\#243](https://github.com/nubisproject/nubis-nat/pull/243) ([nubis-automation](https://github.com/nubis-automation))
 - Update CHANGELOG for v2.3.0 release \[skip ci\] [\#241](https://github.com/nubisproject/nubis-nat/pull/241) ([nubis-automation](https://github.com/nubis-automation))
 - Update CHANGELOG for v2.3.0 release \[skip ci\] [\#240](https://github.com/nubisproject/nubis-nat/pull/240) ([nubis-automation](https://github.com/nubis-automation))
 - Update CHANGELOG for v2.3.0 release \[skip ci\] [\#238](https://github.com/nubisproject/nubis-nat/pull/238) ([nubis-automation](https://github.com/nubis-automation))
