@@ -166,11 +166,11 @@ firewall { '005 NTP':
   action    => 'accept',
 }
 
-# Allow all out on port 6363
-firewall { '007 LDAP-6363':
+# Allow all out on port 636
+firewall { '007 LDAP-636':
   chain     => 'FORWARD',
   proto     => 'tcp',
-  dport     => '6363',
+  dport     => '636',
   state     => [ 'NEW' ],
   outiface  => 'eth0',
   iniface   => 'eth1',
