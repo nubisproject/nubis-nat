@@ -7,6 +7,6 @@
     "platform": "nubis",
     "project_description": "Creates a HA nat instance as well as a squid proxy",
     "project_name": "nubis-nat",
-    "project_version": "v2.3.0"
+    "project_version": "v2.3.1"
   }
 }
