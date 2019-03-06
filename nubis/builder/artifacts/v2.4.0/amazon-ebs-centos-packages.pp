@@ -89,10 +89,10 @@ package { 'boto':
   ensure => '2.45.0',
 }
 package { 'boto3':
-  ensure => '1.9.101',
+  ensure => '1.9.108',
 }
 package { 'botocore':
-  ensure => '1.12.101',
+  ensure => '1.12.108',
 }
 package { 'btrfs-progs':
   ensure => '4.9.1-1.el7',
@@ -470,7 +470,7 @@ package { 'jbigkit-libs':
   ensure => '2.0-11.el7',
 }
 package { 'jmespath':
-  ensure => '0.9.3',
+  ensure => '0.9.4',
 }
 package { 'jq':
   ensure => '1.5-1.el7',
