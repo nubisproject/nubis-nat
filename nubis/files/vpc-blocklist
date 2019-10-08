@@ -5,7 +5,7 @@
 [ "${FLOCKER}" != "$0" ] && exec env FLOCKER="$0" flock -E0 -en "$0" "$0" "$@" || :
 
 # These 2 settings should be configurable, but care needs to be taken with the KeyIDs
-BLOCKLIST_URL=https://s3.amazonaws.com/mozilla_infosec_blocklist/ipblocklist
+BLOCKLIST_URL=https://sre-blocklist.mozilla.org/blocklist.txt
 
 # This key will only be retrieved and trusted from nubis-secret
 # Set to a long keyid without prefix 0x to enable
